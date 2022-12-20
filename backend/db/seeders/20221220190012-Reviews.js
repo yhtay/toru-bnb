@@ -19,25 +19,25 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    options.tableName = 'Bookings';
+    options.tableName = 'Reviews';
     await queryInterface.bulkInsert(options, [
       {
         spotId: 2,
         userId: 4,
-        startDate: '2023-01-15',
-        endDate: '2023-02-16'
+        review: 'Amazing Friendly Service!',
+        stars: 5
       },
       {
         spotId: 3,
         userId: 5,
-        startDate: '2023-02-15',
-        endDate: '2023-03-10'
+        review: 'Welcomed and Great Experience',
+        stars: 5
       },
       {
         spotId: 1,
         userId: 6,
-        startDate: '2023-03-09',
-        endDate: '2023-03-30'
+        review: 'Just what we needed to relax, Thank you',
+        stars: 5
       }
     ], {})
   },
@@ -49,7 +49,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = 'Bookings';
+    options.tableName = 'Reviews';
     const { Op } = require('sequelize')
     await queryInterface.bulkDelete(options, {
       userId: { [Op.in]: [4, 5, 6] }
