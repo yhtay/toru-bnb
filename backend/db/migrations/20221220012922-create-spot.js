@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: 'Users'},
         onDelete: 'CASCADE',
-        allowNull: false
+
       },
       address: {
         type: Sequelize.STRING,
