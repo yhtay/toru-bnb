@@ -19,25 +19,24 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   options.tableName = 'ReviewImages';
-   await queryInterface.bulkInsert(options, [
-    {
-      reviewId: 1,
-      url: 'www.hotelronaldo.com',
-    },
-    {
-      reviewId: 1,
-      url: 'www.hotelronaldo2.com',
-    },
-    {
-      reviewId: 2,
-      url: 'www.mansionhenry.com',
-    },
-    {
-      reviewId: 3,
-      url: 'www.bestresortever.com',
-    },
-   ], {})
+    options.tableName = 'SpotImages';
+    await queryInterface.bulkInsert(options,[
+      {
+        spotId: 1,
+        url: 'www.kingdomOfLeo.com',
+        preview: true,
+      },
+      {
+        spotId: 2,
+        url: 'www.welcom2hotelRonaldo.com',
+        preview: true,
+      },
+      {
+        spotId: 2,
+        url: 'www.smoothmansion.com',
+        preview: true,
+      },
+    ])
   },
 
   async down (queryInterface, Sequelize) {
@@ -47,10 +46,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = 'ReviewImages';
-    const { Op } = require('sequelize')
-    await queryInterface.bulkDelete(options, {
-      reviewId: { [Op.in]: [1, 2, 3]}
-    })
+    options.tableName = 'SpotImages';
+
   }
 };
