@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
       // User to Booking
       User.hasMany(models.Booking, { foreignKey: 'userId' })
       // User to Review
-      User.hasMany(models.Spot, { foreignKey: 'userId' })
+      User.hasMany(models.Review, { foreignKey: 'userId' })
     }
   }
   User.init({
@@ -110,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     scopes: {
       currentUser: {
-        attributes: {exclude: ['hashedPassword']}
+        attributes: {exclude: ['hashedPassword', 'createdAt', 'updatedAt']}
       },
       loginUser: {
         attributes: {}
