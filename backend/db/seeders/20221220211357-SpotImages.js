@@ -32,7 +32,7 @@ module.exports = {
         preview: true,
       },
       {
-        spotId: 2,
+        spotId: 3,
         url: 'www.smoothmansion.com',
         preview: true,
       },
