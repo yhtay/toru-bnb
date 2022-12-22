@@ -87,23 +87,116 @@ router.get('/current', requireAuth, async (req, res) => {
 
         spotList.push(spot)
     }
-    res.json({
+    return res.json({
         Spots: spotList
     })
 })
 
+// Get Spot by Id
+
+// router.get('/:spotId', async (req, res) => {
+//     const spotId = req.params.spotId;
+//     const spot = await Spot.findOne({
+//         where: {
+//             id: spotId
+//         },
+//         include: [
+//             {
+//                 model: Review,
+//                 attributes: []
+//             },
+//             {
+//                 model: SpotImage,
+//                 attributes: ['id', 'url', 'preview']
+//             },
+//             {
+//                 model: User, as: 'Owner',
+//                 attributes: ['id', 'firstName', 'lastName']
+//             }
+//         ],
+//         attributes: [
+//             "id",
+//             "ownerId",
+//             "address",
+//             "city",
+//             "state",
+//             "country",
+//             "lat",
+//             "lng",
+//             "name",
+//             "description",
+
+//             "price",
+//             "createdAt",
+//             "updatedAt",
+//             [ Review, '']
+//             [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
+//         ]
+//     })
+//     return res.json({
+//         spot
+//     })
+// })
+
+router.get('/:spotId', async (req, res) => {
+    const spotId = req.params.spotId;
+    let spot = await Spot.findOne({
+        where: {
+            id: spotId
+        },
+        include: [
+            {
+                model: Review,
+                attributes: []
+            },
+            {
+                model: SpotImage,
+                attributes: ['id', 'url', 'preview']
+            },
+            {
+                model: User, as: 'Owner',
+                attributes: ['id', 'firstName', 'lastName']
+            }
+        ]
+    })
+    spot = spot.toJSON()
+    // console.log('spot ---->', spot)
+
+    let reviews = await Review.findAll({
+        where: {
+            spotId: spot.id
+        },
+        attributes: [
+            [sequelize.fn("COUNT", sequelize.col("id")), "numReviews"],
+            [sequelize.fn("AVG", sequelize.col("stars")), "avgRating"]
+        ]
+    })
+    // console.log('review ----->', reviews)
+    reviews.forEach(review => {
+        review.toJSON()
+        console.log('reviews ----->', reviews)
+        console.log('numReviews ------>', reviews[0].dataValues.numReviews)
+        console.log('avgRating ------>', reviews[0].dataValues.avgRating)
+    })
+
+    spot.numReviews = reviews[0].dataValues.numReviews
+    spot.avgRating = reviews[0].dataValues.avgRating
+
+    return res.json({
+        spot
+    })
+})
 
 
 // Create a Spot
 
-// router.post('/', async (req, res) => {
+// router.post('/', requireAuth, async (req, res) => {
 //     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 //     const ownerId = req.user.id;
 //     const user = await User.findByPk(ownerId);
 
-//     if (user) {
-//         const newSpot = await
-//     }
+//     console.log('user ------>', user)
+
 // })
 
 
