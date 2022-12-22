@@ -26,7 +26,8 @@ router.get('/', async (req, res) => {
             ]
         })
         // console.log('reviews------>', reviews[0].dataValues.avgRating)
-        spot.avgRating = reviews[0].dataValues.avgRating
+        let avgRating = reviews[0].dataValues.avgRating
+        spot.avgRating = avgRating.toFixed(1)
 
         const spotImages = await SpotImage.findAll({
             where: {
@@ -73,7 +74,8 @@ router.get('/current', requireAuth, async (req, res) => {
             ]
         })
         // console.log('avgRating ------->', reviews[0].dataValues.avgRating)
-        spot.avgRating = reviews[0].dataValues.avgRating
+        let avgRating = reviews[0].dataValues.avgRating
+        spot.avgRating = avgRating.toFixed(1)
 
         // Get url from spotimages if preview is true.
         const spotImages = await SpotImage.findAll({
