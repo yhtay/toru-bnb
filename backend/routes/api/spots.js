@@ -126,51 +126,6 @@ router.get('/current', requireAuth, async (req, res) => {
 })
 
 // Get Spot by Id
-
-// router.get('/:spotId', async (req, res) => {
-//     const spotId = req.params.spotId;
-//     const spot = await Spot.findOne({
-//         where: {
-//             id: spotId
-//         },
-//         include: [
-//             {
-//                 model: Review,
-//                 attributes: []
-//             },
-//             {
-//                 model: SpotImage,
-//                 attributes: ['id', 'url', 'preview']
-//             },
-//             {
-//                 model: User, as: 'Owner',
-//                 attributes: ['id', 'firstName', 'lastName']
-//             }
-//         ],
-//         attributes: [
-//             "id",
-//             "ownerId",
-//             "address",
-//             "city",
-//             "state",
-//             "country",
-//             "lat",
-//             "lng",
-//             "name",
-//             "description",
-
-//             "price",
-//             "createdAt",
-//             "updatedAt",
-//             [ Review, '']
-//             [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]
-//         ]
-//     })
-//     return res.json({
-//         spot
-//     })
-// })
-
 router.get('/:spotId', async (req, res) => {
     const spotId = req.params.spotId;
 
@@ -252,6 +207,38 @@ router.post('/', [requireAuth, validateSpots], async (req, res) => {
         return res.json(newSpot)
     }
 })
+
+// Add an Image to a Spot based on the Spot's id
+
+router.post('/:spotId/images', async (req, res) => {
+
+    const spotId = req.params.spotId;
+    const { url, preview } = req.body
+
+    const spot = await Spot.findByPk(spotId)
+    // console.log('spot ----->', spot)
+
+    if (spot) {
+        const newImage = await spot.createSpotImage({
+            url,
+            preview
+        })
+        return res.json({
+            id: newImage.id,
+            url: newImage.url,
+            preview: newImage.preview
+        })
+    } else {
+        res.statusCode = 404
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+
+})
+
+
 
 
 module.exports = router;
