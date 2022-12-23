@@ -153,7 +153,7 @@ router.get('/:spotId', async (req, res) => {
         res.statusCode = 404
         return res.json({
             message: "Spot couldn't be found",
-            statusCode: res.statusCode
+            statusCode: 404
         })
     }
 
@@ -235,8 +235,37 @@ router.post('/:spotId/images', async (req, res) => {
             statusCode: 404
         })
     }
-
 })
+
+// Edit a Spot
+router.put('/:spotId', [requireAuth, validateSpots], async (req, res) => {
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const spotId = req.params.spotId;
+
+    const spot = await Spot.findByPk(spotId);
+    // console.log('spot ----->', spot)
+    if (spot) {
+        const editedImage = await spot.update({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        })
+        return res.json(editedImage)
+    } else {
+        res.statusCode = 404
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+})
+
 
 
 
