@@ -235,7 +235,6 @@ router.post('/:spotId/images', async (req, res) => {
             statusCode: 404
         })
     }
-
 })
 
 
