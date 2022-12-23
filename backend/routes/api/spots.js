@@ -3,10 +3,43 @@ const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth')
 const { User, Spot, SpotImage, Review, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const spot = require('../../db/models/spot');
 
 const router = express.Router();
-// comment
-// Get all spots
+
+const validateSpots = [
+    check('address')
+        .exists({ checkFalsy: true })
+        .withMessage('Street address is required'),
+    check('city')
+        .exists({ checkFalsy: true })
+        .withMessage('City is required'),
+    check('state')
+        .exists({ checkFalsy: true })
+        .withMessage('State is required'),
+    check('country')
+        .exists({ checkFalsy: true })
+        .withMessage('Country is required'),
+    check('lat')
+        .exists({ checkFalsy: true })
+        .withMessage('Latitude is not valid'),
+    check('lng')
+        .exists({ checkFalsy: true })
+        .withMessage('Latitude is not valid'),
+    check('name')
+        .exists({ checkFalsy: true })
+        .isLength({ max: 50 })
+        .withMessage('Name must be less than 50 characters'),
+    check('description')
+        .exists({ checkFalsy: true })
+        .withMessage('Description is required'),
+    check('price')
+        .exists({ checkFalsy: true })
+        .withMessage('Price per day is required'),
+    handleValidationErrors
+]
+
+
 router.get('/', async (req, res) => {
     const spots = await Spot.findAll()
     // console.log('spots ------------->', spots)
@@ -140,6 +173,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
 router.get('/:spotId', async (req, res) => {
     const spotId = req.params.spotId;
+
     let spot = await Spot.findOne({
         where: {
             id: spotId
@@ -159,9 +193,17 @@ router.get('/:spotId', async (req, res) => {
             }
         ]
     })
+    // Error Handling
+    if (!spot) {
+        res.statusCode = 404
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
+
     spot = spot.toJSON()
     // console.log('spot ---->', spot)
-
     let reviews = await Review.findAll({
         where: {
             spotId: spot.id
@@ -188,16 +230,28 @@ router.get('/:spotId', async (req, res) => {
 })
 
 
-// Create a Spot
+// // Create a Spot
 
-// router.post('/', requireAuth, async (req, res) => {
-//     const { address, city, state, country, lat, lng, name, description, price } = req.body;
-//     const ownerId = req.user.id;
-//     const user = await User.findByPk(ownerId);
+router.post('/', [requireAuth, validateSpots], async (req, res) => {
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    const ownerId = req.user.id;
+    const user = await User.findByPk(ownerId);
 
-//     console.log('user ------>', user)
-
-// })
+    if (user) {
+        const newSpot =  await user.createSpot({
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        })
+        return res.json(newSpot)
+    }
+})
 
 
 module.exports = router;
