@@ -321,6 +321,57 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
     }
 })
 
+// Get all Bookings for a Spot based on the Spot's id
+router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+
+    const user = req.user;
+    const spotId = req.params.spotId;
+
+    const spot = await Spot.findByPk(spotId);
+    // console.log('spot -------->', spot)
+
+    if (!spot) {
+        res.statusCode = 404;
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+    // Owner of the spot
+    if (user.id === Spot.ownerId) {
+        const spotsBookings = await Booking.findAll({
+            where: {
+                spotId: spot.id
+            },
+            include:{
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            }
+        })
+        // console.log('spotsBookings ---------->', spotsBookings)
+        return res.json({
+            Bookings: spotsBookings
+        })
+    } else {
+    // NOT owner of the spot
+        const nonOwnerBooking = await Booking.findAll({
+            where: {
+                spotId: spot.id
+            },
+            attributes: ['spotId', 'startDate', 'endDate']
+        })
+        console.log('nonOwnerBooking ---------->', nonOwnerBooking)
+        return res.json({
+            Bookings: nonOwnerBooking
+        })
+    }
+})
+
+
+
+
+
+
 
 
 
