@@ -325,6 +325,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
     const user = req.user;
+    // console.log('user.id ====>', user.id)
     const spotId = req.params.spotId;
 
     const spot = await Spot.findByPk(spotId);
@@ -338,7 +339,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res) => {
         })
     }
     // Owner of the spot
-    if (user.id === Spot.ownerId) {
+    if (user.id === spot.ownerId) {
         const spotsBookings = await Booking.findAll({
             where: {
                 spotId: spot.id
