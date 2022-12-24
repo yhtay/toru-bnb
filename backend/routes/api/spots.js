@@ -325,7 +325,7 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 router.get('/:spotId/bookings', requireAuth, async (req, res) => {
 
     const user = req.user;
-    console.log('user.id ====>', user.id)
+    // console.log('user.id ====>', user.id)
     const spotId = req.params.spotId;
 
     const spot = await Spot.findByPk(spotId);
