@@ -135,7 +135,27 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     return res.json({ booking })
 })
 
+// Delete an existing booking
+router.delete('/:bookingId', requireAuth, async (req, res) => {
+    const bookingId = req.params.bookingId;
+    const bookingToDelete = await Booking.findByPk(bookingId);
+    // console.log('booking to delete -----> ', bookingToDelete)
 
+    if (bookingToDelete) {
+        await bookingToDelete.destroy()
+        res.statusCode = 200;
+        return res.json({
+            message: "Successfully deleted",
+            statusCode: 200
+        })
+    } else {
+        res.statusCode = 404;
+        return res.json({
+            mesage: "Booking couldn't be found",
+            statusCode: 404
+        })
+    }
+})
 
 
 
