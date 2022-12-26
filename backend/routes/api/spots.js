@@ -422,7 +422,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     })
     res.statusCode = 200;
     return res.json({ newBooking })
-
 })
 
 
