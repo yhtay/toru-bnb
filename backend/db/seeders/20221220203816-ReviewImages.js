@@ -26,10 +26,6 @@ module.exports = {
       url: 'www.hotelronaldo.com',
     },
     {
-      reviewId: 1,
-      url: 'www.hotelronaldo2.com',
-    },
-    {
       reviewId: 2,
       url: 'www.mansionhenry.com',
     },
