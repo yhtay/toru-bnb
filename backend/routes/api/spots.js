@@ -39,6 +39,16 @@ const validateSpots = [
     handleValidationErrors
 ]
 
+const validateReviews = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .withMessage("Review text is required"),
+    check('stars')
+        .exists({ checkFalsy: true })
+        .withMessage("Stars must be an integer from 1 to 5"),
+    handleValidationErrors
+]
+
 
 // Get all spots
 router.get('/', async (req, res, next) => {
@@ -212,9 +222,7 @@ router.get('/:spotId', async (req, res) => {
         spot.avgRating = review.avgRating
     }
 
-    return res.json({
-        spot
-    })
+    return res.json(spot)
 })
 
 
@@ -376,8 +384,6 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
     const userId = req.user.id;
     const { startDate, endDate } = req.body;
 
-    const spot = await Spot.findByPk(spotId);
-
     if (Date.parse(endDate) <= Date.parse(startDate)) {
         res.statusCode = 400;
         return res.json({
@@ -388,6 +394,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
             }
         })
     }
+    const spot = await Spot.findByPk(spotId);
     if (!spot) {
         res.statusCode = 404;
         return res.json({
@@ -395,6 +402,20 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
             statusCode: 404
         })
     }
+    // Authorization Check
+    // const spotWithUser = await Spot.findOne({
+    //     where: {
+    //         id: spotId,
+    //         ownerId: userId
+    //     }
+    // })
+    // if (spotWithUser) {
+    //     res.statusCode = 404;
+    //     return res.json({
+    //         message: ''
+    //     })
+    // }
+
     // Booking conflict
     const bookings = await Booking.findAll({
         where: {
@@ -442,7 +463,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         endDate: endDate
     })
     res.statusCode = 200;
-    return res.json({ newBooking })
+    return res.json(newBooking)
 })
 
 // GET all Reviews by a Spot's id
@@ -481,7 +502,44 @@ router.get('/:spotId/reviews', requireAuth, async (req, res) => {
 })
 
 // Create (POST) a review for a spot based on the Spot's id
+router.post('/:spotId/reviews', [requireAuth, validateReviews], async (req, res) => {
+    const spotId = req.params.spotId;
+    const { review, stars } = req.body;
+    const userId = req.user.id;
+    let spot = await Spot.findByPk(spotId);
+    // console.log('spot-------------> ', spot)
 
+    if (!spot) {
+        res.statusCode = 404;
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+    // spot = spot.toJSON()
+    const userReview = await Review.findOne({
+        where: {
+            userId,
+            spotId
+        }
+    })
+    // console.log('userReview ----------> ', userReview)
+    if (userReview) {
+        res.statusCode = 403;
+        return res.json({
+            message: "User already has a review for this spot",
+            statusCode: 403
+        })
+    }
+    const newReview = await Review.create({
+        userId,
+        spotId,
+        review,
+        stars,
+    })
+    res.statusCode = 201;
+    return res.json(newReview)
+})
 
 
 
