@@ -3,6 +3,7 @@ const { setTokenCookie, requireAuth, restoreUser } = require('../../utils/auth')
 const { User, Spot, SpotImage, Review, ReviewImage, Booking, sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { route } = require('./spots');
 
 const router = express.Router();
 
@@ -57,7 +58,59 @@ router.get('/current', requireAuth, async (req, res) => {
     })
 })
 
+// Add an Image to a Review based on the Review's id
+router.post('/:reviewId/images', requireAuth, async (req, res) => {
+    const reviewId = req.params.reviewId;
+    const { url } = req.body;
+    const currentUser = req.user;
 
+    const review = await Review.findByPk(reviewId)
+    // console.log('review --------> ', review)
+
+    // console.log('currentUser ID ------>', currentUser.id) //5
+
+    // Check if review exist
+    if (!review) {
+        res.statusCode = 404;
+        return res.json({
+            message: "Review couldn't be found",
+            statusCode: 404
+        })
+    }
+    // Authorization Check
+    if (currentUser.id !== review.userId) {
+        res.status = 404;
+        return res.json({
+            message: "Review doesn't belong to the current user"
+        })
+    }
+    // Max 10 images per resource
+    const reviewImages = await ReviewImage.findAll({
+        where: {
+            reviewId: reviewId
+        }
+    })
+    // console.log('reviewImages Length ------->', reviewImages.length)
+    if (reviewImages.length >= 10) {
+        res.statusCode = 403;
+        return res.json({
+            message: "Maximum number of images for this resource was reached",
+            statusCode: 403
+        })
+    }
+    // Success!!
+    let newImage = await ReviewImage.create({
+        reviewId,
+        url
+    })
+    newImage = newImage.toJSON()
+    delete newImage.reviewId;
+    delete newImage.updatedAt;
+    delete newImage.createdAt;
+    console.log('newImage =======>', newImage)
+
+    return res.json(newImage)
+})
 
 
 
