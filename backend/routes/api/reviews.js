@@ -12,10 +12,12 @@ const validateReviews = [
         .exists({ checkFalsy: true })
         .withMessage("Review text is required"),
     check('stars')
-        .exists({ checkFalsy: true, min: 1, max: 5 })
+        .exists({ checkFalsy: true })
+        .isInt({min: 1, max: 5})
         .withMessage("Stars must be an integer from 1 to 5"),
     handleValidationErrors
 ]
+
 
 // GET all reviews of the current user
 router.get('/current', requireAuth, async (req, res) => {
@@ -143,7 +145,6 @@ router.put('/:reviewId', [requireAuth, validateReviews], async (req, res) => {
             message: "Review doesn't belong to the current user"
         })
     }
-
 
     // Success
     await reviewtoEdit.update({
