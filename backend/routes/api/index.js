@@ -37,7 +37,7 @@ router.delete('/spot-images/:imageId', requireAuth, async (req, res) => {
     if (imageToDelete) {
         // console.log('image to Delete spotId------>', imageToDelete.spotId)
 
-        let spot = await Spot.findOne({
+        const spot = await Spot.findOne({
             where: {
                 id: imageToDelete.spotId
             }
@@ -69,6 +69,43 @@ router.delete('/spot-images/:imageId', requireAuth, async (req, res) => {
 
 })
 
+// DELETE a Review Image
+router.delete('/review-images/:imageId', requireAuth, async (req, res) => {
+    const imageId = req.params.imageId;
+    const imageToDelete = await ReviewImage.findByPk(imageId);
+    const currentUser = req.user;
+    console.log('currenUser Id -------> ', currentUser.id)
+    console.log('image to delete ------>', imageToDelete)
+
+    if (imageToDelete) {
+        const review = await Review.findOne({
+            where: {
+                id: imageToDelete.reviewId
+            }
+        })
+        console.log('review userId =======>', review.userId) // 4
+        // Authorization check
+        if (review.userId === currentUser.id) {
+            await imageToDelete.destroy();
+            res.statusCode = 200;
+            return res.json({
+                message: "Successfully deleted",
+                statusCode: 200
+            })
+        } else {
+            res.statusCode = 404;
+            return res.json({
+                message: "Image doesn't belong to the current user"
+            })
+        }
+    } else {
+        res.statusCode = 404;
+        return res.json({
+            message: "Review Image couldn't be found",
+            statusCode: 404
+        })
+    }
+})
 
 
 
