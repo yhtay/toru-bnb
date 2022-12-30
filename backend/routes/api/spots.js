@@ -50,14 +50,67 @@ const validateReviews = [
     handleValidationErrors
 ]
 
+const queryValidation = [
+    check('page')
+        .optional({ nullable: true })
+        .isInt({min: 1})
+        .withMessage("Page must be greater than or equal to 1"),
+    check('size')
+        .optional({ nullable: true })
+        .isInt({min: 1})
+        .withMessage("Size must be greater than or equal to 1"),
+    check('minLat')
+        .optional({ nullable: true })
+        .isDecimal()
+        .withMessage("Minimum latitude is invalid"),
+    check('maxLat')
+        .optional({ nullable: true })
+        .isDecimal()
+        .withMessage("Maximm latitude is invalid"),
+    check('minLng')
+        .optional({ nullable: true })
+        .isDecimal()
+        .withMessage("Minimum longitude is invalid"),
+    check('maxLng')
+        .optional({ nullable: true })
+        .isDecimal()
+        .withMessage("Maximum longitude is invalid"),
+    check('minPrice')
+        .optional()
+        .isDecimal({ min: 0 })
+        .withMessage("Minimum price must be greater than or equal to 0"),
+    check('maxPrice')
+        .optional()
+        .isDecimal({ min: 0 })
+        .withMessage("Maximum price must be greater than or equal to 0"),
+    handleValidationErrors
+]
 
 // Get all spots
-router.get('/', async (req, res, next) => {
+router.get('/', queryValidation, async (req, res, next) => {
+
+    // Pagination
+    let { page, size } = req.query
+    // console.log('page -----> ', page)
+
+    if (page > 10) page = 1;
+    if (size > 20) size = 20;
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    const pagination = {};
+    if (page >= 1 && size >= 1) {
+        pagination.limit = size;
+        pagination.offset = size * (page - 1);
+    }
+
     const spots = await Spot.findAll({
         include: [
             {model: Review},
             {model: SpotImage}
-        ]
+        ],
+        ...pagination
     })
     let spotList = []
 
@@ -100,9 +153,10 @@ router.get('/', async (req, res, next) => {
         spotList.push(spot)
     }
 
-
     return res.json({
-        Spots: spotList
+        Spots: spotList,
+        page: page,
+        size: size
     })
 })
 
