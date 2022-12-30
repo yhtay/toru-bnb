@@ -74,8 +74,8 @@ router.delete('/review-images/:imageId', requireAuth, async (req, res) => {
     const imageId = req.params.imageId;
     const imageToDelete = await ReviewImage.findByPk(imageId);
     const currentUser = req.user;
-    console.log('currenUser Id -------> ', currentUser.id)
-    console.log('image to delete ------>', imageToDelete)
+    // console.log('currenUser Id -------> ', currentUser.id)
+    // console.log('image to delete ------>', imageToDelete)
 
     if (imageToDelete) {
         const review = await Review.findOne({
@@ -83,7 +83,7 @@ router.delete('/review-images/:imageId', requireAuth, async (req, res) => {
                 id: imageToDelete.reviewId
             }
         })
-        console.log('review userId =======>', review.userId) // 4
+        // console.log('review userId =======>', review.userId) // 4
         // Authorization check
         if (review.userId === currentUser.id) {
             await imageToDelete.destroy();
