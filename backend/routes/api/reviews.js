@@ -77,16 +77,9 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const currentUser = req.user;
 
     const review = await Review.findByPk(reviewId)
-    // console.log('review --------> ', review)
+    console.log('review --------> ', review)
     // console.log('currentUser ID ------>', currentUser.id) //5
-    // Authorization Check
-    if (currentUser.id !== review.userId) {
-        res.statusCode = 403;
-            return res.json({
-                message: "Forbidden",
-                statusCode: 403
-            })
-    }
+
     // Check if review exist
     if (!review) {
         res.statusCode = 404;

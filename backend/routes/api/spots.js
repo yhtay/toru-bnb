@@ -93,8 +93,8 @@ router.get('/', queryValidation, async (req, res, next) => {
     let { page, size } = req.query
     // console.log('page -----> ', page)
 
-    if (page > 10) page = 1;
-    if (size > 20) size = 20;
+    if (!page || page > 10) page = 1;
+    if (!size || size > 20) size = 20;
 
     page = parseInt(page);
     size = parseInt(size);
@@ -489,19 +489,15 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         })
     }
     // Authorization Check
-    // const spotWithUser = await Spot.findOne({
-    //     where: {
-    //         id: spotId,
-    //         ownerId: userId
-    //     }
-    // })
-    // if (spotWithUser) {
-    //     res.statusCode = 404;
-    //     return res.json({
-    //         message: ''
-    //     })
-    // }
-
+    // console.log('current User Id =======>', userId)
+    // console.log('spot user id ------>', spot.ownerId)
+    if (userId === spot.ownerId) {
+        res.statusCode = 403;
+        return res.json({
+            message: "Forbidden",
+            statusCode: 403
+        })
+    }
     // Booking conflict
     const bookings = await Booking.findAll({
         where: {
