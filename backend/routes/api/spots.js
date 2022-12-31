@@ -553,7 +553,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 })
 
 // GET all Reviews by a Spot's id
-router.get('/:spotId/reviews', requireAuth, async (req, res) => {
+router.get('/:spotId/reviews', async (req, res) => {
     const spotId = req.params.spotId;
     const spot = await Spot.findByPk(spotId);
 
