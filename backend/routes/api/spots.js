@@ -93,8 +93,8 @@ router.get('/', queryValidation, async (req, res, next) => {
     let { page, size } = req.query
     // console.log('page -----> ', page)
 
-    if (page > 10) page = 1;
-    if (size > 20) size = 20;
+    if (!page || page > 10) page = 1;
+    if (!size || size > 20) size = 20;
 
     page = parseInt(page);
     size = parseInt(size);
@@ -310,20 +310,30 @@ router.post('/:spotId/images', async (req, res) => {
 
     const spotId = req.params.spotId;
     const { url, preview } = req.body
+    const currentUser = req.user;
+    // console.log('currentUser ID -------->', currentUser.id)
 
     const spot = await Spot.findByPk(spotId)
     // console.log('spot ----->', spot)
 
     if (spot) {
-        const newImage = await spot.createSpotImage({
-            url,
-            preview
-        })
-        return res.json({
-            id: newImage.id,
-            url: newImage.url,
-            preview: newImage.preview
-        })
+        if (currentUser.id === spot.ownerId) {
+            const newImage = await spot.createSpotImage({
+                url,
+                preview
+            })
+            return res.json({
+                id: newImage.id,
+                url: newImage.url,
+                preview: newImage.preview
+            })
+        } else {
+            res.statusCode = 403;
+            return res.json({
+                message: "Forbidden",
+                statusCode: 403
+            })
+        }
     } else {
         res.statusCode = 404
         return res.json({
@@ -337,22 +347,33 @@ router.post('/:spotId/images', async (req, res) => {
 router.put('/:spotId', [requireAuth, validateSpots], async (req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
     const spotId = req.params.spotId;
+    const currentUser = req.user;
 
     const spot = await Spot.findByPk(spotId);
     // console.log('spot ----->', spot)
     if (spot) {
-        const editedImage = await spot.update({
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            description,
-            price
-        })
-        return res.json(editedImage)
+        if (currentUser.id === spot.ownerId) {
+
+            const editedImage = await spot.update({
+                address,
+                city,
+                state,
+                country,
+                lat,
+                lng,
+                name,
+                description,
+                price
+            })
+            res.statusCode = 200;
+            return res.json(editedImage)
+        } else {
+            res.statusCode = 403;
+            return res.json({
+                message: "Forbidden",
+                statusCode: 403
+            })
+        }
     } else {
         res.statusCode = 404
         return res.json({
@@ -367,14 +388,24 @@ router.put('/:spotId', [requireAuth, validateSpots], async (req, res) => {
 router.delete('/:spotId', requireAuth, async (req, res) => {
 
     const spot = await Spot.findByPk(req.params.spotId);
+    const currentUser = req.user;
 
     if (spot) {
-        await spot.Destroy()
-        res.statusCode = 200;
-        return res.json({
-            message: 'Successfully deleted',
-            statusCode: 200
-        })
+        if (currentUser.id === spot.ownerId) {
+            await spot.destroy()
+            res.statusCode = 200;
+            return res.json({
+                message: 'Successfully deleted',
+                statusCode: 200
+            })
+        } else {
+            res.statusCode = 403;
+            return res.json({
+                message: "Forbidden",
+                statusCode: 403
+            })
+        }
+
     } else {
         res.statusCode = 404;
         return res.json({
@@ -458,19 +489,15 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
         })
     }
     // Authorization Check
-    // const spotWithUser = await Spot.findOne({
-    //     where: {
-    //         id: spotId,
-    //         ownerId: userId
-    //     }
-    // })
-    // if (spotWithUser) {
-    //     res.statusCode = 404;
-    //     return res.json({
-    //         message: ''
-    //     })
-    // }
-
+    // console.log('current User Id =======>', userId)
+    // console.log('spot user id ------>', spot.ownerId)
+    if (userId === spot.ownerId) {
+        res.statusCode = 403;
+        return res.json({
+            message: "Forbidden",
+            statusCode: 403
+        })
+    }
     // Booking conflict
     const bookings = await Booking.findAll({
         where: {
@@ -522,7 +549,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res) => {
 })
 
 // GET all Reviews by a Spot's id
-router.get('/:spotId/reviews', requireAuth, async (req, res) => {
+router.get('/:spotId/reviews', async (req, res) => {
     const spotId = req.params.spotId;
     const spot = await Spot.findByPk(spotId);
 

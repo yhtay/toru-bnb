@@ -64,7 +64,7 @@ router.get('/current', requireAuth, async (req, res) => {
         // console.log('spot ---------> ', spot)
         review.Spot = spot
     }
-
+    res.statusCode = 200;
     return res.json({
         Reviews: reviewList
     })
@@ -77,21 +77,23 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     const currentUser = req.user;
 
     const review = await Review.findByPk(reviewId)
-    // console.log('review --------> ', review)
+    console.log('review --------> ', review)
     // console.log('currentUser ID ------>', currentUser.id) //5
-    // Authorization Check
-    if (currentUser.id !== review.userId) {
-        res.statusCode = 404;
-        return res.json({
-            message: "Review doesn't belong to the current user"
-        })
-    }
+
     // Check if review exist
     if (!review) {
         res.statusCode = 404;
         return res.json({
             message: "Review couldn't be found",
             statusCode: 404
+        })
+    }
+    // Authorization Check
+    if (currentUser.id !== review.userId) {
+        res.statusCode = 403;
+        return res.json({
+            message: "Forbidden",
+            statusCode: 403
         })
     }
     // Max 10 images per resource
@@ -117,8 +119,8 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     delete newImage.reviewId;
     delete newImage.updatedAt;
     delete newImage.createdAt;
-    console.log('newImage =======>', newImage)
-
+    // console.log('newImage =======>', newImage)
+    res.statusCode = 200;
     return res.json(newImage)
 })
 
@@ -140,10 +142,11 @@ router.put('/:reviewId', [requireAuth, validateReviews], async (req, res) => {
     }
     // Authorization check:
     if (currentUser.id !== reviewtoEdit.userId) {
-        res.statusCode = 404;
-        return res.json({
-            message: "Review doesn't belong to the current user"
-        })
+        res.statusCode = 403;
+            return res.json({
+                message: "Forbidden",
+                statusCode: 403
+            })
     }
 
     // Success
@@ -170,10 +173,11 @@ router.delete('/:reviewId', requireAuth, async (req, res) => {
     }
     // Authorization check
     if (currentUser.id !== reviewtoDelete.userId) {
-        res.statusCode = 404;
-        return res.json({
-            message: "Review doesn't belong to the current user"
-        })
+        res.statusCode = 403;
+            return res.json({
+                message: "Forbidden",
+                statusCode: 403
+            })
     }
     // Success
     await reviewtoDelete.destroy();

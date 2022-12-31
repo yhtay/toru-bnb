@@ -58,7 +58,6 @@ router.get('/current', requireAuth, async (req, res) => {
             }
         })
     }
-
     return res.json({
         Bookings: bookingList
     })
@@ -69,6 +68,7 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
     const bookingId = req.params.bookingId;
     const { startDate, endDate } = req.body;
     const booking = await Booking.findByPk(bookingId);
+    const currentUser = req.user;
 
     //No booking
     if (!booking) {
@@ -78,6 +78,16 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
             statusCode: 404
         })
     }
+    // console.log('current user Id ------> ', currentUser.id)
+    // console.log('booking.userId =======>', booking.userId)
+    if (currentUser.id !== booking.userId) {
+        res.statusCode = 403;
+        return res.json({
+            message: "Forbidden",
+            statusCode: 403
+        })
+    }
+
     if (Date.parse(startDate) >= Date.parse(endDate)) {
         res.statusCode = 400;
         return res.json({
@@ -140,15 +150,27 @@ router.put('/:bookingId', requireAuth, async (req, res) => {
 router.delete('/:bookingId', requireAuth, async (req, res) => {
     const bookingId = req.params.bookingId;
     const bookingToDelete = await Booking.findByPk(bookingId);
+    const currentUser = req.user;
     // console.log('booking to delete -----> ', bookingToDelete)
 
     if (bookingToDelete) {
-        await bookingToDelete.destroy()
-        res.statusCode = 200;
-        return res.json({
-            message: "Successfully deleted",
-            statusCode: 200
-        })
+
+        if (currentUser.id === bookingToDelete.userId) {
+
+            await bookingToDelete.destroy()
+            res.statusCode = 200;
+            return res.json({
+                message: "Successfully deleted",
+                statusCode: 200
+            })
+        } else {
+            res.statusCode = 403;
+            return res.json({
+                message: "Forbidden",
+                statusCode: 403
+            })
+        }
+
     } else {
         res.statusCode = 404;
         return res.json({
