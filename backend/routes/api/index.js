@@ -54,10 +54,11 @@ router.delete('/spot-images/:imageId', requireAuth, async (req, res) => {
                 statusCode: 200
             })
         } else {
-            res.statusCode = 404;
+            res.statusCode = 403;
             return res.json({
-                message: "Image doesn't belong to the current user"
-            })
+                "message": "Forbidden",
+                "statusCode": 403
+              })
         }
     } else {
         res.statusCode = 404;
@@ -93,10 +94,11 @@ router.delete('/review-images/:imageId', requireAuth, async (req, res) => {
                 statusCode: 200
             })
         } else {
-            res.statusCode = 404;
+            res.statusCode = 403;
             return res.json({
-                message: "Image doesn't belong to the current user"
-            })
+                "message": "Forbidden",
+                "statusCode": 403
+              })
         }
     } else {
         res.statusCode = 404;
