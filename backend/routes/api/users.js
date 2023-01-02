@@ -38,9 +38,25 @@ router.post(
       if (checkEmail) {
         return res.json({
           statusCode: 403,
-          message: 'User already exist'
+          message: 'User already exist',
+          error: {
+            email: "User with that email already exists"
+          }
         })
       }
+      const checkUsername = await User.findOne({
+        where: { username: username }
+      })
+      if (checkUsername) {
+        return res.json({
+          statusCode: 403,
+          message: 'User already exist',
+          error: {
+            email: "User with that username already exists"
+          }
+        })
+      }
+
 
       const user = await User.signup({ email, username, password, firstName, lastName });
 
