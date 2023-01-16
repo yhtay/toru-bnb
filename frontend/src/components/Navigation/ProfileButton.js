@@ -7,6 +7,7 @@ import SignupFormModal from '../SignupFormModal';
 import DemoUserModal from "../DemoUserFormModal";
 import "./ProfileButton.css"
 
+
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
@@ -43,15 +44,17 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button className="profile-icon-hamburger-button" onClick={openMenu}>
-          <div>
-            <i className="fa-solid fa-bars"></i>
-          </div>
-          <div className="profile-icon-div">
-           <i className="fas fa-user-circle" />
-          </div>
-      </button>
-      {/* <div className="profile-dropdown"> */}
+      <div>
+        <button className="profile-button" onClick={openMenu}>
+            <div >
+              <i className="fa-solid fa-bars"></i>
+            </div>
+            <div className="profile-icon-div">
+              <i className="fas fa-user-circle" />
+            </div>
+        </button>
+      </div>
+
         <ul className={ulClassName} ref={ulRef}>
           {user ? (
             <>
@@ -82,8 +85,7 @@ function ProfileButton({ user }) {
             </>
           )}
         </ul>
-      {/* </div> */}
-    </>
+      </>
   );
 }
 

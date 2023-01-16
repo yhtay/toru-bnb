@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { thunkReadSpots } from '../../store/spots'
+import { thunkGetSpots } from '../../store/spots'
 import SpotDetails from "./SpotDetails";
 import './SpotDetails.css'
 
@@ -14,7 +14,7 @@ export default function Spot() {
     // console.log('spots from SpotsComponent: ', spots)
 
     useEffect(() => {
-        dispatch(thunkReadSpots())
+        dispatch(thunkGetSpots())
     }, [dispatch])
 
     // console.log('spotsObj: ', spotsObj)

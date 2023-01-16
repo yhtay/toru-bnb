@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
+import './ProfileButton.css'
 import CreateSpotModal from '../Spots/CreateSpotModal';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import { useEffect, useState, useRef } from 'react';
@@ -40,25 +41,28 @@ function Navigation({ isLoaded }){
   };
   // ---------------------------------------
   return (
-    <ul className='navigation-container'>
-      <div>
+    <div className='navigation-container'>
+
+      <div className="home-div">
         <NavLink exact to="/">Home</NavLink>
       </div>
-      <div className='profile-button-and-toru-div'>
-      <div className='your-toru-bnb-modal'>
-        <OpenModalMenuItem
-                itemText="Your Toru-BnB"
-                onItemClick={closeMenu}
-                modalComponent={<CreateSpotModal />}
-              />
-      </div>
+      <div className='your-toru-profile-button'>
+
+        <div className='your-toru-bnb'>
+          <OpenModalMenuItem
+                    itemText="Your Toru-BnB"
+                    onItemClick={closeMenu}
+                    modalComponent={<CreateSpotModal />}
+                  />
+
+        </div>
+
         {isLoaded && (
-          <div>
             <ProfileButton user={sessionUser} />
-          </div>
         )}
+
       </div>
-    </ul>
+    </div>
   );
 }
 
