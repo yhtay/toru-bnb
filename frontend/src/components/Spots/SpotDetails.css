@@ -1,0 +1,55 @@
+.sportcard-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    padding-left: 200px;
+    padding-right: 200px;
+    flex-wrap: wrap;
+    margin: 20px;
+
+}
+
+.spotcard-div {
+    /* border: 2px solid #000000; */
+    color: black;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    padding: 4px;
+    font-family: inherit;
+    border-radius: 5px;
+    flex-wrap: wrap;
+    position: relative;
+    margin: 10px;
+
+}
+
+.image-class {
+    object-fit: cover;
+    display: flex;
+    flex-direction: row;
+    /* height: 20vh;
+    width: 18vw; */
+    height: 200px;
+    width: 220px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.city-state {
+    display: flex;
+    font-weight: bold;
+    padding-left: 3px;
+}
+
+.description-div {
+    object-fit: cover;
+    padding-left: 3px;
+    max-width: 220px;
+    color: rgb(114, 111, 111);
+}
+
+.price-div {
+    padding-left: 3px;
+}

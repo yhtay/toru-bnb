@@ -1,4 +1,53 @@
 
+.navigation-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-left: 100px;
+    padding-right: 100px;
+
+}
+
 .hidden {
     display: none
+}
+
+.profile-button-and-toru-div {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+}
+
+.profile-icon-hamburger-button {
+    display: flex;
+    flex-direction: row;
+    padding: 7px;
+    margin-left: 15px;
+    border-radius: 20px;
+    border: 1px, #DDDDDD;
+    opacity: 80%;
+    position: fixed;
+    top: 10px;
+    right: 20px;
+
+}
+
+.hamburger-icon-div {
+    padding: 5px;
+}
+
+.profile-icon-div {
+    padding-left: 15px;
+}
+
+.your-toru-bnb-modal {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    position: absolute;
+    width: 100px;
+    margin-right: 100px;
+    list-style: none;
 }

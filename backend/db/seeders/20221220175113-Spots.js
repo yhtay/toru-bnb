@@ -30,8 +30,20 @@ module.exports = {
       lat: 10.10,
       lng: 10.10,
       name: 'M10 Resort',
-      description: 'Home of the best football player',
-      price: 1010.10,
+      description: "GOAT's Resort",
+      price: 1010.11,
+    },
+    {
+      ownerId: 4,
+      address: '30 Andres Ave',
+      city: 'Rosario',
+      state: 'Sante Fe',
+      country: 'Argentina',
+      lat: 30.30,
+      lng: 30.30,
+      name: 'M10 Mansion',
+      description: "GOAT's Mansion",
+      price: 999.99,
     },
     {
       ownerId: 5,
@@ -42,9 +54,22 @@ module.exports = {
       lat: 7.07,
       lng: 7.07,
       name: 'CR7 Hotel',
-      description: 'Home of the 2nd best football player',
+      description: 'Luxury Living',
       price: 777.77,
     },
+    {
+      ownerId: 5,
+      address: '7 Siuu Road',
+      city: 'Funchal',
+      state: 'Madrid',
+      country: 'Spain',
+      lat: 70.77,
+      lng: 70.77,
+      name: 'CR7 Penthouse',
+      description: 'Penthouse',
+      price: 777.33,
+    },
+
     {
       ownerId: 6,
       address: '14 Henry Street',
@@ -54,8 +79,20 @@ module.exports = {
       lat: 14.14,
       lng: 14.14,
       name: 'H14 Mansion',
-      description: 'Home of the legendary football player',
-      price: 1400.14,
+      description: 'Smooth Mansion',
+      price: 140.14,
+    },
+    {
+      ownerId: 6,
+      address: '12 W. Monaco Street',
+      city: 'Monaco',
+      state: 'France',
+      country: 'France',
+      lat: 12.14,
+      lng: 12.14,
+      name: 'H14 Villa',
+      description: 'Fresh Villa',
+      price: 120.12,
     }
   ], {})
   },
@@ -70,7 +107,7 @@ module.exports = {
     options.tableName = 'Spots';
     const { Op } = require('sequelize')
     await queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ['M10 Resort', 'CR7 Hotel', 'H14 Mansion'] }
+      name: { [Op.in]: ['M10 Resort', 'M10 Mansion', 'CR7 Hotel', 'CR7 Penthouse', 'H14 Mansion', 'H14 Villa'] }
     }, {})
   }
 };

@@ -1,0 +1,14 @@
+.profile-dropdown {
+    /* position: relative; */
+    flex-direction: column;
+    align-content: flex-end;
+    display: flex;
+    margin-top: 30px;
+    width: 100px;
+    height: 100px;
+    align-items: flex-start;
+    list-style: none;
+    border-radius: 15px;
+    background-color: aquamarine;
+
+}
