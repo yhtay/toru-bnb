@@ -7,7 +7,7 @@ const GET_SPOTS = 'spots/GET_SPOTS';
 const GET_USER_SPOTS = 'spots/GET_USER_SPOTS'
 
 const CREATE = 'spots/CREATE';
-const UPDATE = 'spots/UPDATE';
+const EDIT_SPOT = 'spots/EDIT_SPOT';
 const DELETE = 'spots/DELETE';
 
 
@@ -34,9 +34,9 @@ const createSpot = (spot) => {
     }
 }
 
-const updateSpot = (spot) => {
+const editSpot = (spot) => {
     return {
-        type: UPDATE,
+        type: EDIT_SPOT,
         spot
     }
 }
@@ -85,6 +85,20 @@ export const thunkCreateSpots = (payload) => async (dispatch) => {
         dispatch(createSpot(newSpot))
         return newSpot
     }
+}
+
+export const thunkEditSpot = (payload, spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "PUT",
+        headers: {"Content-Type": 'application/json'},
+        body: JSON.stringify(payload)
+    })
+
+    if (response.ok) {
+        const spot = await response.json()
+        dispatch(editSpot(spot))
+        return spot
+    }
 
 }
 
@@ -106,9 +120,15 @@ export default function spotsReducer(state = initialState, action) {
             action.spots.Spots.forEach(spot => {
                 newState[spot.id] = spot
             })
-            console.log('Reducer newState: ', newState)
+            // console.log('Reducer newState: ', newState)
             return newState
         case CREATE:
+            newState[action.spot.id] = action.spot
+            return newState;
+        case EDIT_SPOT:
+            // console.log("EDIT_SPOT action.spot reducer: ", action.spot)
+            const previewImage = state[action.spot.id].previewImage
+            action.spot.previewImage = previewImage
             newState[action.spot.id] = action.spot
             return newState;
         default:

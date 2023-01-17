@@ -1,8 +1,10 @@
 import { useParams, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import './IndividualSpotPage.css';
 import noPreview from './images/noPreview.jpeg'
 import EditSpotForm from "./EditSpot/EditSpotForm";
+import { thunkGetSpots } from "../../store/spots";
 
 import OpenModalMenuItem from "../OpenModalButton"
 
@@ -11,12 +13,21 @@ import OpenModalMenuItem from "../OpenModalButton"
 export default function IndividualSpotPage () {
 
     const { spotId } = useParams();
+    const dispatch = useDispatch();
     const spotsObj = useSelector(state => state.spots);
     // console.log('SpotPage spotsObj: ', spotsObj)
+
+    // To have the update on the page without having to refresh
+    useEffect(() => {
+        dispatch(thunkGetSpots())
+    }, [dispatch])
 
     const spot = spotsObj[spotId]
     // console.log('SpotPage spot: ', spot)
 
+
+
+    if (!spot) return null;
     return (
         <div className="individual-spot-page-container">
             <div>
@@ -29,10 +40,9 @@ export default function IndividualSpotPage () {
                 <Link to={`/${spot.id}/edit`} key={`${spot.id}`}>Edit Spot</Link>
             </div> */}
                 <OpenModalMenuItem
-                    itemText="Edit Spot"
-                    // onItemClick={closeMenu}
-                    spotId={spotId}
-                    modalComponent={<EditSpotForm />}
+                    // itemText="Edit Spot"
+                    buttonText='Edit Spot'
+                    modalComponent={<EditSpotForm spot={spot} />}
                 />
             <div>
 
