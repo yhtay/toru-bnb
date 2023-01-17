@@ -15,6 +15,12 @@ export default function IndividualSpotPage () {
 
     return (
         <div className="individual-spot-page-container">
+            <div>
+                <div>{spot.description}</div>
+                {/* <div>{spot.reviews}</div> */}
+                <div>{spot.city}, {spot.state}, {spot.country}</div>
+    
+            </div>
             <div className="image-container">
                 <div className="main-image-div">
                     <img
@@ -22,7 +28,7 @@ export default function IndividualSpotPage () {
                         src={`${spot.previewImage}`}
                     />
                 </div>
-                <div className="small-image-div">
+                <div>
                     <img
                         className="secondary-image-div"
                         src={noPreview}

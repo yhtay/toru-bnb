@@ -23,11 +23,11 @@
 } */
 
 .main-image {
-    height: 43vh;
+    height: 44vh;
     width: 34vw;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
-    padding: 5px;
+
 }
 
 .secondary-image-div {
