@@ -9,6 +9,7 @@ import Navigation from "./components/Navigation";
 import Spots from "./components/Spots";
 import CreateSpotModal from "./components/Spots/CreateSpotModal";
 import UsersSpots from "./components/Spots/UsersSpots";
+import IndividualSpotPage from "./components/Spots/IndividualSpotPage";
 // import EditSpotForm from "./components/Spots/EditSpotForm";
 // import OpenModalMenuItem from './OpenModalMenuItem';
 
@@ -31,11 +32,9 @@ function App() {
           <Route path={'/users-spot'}>
             <UsersSpots />
           </Route>
-          {/* <Route path={'/'}>
-            <IndividualSpot />
-          </> */}
-
-
+          <Route path={'/:spotId'}>
+            <IndividualSpotPage />
+          </Route>
         </Switch>
       )}
     </>
