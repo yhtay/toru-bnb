@@ -4,7 +4,7 @@
     position: relative;
     padding-right: 14%;
     padding-left: 14%;
-    top: 35px;
+    top: 50px;
 }
 
 .image-container {
@@ -23,7 +23,7 @@
 } */
 
 .main-image {
-    height: 44vh;
+    height: 43vh;
     width: 34vw;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;

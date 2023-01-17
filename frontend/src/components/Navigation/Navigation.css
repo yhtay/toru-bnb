@@ -3,8 +3,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-left: 15%;
+    padding-right: 15%;
     position: sticky;
     top: 20px;
 }

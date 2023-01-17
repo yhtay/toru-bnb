@@ -1,7 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import './IndividualSpotPage.css';
 import noPreview from './images/noPreview.jpeg'
+import EditSpotForm from "./EditSpotForm";
+
+import OpenModalMenuItem from "../OpenModalButton"
+
 
 
 export default function IndividualSpotPage () {
@@ -11,7 +15,7 @@ export default function IndividualSpotPage () {
     // console.log('SpotPage spotsObj: ', spotsObj)
 
     const spot = spotsObj[spotId]
-    console.log('SpotPage spot: ', spot)
+    // console.log('SpotPage spot: ', spot)
 
     return (
         <div className="individual-spot-page-container">
@@ -19,7 +23,19 @@ export default function IndividualSpotPage () {
                 <div>{spot.description}</div>
                 {/* <div>{spot.reviews}</div> */}
                 <div>{spot.city}, {spot.state}, {spot.country}</div>
-    
+
+            </div>
+            {/* <div>
+                <Link to={`/${spot.id}/edit`} key={`${spot.id}`}>Edit Spot</Link>
+            </div> */}
+                <OpenModalMenuItem
+                    itemText="Edit Spot"
+                    // onItemClick={closeMenu}
+ 
+                    modalComponent={<EditSpotForm />}
+                />
+            <div>
+
             </div>
             <div className="image-container">
                 <div className="main-image-div">

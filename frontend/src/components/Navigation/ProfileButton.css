@@ -13,7 +13,9 @@
     padding-left: 10px;
 }
 
-.profile-dropdown{
+.profile-dropdown {
     position: absolute;
     top: 20px;
+    z-index: 999999999999999999;
+    right: 150px;
 }

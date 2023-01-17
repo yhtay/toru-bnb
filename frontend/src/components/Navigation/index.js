@@ -14,31 +14,31 @@ function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
   //--------------------------------------
-  const dispatch = useDispatch();
-  const [showMenu, setShowMenu] = useState(false);
-  const ulRef = useRef();
+  // const dispatch = useDispatch();
+  // const [showMenu, setShowMenu] = useState(false);
+  // const ulRef = useRef();
 
-  useEffect(() => {
-    if (!showMenu) return;
+  // useEffect(() => {
+  //   if (!showMenu) return;
 
-    const closeMenu = (e) => {
-      if (!ulRef.current.contains(e.target)) {
-        setShowMenu(false);
-      }
-    };
+  //   const closeMenu = (e) => {
+  //     if (!ulRef.current.contains(e.target)) {
+  //       setShowMenu(false);
+  //     }
+  //   };
 
-    document.addEventListener('click', closeMenu);
+  //   document.addEventListener('click', closeMenu);
 
-    return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
+  //   return () => document.removeEventListener("click", closeMenu);
+  // }, [showMenu]);
 
-  const closeMenu = () => setShowMenu(false);
+  // const closeMenu = () => setShowMenu(false);
 
-  const logout = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.logout());
-    closeMenu();
-  };
+  // const logout = (e) => {
+  //   e.preventDefault();
+  //   dispatch(sessionActions.logout());
+  //   closeMenu();
+  // };
   // ---------------------------------------
   return (
     <div className='navigation-container'>
@@ -51,7 +51,7 @@ function Navigation({ isLoaded }){
         <div className='your-toru-bnb'>
           <OpenModalMenuItem
                     itemText="Your Toru-BnB"
-                    onItemClick={closeMenu}
+                    // onItemClick={closeMenu}
                     modalComponent={<CreateSpotModal />}
                   />
 
