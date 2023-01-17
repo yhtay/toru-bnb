@@ -2,35 +2,36 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    padding-right: 15%;
-    padding-left: 15%;
+    padding-right: 14%;
+    padding-left: 14%;
     top: 35px;
 }
 
 .image-container {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
-.small-image-div {
+/* .small-image-div {
     display: flex;
     flex-direction: row;
     flex-wrap: warp;
     height: 340px;
     width: 500px;
-}
+} */
 
 .main-image {
-    height: 320px;
-    width: auto;
+    height: 43vh;
+    width: 34vw;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     padding: 5px;
 }
 
 .secondary-image-div {
-    height: 160px;
-    width: auto;
+    height: 21vh;
+    width: 16vw;
     padding: 5px;
 }

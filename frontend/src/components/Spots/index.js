@@ -21,7 +21,6 @@ export default function Spot() {
     // console.log('spotsObj: ', spotsObj)
     return (
         <div>
-            <h1>HIT Spots!</h1>
             <div className="sportcard-container">
                     {
                         spots.map(spot => (
