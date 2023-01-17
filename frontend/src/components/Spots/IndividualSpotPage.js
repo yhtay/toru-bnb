@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import './IndividualSpotPage.css';
 import noPreview from './images/noPreview.jpeg'
-import EditSpotForm from "./EditSpotForm";
+import EditSpotForm from "./EditSpot/EditSpotForm";
 
 import OpenModalMenuItem from "../OpenModalButton"
 
@@ -31,7 +31,7 @@ export default function IndividualSpotPage () {
                 <OpenModalMenuItem
                     itemText="Edit Spot"
                     // onItemClick={closeMenu}
- 
+                    spotId={spotId}
                     modalComponent={<EditSpotForm />}
                 />
             <div>

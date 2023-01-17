@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
 
-export default function EditSpotForm() {
+export default function EditSpotForm({ spotId }) {
     // const { spotId } = useParams()
-    const { spotId } = useParams;
+    // const { spotId } = useParams;
     console.log('spotId in EditSpotForm', spotId)
 
 

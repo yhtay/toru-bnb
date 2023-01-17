@@ -10,9 +10,9 @@ import Spots from "./components/Spots";
 import CreateSpotModal from "./components/Spots/CreateSpotModal";
 import UsersSpots from "./components/Spots/UsersSpots";
 import IndividualSpotPage from "./components/Spots/IndividualSpotPage";
-import EditSpotForm from "./components/Spots/EditSpotForm";
 
-// import OpenModalMenuItem from './OpenModalMenuItem';
+
+
 
 
 function App() {

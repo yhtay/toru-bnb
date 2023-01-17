@@ -7,6 +7,8 @@ import './Navigation.css';
 import './ProfileButton.css'
 import CreateSpotModal from '../Spots/CreateSpotModal';
 import OpenModalMenuItem from './OpenModalMenuItem';
+// import SignupFormModal from '../SignupFormModal';
+import LoginFormModal from '../LoginFormModal';
 import { useEffect, useState, useRef } from 'react';
 import * as sessionActions from '../../store/session';
 
@@ -49,11 +51,18 @@ function Navigation({ isLoaded }){
       <div className='your-toru-profile-button'>
 
         <div className='your-toru-bnb'>
-          <OpenModalMenuItem
-                    itemText="Your Toru-BnB"
-                    // onItemClick={closeMenu}
-                    modalComponent={<CreateSpotModal />}
-                  />
+          {sessionUser ? (
+            <OpenModalMenuItem
+                  itemText="Create Toru-BnB"
+                  // onItemClick={closeMenu}
+                  modalComponent={<CreateSpotModal />}
+            />
+          ) : (
+            <OpenModalMenuItem
+                  itemText="Create Toru-BnB"
+                  modalComponent={<LoginFormModal />}
+            />
+          )}
 
         </div>
 
