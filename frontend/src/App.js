@@ -31,6 +31,11 @@ function App() {
           <Route path={'/users-spot'}>
             <UsersSpots />
           </Route>
+          {/* <Route path={'/'}>
+            <IndividualSpot />
+          </> */}
+
+
         </Switch>
       )}
     </>

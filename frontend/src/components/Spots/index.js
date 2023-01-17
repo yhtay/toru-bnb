@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { thunkGetSpots } from '../../store/spots'
 import SpotDetails from "./SpotDetails";
 import './SpotDetails.css'
+import { Link } from "react-router-dom";
 
 
 export default function Spot() {
@@ -24,7 +25,9 @@ export default function Spot() {
             <div className="sportcard-container">
                     {
                         spots.map(spot => (
-                            <SpotDetails key={spot.id} spot={spot} />
+                            <Link to={`/${spot.id}`} key={`${spot.id}`}>
+                                <SpotDetails key={`${spot.id}`} spot={spot} />
+                            </Link>
                         ))
                     }
             </div>

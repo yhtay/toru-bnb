@@ -65,6 +65,7 @@ export const thunkGetUserSpots = () => async (dispatch) => {
 
     if (response.ok) {
         const userSpots = await response.json();
+        // console.log('userSpots from thunkGetUserSpots: ', userSpots)
         dispatch(getUserSpots(userSpots))
         return userSpots;
     }
@@ -80,7 +81,7 @@ export const thunkCreateSpots = (payload) => async (dispatch) => {
 
     if (response.ok) {
         const newSpot = await response.json()
-        console.log("thunk newSpot: ", newSpot)
+        // console.log("thunk newSpot: ", newSpot)
         dispatch(createSpot(newSpot))
         return newSpot
     }
@@ -101,7 +102,12 @@ export default function spotsReducer(state = initialState, action) {
             })
             return newState;
         case GET_USER_SPOTS:
-            // console.log('action.spot')
+            // console.log('action.spot ---->', action.spots.Spots)
+            action.spots.Spots.forEach(spot => {
+                newState[spot.id] = spot
+            })
+            console.log('Reducer newState: ', newState)
+            return newState
         case CREATE:
             newState[action.spot.id] = action.spot
             return newState;
