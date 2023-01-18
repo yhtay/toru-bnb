@@ -6,7 +6,11 @@
     padding-left: 15%;
     padding-right: 15%;
     position: sticky;
-    top: 20px;
+    top: 0px;
+    z-index: 9999;
+    opacity: 100%;
+    background-color: white;
+    height: 55px;
 }
 
 .hidden {

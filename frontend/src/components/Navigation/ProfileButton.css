@@ -14,8 +14,18 @@
 }
 
 .profile-dropdown {
+    list-style: none;
     position: absolute;
-    top: 20px;
-    z-index: 999999999999999999;
-    right: 150px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    top: 45px;
+    right: 15%;
+    background-color: grey;
+    border-radius: 15px;
+    opacity: 100%;
+    height: 100px;
+    width: 150px;
+    padding: 10px;
+
 }

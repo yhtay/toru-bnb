@@ -55,7 +55,7 @@ function ProfileButton({ user }) {
         </button>
       </div>
 
-        <ul className={ulClassName} ref={ulRef}>
+        <div className={ulClassName} ref={ulRef}>
           {user ? (
             <>
               <div>{user.username}</div>
@@ -84,7 +84,7 @@ function ProfileButton({ user }) {
               />
             </>
           )}
-        </ul>
+        </div>
       </>
   );
 }
