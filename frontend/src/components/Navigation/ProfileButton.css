@@ -1,0 +1,21 @@
+.profile-button {
+    display: flex;
+    padding: 5px;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+.hamburger-icon-div {
+    padding-left: 5px;
+}
+
+.profile-icon-div {
+    padding-left: 10px;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 20px;
+    z-index: 999999999999999999;
+    right: 150px;
+}
