@@ -53,3 +53,16 @@
 .price-div {
     padding-left: 3px;
 }
+
+.city-state-rating-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.star-icon-avg-rating {
+    display: flex;
+}
+
+/* .start-icon-div {
+    margin-right: 0px;
+} */

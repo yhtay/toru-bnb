@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom"
 import { thunkCreateSpots } from "../../store/spots";
 import { useModal } from "../../context/Modal";
 import { thunkCreateSpotImage } from "../../store/spots";
+import { thunkGetSpots } from "../../store/spots";
 
 export default function CreateSpotModal() {
 
@@ -33,14 +34,19 @@ export default function CreateSpotModal() {
         if (city.length < 4) newErrors.push("Please enter a valid City")
         if (state.length < 4) newErrors.push("Please enter a valid State")
         if (country.length < 5) newErrors.push("Please enter a valid Country")
-        // if (!lat) newErrors.push("Please enter valid lat")
-        // if (!lng) newErrors.push("Please enter valid lng")
+        if (!lat) newErrors.push("Please enter valid lat")
+        if (!lng) newErrors.push("Please enter valid lng")
         if (name.length < 5) newErrors.push("Please enter your name")
         if (description.length < 5) newErrors.push("Please provie a description")
         if (price === 0) newErrors.push("Please provide a price")
 
         setErrors(newErrors)
-    }, [address, city, state, country, lat, lng, name, description, price, spots])
+    }, [address, city, state, country, lat, lng, name, description, price])
+
+    // To have the update on the page without having to refresh
+    useEffect(() => {
+        dispatch(thunkGetSpots())
+    }, [dispatch])
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -82,7 +88,7 @@ export default function CreateSpotModal() {
 
     return (
         <form onSubmit={onSubmit}>
-            <h2>Hit Spot Form!</h2>
+            <h2>Create A New Toru</h2>
             <ul>
                 {hasSubmitted && errors.map(error => (
                     <li key={error}>
