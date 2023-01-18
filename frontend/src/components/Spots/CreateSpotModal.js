@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { thunkCreateSpots } from "../../store/spots";
 import { useModal } from "../../context/Modal";
-import { thunkCreateSpotImage } from "../../store/spots";
+// import { thunkCreateSpotImage } from "../../store/spots";
 import { thunkGetSpots } from "../../store/spots";
 
 export default function CreateSpotModal() {
@@ -23,32 +23,30 @@ export default function CreateSpotModal() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
-    const [imageURL, setImageURL] = useState('');
+    const [previewImage, setPreviewImage] = useState('');
     const [errors, setErrors] = useState([]);
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal()
 
     useEffect(() => {
         const newErrors = [];
-        if (address.length < 5) newErrors.push("Please Provide a valid address")
-        if (city.length < 4) newErrors.push("Please enter a valid City")
-        if (state.length < 4) newErrors.push("Please enter a valid State")
-        if (country.length < 5) newErrors.push("Please enter a valid Country")
+        if (address.length < 3) newErrors.push("Please Provide a valid address")
+        if (city.length < 3) newErrors.push("Please enter a valid City")
+        if (state.length < 2) newErrors.push("Please enter a valid State")
+        if (country.length < 3) newErrors.push("Please enter a valid Country")
         if (!lat) newErrors.push("Please enter valid lat")
         if (!lng) newErrors.push("Please enter valid lng")
-        if (name.length < 5) newErrors.push("Please enter your name")
-        if (description.length < 5) newErrors.push("Please provie a description")
+        if (name.length < 3) newErrors.push("Please enter your name")
+        if (description.length < 3) newErrors.push("Please provie a description")
         if (price === 0) newErrors.push("Please provide a price")
 
         setErrors(newErrors)
     }, [address, city, state, country, lat, lng, name, description, price])
 
     // To have the update on the page without having to refresh
-    useEffect(() => {
-        dispatch(thunkGetSpots())
-    }, [dispatch])
 
-    const onSubmit = async (e) => {
+
+    const onSubmit = (e) => {
         e.preventDefault();
 
         setHasSubmitted(true)
@@ -61,29 +59,20 @@ export default function CreateSpotModal() {
             lng,
             name,
             description,
-            price,
+            price
         }
         console.log("payload in Form: ", payload)
 
         setHasSubmitted(false)
 
-        const newSpot = await dispatch(thunkCreateSpots(payload))
-            .then(closeModal)
+        const newSpot =  dispatch(thunkCreateSpots(payload, previewImage))
+            .then((newSpot) => {history.push(`/spots/${newSpot.id}`)}, closeModal())
             .catch(async (res) => {
+                console.log('response: ', res)
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
-        const newSpotId = newSpot.id
-
-
-        const newSpotImage = await dispatch(thunkCreateSpotImage(newSpotId, imageURL, true))
-            .then(closeModal)
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            })
-        console.log('newSpotImage: ', newSpotImage)
-
+        // console.log('newSPOT in create SPOT MOdAL', newSpot)
     }
 
     return (
@@ -191,8 +180,8 @@ export default function CreateSpotModal() {
                     Image URL:
                     <input
                         type='text'
-                        value={imageURL}
-                        onChange={e => setImageURL(e.target.value)}
+                        value={previewImage}
+                        onChange={e => setPreviewImage(e.target.value)}
                     />
                 </label>
             </div>

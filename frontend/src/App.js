@@ -33,7 +33,7 @@ function App() {
           <Route path={'/users-spot'}>
             <UsersSpots />
           </Route>
-          <Route path={'/:spotId'}>
+          <Route path={'/spots/:spotId'}>
             <IndividualSpotPage />
           </Route>
 

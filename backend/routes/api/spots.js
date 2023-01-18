@@ -94,7 +94,7 @@ router.get('/', queryValidation, async (req, res, next) => {
     // console.log('page -----> ', page)
 
     if (!page || page > 10) page = 1;
-    if (!size || size > 20) size = 20;
+    if (!size || size > 20) size = 200;
 
     page = parseInt(page);
     size = parseInt(size);

@@ -81,36 +81,6 @@ export const thunkGetUserSpots = () => async (dispatch) => {
 }
 
 
-export const thunkCreateSpots = (payload) => async (dispatch) => {
-    const response = await csrfFetch('/api/spots', {
-        method: "POST",
-        headers: {"Content-Type": 'application/json'},
-        body: JSON.stringify(payload)
-    });
-
-    if (response.ok) {
-        const newSpot = await response.json()
-        // console.log("thunk newSpot: ", newSpot)
-        dispatch(createSpot(newSpot))
-        return newSpot
-    }
-}
-
-export const thunkCreateSpotImage = (newSpotId, imageURL, preview) => async(dispatch) => {
-    const response = await csrfFetch(`/api/spots/${newSpotId}}/images`, {
-        method: "POST",
-        headers: {"Content-Type": 'application/json'},
-        body: JSON.stringify(imageURL, preview)
-    })
-    if (response.ok) {
-
-        const newSpotImage = await response.json();
-        // console.log('thunk CreateNewSpotImage: ', newSpotImage)
-        dispatch(createSpotImage(newSpotImage))
-        return newSpotImage
-    }
-}
-
 // export const thunkCreateSpots = (payload) => async (dispatch) => {
 //     const response = await csrfFetch('/api/spots', {
 //         method: "POST",
@@ -120,18 +90,61 @@ export const thunkCreateSpotImage = (newSpotId, imageURL, preview) => async(disp
 
 //     if (response.ok) {
 //         const newSpot = await response.json()
-//         // console.log("thunk newSpot: ", newSpot)
-//         const newSpotId = newSpot.id
-//         const response2 = await csrfFetch(`/api/spot-images/${newSpotId}`)
-
-//         if (response2.ok) {
-//             const newImage = await response2.json()
-//             dispatch(createSpot(newSpot, newImage))
-
-//             return (newSpot, newImage)
-//         }
+//         console.log("thunkCreateNewSpot: ", newSpot)
+//         dispatch(createSpot(newSpot))
+//         return newSpot
 //     }
 // }
+
+// export const thunkCreateSpotImage = (newSpotId, imageURL, preview) => async(dispatch) => {
+//     const response = await csrfFetch(`/api/spots/${newSpotId}}/images`, {
+//         method: "POST",
+//         headers: {"Content-Type": 'application/json'},
+//         body: JSON.stringify(imageURL, preview)
+//     })
+//     if (response.ok) {
+
+//         const newSpotImage = await response.json();
+//         console.log('thunk CreateNewSpotImage: ', newSpotImage)
+//         dispatch(createSpotImage(newSpotImage))
+//         return newSpotImage
+//     }
+// }
+
+export const thunkCreateSpots = (payload, previewImage) => async (dispatch) => {
+
+    const response = await csrfFetch('/api/spots', {
+        method: "POST",
+        headers: {"Content-Type": 'application/json'},
+        body: JSON.stringify(payload)
+    });
+    if (response.ok) {
+        const newSpot = await response.json()
+        console.log("thunk newSpot: ", newSpot)
+
+        const newSpotImage = {
+            url: previewImage,
+            preview: true
+        }
+
+        const response2 = await csrfFetch(`/api/spots/${newSpot.id}/images`, {
+            method: "POST",
+            headers: {"Content-Type": 'application/json'},
+            body: JSON.stringify(newSpotImage)
+        })
+
+        if (response2.ok) {
+            const newImage = await response2.json()
+            console.log("thunk newImage: ", newImage)
+
+            newSpot.previewImage = newImage.url
+
+            dispatch(createSpot(newSpot))
+
+            return newSpot
+        }
+    }
+}
 
 export const thunkEditSpot = (payload, spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`, {
@@ -179,11 +192,9 @@ export default function spotsReducer(state = initialState, action) {
             // console.log('Reducer newState: ', newState)
             return newState
         case CREATE:
+            console.log('CREATE in Reducer action.spot: ', action.spot)
             newState[action.spot.id] = action.spot
             return newState;
-        case CREATE_SPOT_IMAGE:
-            console.log('action.', action.image)
-            return newState
         case EDIT_SPOT:
             // console.log("EDIT_SPOT action.spot reducer: ", action.spot)
             const previewImage = state[action.spot.id].previewImage

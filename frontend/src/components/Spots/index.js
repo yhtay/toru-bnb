@@ -24,7 +24,7 @@ export default function Spot() {
             <div className="sportcard-container">
                     {
                         spots.map(spot => (
-                            <Link to={`/${spot.id}`} key={`${spot.id}`}>
+                            <Link to={`/spots/${spot.id}`} key={`${spot.id}`}>
                                 <SpotDetails key={`${spot.id}`} spot={spot} />
                             </Link>
                         ))
