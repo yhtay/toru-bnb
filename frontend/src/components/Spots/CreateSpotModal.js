@@ -32,7 +32,7 @@ export default function CreateSpotModal() {
         const newErrors = [];
         if (address.length < 3) newErrors.push("Please Provide a valid address")
         if (city.length < 3) newErrors.push("Please enter a valid City")
-        if (state.length < 3) newErrors.push("Please enter a valid State")
+        if (state.length < 2) newErrors.push("Please enter a valid State")
         if (country.length < 3) newErrors.push("Please enter a valid Country")
         if (!lat) newErrors.push("Please enter valid lat")
         if (!lng) newErrors.push("Please enter valid lng")
@@ -66,7 +66,7 @@ export default function CreateSpotModal() {
         setHasSubmitted(false)
 
         const newSpot =  dispatch(thunkCreateSpots(payload, previewImage))
-            .then((newSpot) => {history.push(`/${newSpot.id}`)}, closeModal())
+            .then((newSpot) => {history.push(`/spots/${newSpot.id}`)}, closeModal())
             .catch(async (res) => {
                 console.log('response: ', res)
                 const data = await res.json();

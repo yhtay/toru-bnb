@@ -22,7 +22,7 @@ export default function UsersSpots() {
 
     return (
         <div>
-            <h2>Hit User's Spots</h2>
+
             <div className="sportcard-container">
                 {
                     usersSpots.map(spot => (
@@ -32,7 +32,6 @@ export default function UsersSpots() {
                     ))
                 }
             </div>
-
         </div>
     )
 }
