@@ -45,27 +45,42 @@ export default function IndividualSpotPage () {
     if (!spot) return null;
     return (
         <div className="individual-spot-page-container">
-            <div>
-                <div>{spot.description}</div>
-                {/* <div>{spot.reviews}</div> */}
-                <div>{spot.city}, {spot.state}, {spot.country}</div>
-            </div>
-            <div>
-                {sessionUser ? (
-                    <OpenModalMenuItem
-                        buttonText="Edit Spot"
-                        modalComponent={<EditSpotForm spot={spot} />}
-                    />
-                ) : (
-                    <OpenModalMenuItem
+            <h3>{spot.description}</h3>
+            <div className="individual-page-header-div">
+                <div className='star-icon-and-reviews'>
+                    <div className='start-icon-div'>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div className='reviews-div'>
+                        <span>Reviews</span>
+                    </div>
 
-                        buttonText="Edit Spot"
-                        modalComponent={<LoginFormModal />}
-                    />
-                )}
-            </div>
-            <div>
-                <button onClick={onDeleteSpot} >Delete</button>
+                    <div className={'city-state-country-div'}>{spot.city}, {spot.state}, {spot.country}</div>
+
+                </div>
+                <div className="edit-delete-button-div">
+                    <div>
+                        {sessionUser ? (
+                            <OpenModalMenuItem
+                                buttonText="Edit Spot"
+                                modalComponent={<EditSpotForm spot={spot} />}
+                            />
+                        ) : (
+                            <OpenModalMenuItem
+
+                                buttonText="Edit Spot"
+                                modalComponent={<LoginFormModal />}
+                            />
+                        )}
+                    </div>
+                    <div>
+                        <button
+                            className='delete-button'
+                            onClick={onDeleteSpot}
+                        >
+                            Delete</button>
+                    </div>
+                </div>
             </div>
 
             <div className="image-container">
