@@ -30,7 +30,7 @@ export default function IndividualSpotPage () {
     }, [dispatch])
 
     const spot = spotsObj[spotId]
-    console.log('SpotPage spot: ', spot)
+    // console.log('SpotPage spot: ', spot)
 
     // Delete
     const onDeleteSpot = (e) => {
