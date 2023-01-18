@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { thunkCreateSpots } from "../../store/spots";
 import { useModal } from "../../context/Modal";
+import { thunkCreateSpotImage } from "../../store/spots";
 
 export default function CreateSpotModal() {
 
@@ -21,6 +22,7 @@ export default function CreateSpotModal() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
+    const [imageURL, setImageURL] = useState('');
     const [errors, setErrors] = useState([]);
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal()
@@ -40,7 +42,7 @@ export default function CreateSpotModal() {
         setErrors(newErrors)
     }, [address, city, state, country, lat, lng, name, description, price, spots])
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
 
         setHasSubmitted(true)
@@ -53,18 +55,27 @@ export default function CreateSpotModal() {
             lng,
             name,
             description,
-            price
+            price,
         }
         console.log("payload in Form: ", payload)
 
         setHasSubmitted(false)
 
-        return dispatch(thunkCreateSpots(payload))
+        const newSpot = await dispatch(thunkCreateSpots(payload))
             .then(closeModal)
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
+        const newSpotId = newSpot.id
+
+        const newSpotImage = await dispatch(thunkCreateSpotImage(newSpotId, imageURL, true))
+            .then(closeModal)
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            })
+
     }
 
     return (
@@ -164,6 +175,16 @@ export default function CreateSpotModal() {
                         type='number'
                         value={price}
                         onChange={e => setPrice(e.target.value)}
+                    />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Image URL:
+                    <input
+                        type='text'
+                        value={imageURL}
+                        onChange={e => setImageURL(e.target.value)}
                     />
                 </label>
             </div>

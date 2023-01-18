@@ -7,6 +7,8 @@ export default function SpotDetails({ spot }) {
 
     // console.log('spot from SpotDetails', spot)
 
+    if (!spot.previewImage) return null
+
     return (
         <div>
             {

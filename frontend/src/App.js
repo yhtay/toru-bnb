@@ -33,9 +33,6 @@ function App() {
           <Route path={'/users-spot'}>
             <UsersSpots />
           </Route>
-          {/* <Route path={'/:spotId/edit'}>
-            <EditSpotForm />
-          </Route> */}
           <Route path={'/:spotId'}>
             <IndividualSpotPage />
           </Route>

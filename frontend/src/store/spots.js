@@ -7,6 +7,8 @@ const GET_SPOTS = 'spots/GET_SPOTS';
 const GET_USER_SPOTS = 'spots/GET_USER_SPOTS'
 
 const CREATE = 'spots/CREATE';
+const CREATE_SPOT_IMAGE = 'spots/CREAT_SPOT_IMAGE'
+
 const EDIT_SPOT = 'spots/EDIT_SPOT';
 const DELETE = 'spots/DELETE';
 
@@ -31,6 +33,13 @@ const createSpot = (spot) => {
     return {
         type: CREATE,
         spot
+    }
+}
+
+const createSpotImage = (image) => {
+    return {
+        type: CREATE_SPOT_IMAGE,
+        image
     }
 }
 
@@ -87,6 +96,43 @@ export const thunkCreateSpots = (payload) => async (dispatch) => {
     }
 }
 
+export const thunkCreateSpotImage = (newSpotId, imageURL, preview) => async(dispatch) => {
+    const response = await csrfFetch(`/api/spots/${newSpotId}}/images`, {
+        method: "POST",
+        headers: {"Content-Type": 'application/json'},
+        body: JSON.stringify(imageURL, preview)
+    })
+    if (response.ok) {
+
+        const newSpotImage = await response.json();
+        // console.log('thunk CreateNewSpotImage: ', newSpotImage)
+        dispatch(createSpotImage(newSpotImage))
+        return newSpotImage
+    }
+}
+
+// export const thunkCreateSpots = (payload) => async (dispatch) => {
+//     const response = await csrfFetch('/api/spots', {
+//         method: "POST",
+//         headers: {"Content-Type": 'application/json'},
+//         body: JSON.stringify(payload)
+//     });
+
+//     if (response.ok) {
+//         const newSpot = await response.json()
+//         // console.log("thunk newSpot: ", newSpot)
+//         const newSpotId = newSpot.id
+//         const response2 = await csrfFetch(`/api/spot-images/${newSpotId}`)
+
+//         if (response2.ok) {
+//             const newImage = await response2.json()
+//             dispatch(createSpot(newSpot, newImage))
+
+//             return (newSpot, newImage)
+//         }
+//     }
+// }
+
 export const thunkEditSpot = (payload, spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`, {
         method: "PUT",
@@ -99,7 +145,17 @@ export const thunkEditSpot = (payload, spotId) => async (dispatch) => {
         dispatch(editSpot(spot))
         return spot
     }
+}
 
+export const thunkDeleteSpot = (spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "DELETE",
+    })
+    if (response.ok) {
+        let spot = await response.json()
+        dispatch(deleteSpot(parseInt(spot.id)))
+        return spot
+    }
 }
 
 // Initial State
@@ -125,12 +181,19 @@ export default function spotsReducer(state = initialState, action) {
         case CREATE:
             newState[action.spot.id] = action.spot
             return newState;
+        case CREATE_SPOT_IMAGE:
+            console.log('action.', action.image)
+            return newState
         case EDIT_SPOT:
             // console.log("EDIT_SPOT action.spot reducer: ", action.spot)
             const previewImage = state[action.spot.id].previewImage
             action.spot.previewImage = previewImage
             newState[action.spot.id] = action.spot
             return newState;
+        case DELETE:
+            delete newState[action.spot.id]
+            return newState;
+
         default:
             return state;
     }
