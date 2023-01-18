@@ -153,7 +153,7 @@ export const thunkDeleteSpot = (spotId) => async (dispatch) => {
     })
     if (response.ok) {
         let spot = await response.json()
-        dispatch(deleteSpot(parseInt(spot.id)))
+        dispatch(deleteSpot(parseInt(spotId)))
         return spot
     }
 }
@@ -191,7 +191,7 @@ export default function spotsReducer(state = initialState, action) {
             newState[action.spot.id] = action.spot
             return newState;
         case DELETE:
-            delete newState[action.spot.id]
+            delete newState[action.spot]
             return newState;
 
         default:

@@ -30,13 +30,13 @@ export default function CreateSpotModal() {
     useEffect(() => {
         const newErrors = [];
         if (address.length < 5) newErrors.push("Please Provide a valid address")
-        if (!city) newErrors.push("Please enter a valid City")
-        if (!state) newErrors.push("Please enter a valid State")
-        if (!country) newErrors.push("Please enter a valid Country")
-        if (!lat) newErrors.push("Please enter valid lat")
-        if (!lng) newErrors.push("Please enter valid lng")
-        if (!name) newErrors.push("Please enter your name")
-        if (!description) newErrors.push("Please provie a description")
+        if (city.length < 4) newErrors.push("Please enter a valid City")
+        if (state.length < 4) newErrors.push("Please enter a valid State")
+        if (country.length < 5) newErrors.push("Please enter a valid Country")
+        // if (!lat) newErrors.push("Please enter valid lat")
+        // if (!lng) newErrors.push("Please enter valid lng")
+        if (name.length < 5) newErrors.push("Please enter your name")
+        if (description.length < 5) newErrors.push("Please provie a description")
         if (price === 0) newErrors.push("Please provide a price")
 
         setErrors(newErrors)
@@ -69,12 +69,14 @@ export default function CreateSpotModal() {
             })
         const newSpotId = newSpot.id
 
+
         const newSpotImage = await dispatch(thunkCreateSpotImage(newSpotId, imageURL, true))
             .then(closeModal)
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
+        console.log('newSpotImage: ', newSpotImage)
 
     }
 
