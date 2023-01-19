@@ -23,6 +23,8 @@ export default function IndividualSpotPage () {
     const history = useHistory();
     const spotsObj = useSelector(state => state.spots);
     // console.log('SpotPage spotsObj: ', spotsObj)
+    const spot = spotsObj[spotId]
+    console.log('SpotPage spot: ', spot)
 
     const reviewsObj = useSelector(state => state.reviews);
     const reviews = Object.values(reviewsObj)
@@ -43,10 +45,10 @@ export default function IndividualSpotPage () {
         dispatch(thunkGetSpots())
         // Dispatching Reviews
         dispatch(thunkGetReviewsBySpotId(spotId))
+
     }, [dispatch, spotId])
 
-    const spot = spotsObj[spotId]
-    // console.log('SpotPage spot ownerId: ', spot.ownerId)
+
 
     // Delete Spot
     const onDeleteSpot = (e) => {
@@ -146,10 +148,10 @@ export default function IndividualSpotPage () {
                     reviewsBySpotId.map(review => {
                         return (
                             <>
-                            <div>
-                                By {review. User.firstName}
+                            <div key={review.id}>
+                                By {review.User.firstName}
                             </div>
-                            <div>
+                            <div key={review.id}>
                                 {review.review}
                             </div>
                         </>

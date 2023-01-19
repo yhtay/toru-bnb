@@ -72,7 +72,8 @@ export default function reviewsReducer(state = initialState, action) {
             return newState
         case CREATE_REVIEW:
             console.log('review Reducer action.review --->', action.review)
-
+            newState[action.review.id] = action.review
+            return newState;
         default:
             return state
     }

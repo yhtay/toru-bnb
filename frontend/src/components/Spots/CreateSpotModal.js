@@ -13,7 +13,7 @@ export default function CreateSpotModal () {
     const spotsObj = useSelector(state => state.spots)
     const spots = Object.values(spotsObj)
     // console.log('spotsObj from form: ', spotsObj)
-    
+
 
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -31,14 +31,14 @@ export default function CreateSpotModal () {
 
     useEffect(() => {
         const newErrors = [];
-        if (address.length < 3) newErrors.push("Please Provide a valid address")
-        if (city.length < 3) newErrors.push("Please enter a valid City")
-        if (state.length < 2) newErrors.push("Please enter a valid State")
-        if (country.length < 3) newErrors.push("Please enter a valid Country")
+        if (address && address.length < 5) newErrors.push("Address should be more than 5 characters")
+        if (city && city.length < 3) newErrors.push("City should be at least 3 characters")
+        if (state && state.length < 2) newErrors.push("State should be at least 2 characters")
+        if (country && country.length < 3) newErrors.push("Country should be at least 3 characters")
         if (!lat) newErrors.push("Please enter valid lat")
         if (!lng) newErrors.push("Please enter valid lng")
-        if (name.length < 3) newErrors.push("Please enter your name")
-        if (description.length < 3) newErrors.push("Please provie a description")
+        if (name && name.length < 3) newErrors.push("Please enter your name")
+        if (description && description.length < 5) newErrors.push("Please provie a description, at least 5 characters")
         if (price === 0) newErrors.push("Please provide a price")
 
         setErrors(newErrors)
@@ -69,7 +69,7 @@ export default function CreateSpotModal () {
         const newSpot =  dispatch(thunkCreateSpots(payload, previewImage))
             .then((newSpot) => {history.push(`/spots/${newSpot.id}`)}, closeModal())
             .catch(async (res) => {
-                console.log('response: ', res)
+
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
@@ -80,7 +80,7 @@ export default function CreateSpotModal () {
         <form onSubmit={onSubmit}>
             <h2>Create A New Toru</h2>
             <ul>
-                {hasSubmitted &&
+                {
                     errors.map(error => (
                         <li key={error}>
                             {error}

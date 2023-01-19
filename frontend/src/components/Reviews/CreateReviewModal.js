@@ -1,14 +1,16 @@
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
 import { useModal } from "../../context/Modal"
-import { thunkCreateReviews } from "../../store/reviews";
+import { thunkCreateReviews, thunkGetReviewsBySpotId } from "../../store/reviews"
+
 
 
 
 export default function CreateReviewModal ({ spotId }) {
 
     const dispatch = useDispatch();
+    const history = useHistory();
 
     // console.log('Create Review spotId: ------> ', spotId) // 1
     const sessionUser = useSelector(state => state.session.user)
@@ -24,11 +26,13 @@ export default function CreateReviewModal ({ spotId }) {
 
         if (review.length === 0) newErrors.push("Please leave a review!")
         if (review.length >= 150) newErrors.push("Please keep reviews under 150 characters")
-        if (stars <= 0 || stars > 5) newErrors.push("Ratings must be between 1 & 5")
+        if (Number(stars) <= 0 || Number(stars) > 5) newErrors.push("Ratings must be between 1 & 5")
 
         setErrors(newErrors)
 
-    }, [review])
+
+
+    }, [review, stars])
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -44,19 +48,19 @@ export default function CreateReviewModal ({ spotId }) {
         // dispatch = (thunkCreateReview(spotId, payload))
 
         const newReview = dispatch(thunkCreateReviews(spotId, payload))
-            .then(closeModal)
+            .then( () => {history.push(`/spots/${spotId}`)},closeModal())
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
-    }
+        }
 
 
     return (
         <form onSubmit={onSubmit}>
             <h2>Hit Leave A Review</h2>
             <ul>
-                {hasSubmitted && errors.map(error => {
+                {errors.map(error => {
                     <li key={error}>
                         {error}
                     </li>
@@ -83,7 +87,6 @@ export default function CreateReviewModal ({ spotId }) {
             </div>
             <button
                 type="submit"
-                disabled={errors.length > 0 ? true : false}
             >Submit Review</button>
         </form>
     )
