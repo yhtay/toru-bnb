@@ -1,4 +1,4 @@
-import { useParams, Link, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import './IndividualSpotPage.css';
@@ -43,7 +43,7 @@ export default function IndividualSpotPage () {
         dispatch(thunkGetSpots())
         // Dispatching Reviews
         dispatch(thunkGetReviewsBySpotId(spotId))
-    }, [dispatch])
+    }, [dispatch, spotId])
 
     const spot = spotsObj[spotId]
     console.log('SpotPage spot ownerId: ', spot.ownerId)
@@ -65,6 +65,9 @@ export default function IndividualSpotPage () {
                 <div className='star-icon-and-reviews'>
                     <div className='start-icon-div'>
                         <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div>
+                    {spot.avgRating === "No reviews for this spot" ? "--" : spot.avgRating}
                     </div>
                     <div className='reviews-div'>
                         <span>Reviews</span>
@@ -93,7 +96,7 @@ export default function IndividualSpotPage () {
                     <div>
                         <button
                             className='delete-button'
-                            disabled={sessionUser.id == spot.ownerId ? false : true}
+                            disabled={Number(sessionUser.id) === Number(spot.ownerId) ? false : true}
                             onClick={onDeleteSpot}
                         >
                             Delete</button>
