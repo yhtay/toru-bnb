@@ -3,9 +3,9 @@ import { csrfFetch } from "./csrf";
 // Constants
 const GET_REVIEWS = 'reviews/GET_REVIEWS'
 
-const CREATE_REVIEWS = 'reviews/CREATE_REVIEWS'
+const CREATE_REVIEW = 'reviews/CREATE_REVIEWS'
 
-const DELETE_REVIEWS = 'reviews/DELETE'
+const DELETE_REVIEW = 'reviews/DELETE'
 
 
 // Action Reducers
@@ -16,16 +16,16 @@ export const getReviewsbySpotId = (reviews) => {
     }
 }
 
-export const CREATE_REVIEW = (review) => {
+export const createReview = (review) => {
     return {
-        type: CREATE_REVIEWS,
+        type: CREATE_REVIEW,
         review
     }
 }
 
 export const deleteReviews = (review) => {
     return {
-        type: DELETE_REVIEWS,
+        type: DELETE_REVIEW,
         review
     }
 }
@@ -39,6 +39,19 @@ export const thunkGetReviewsBySpotId = (spotId) => async (dispatch) => {
         // console.log('spotReviews: ---> ', spotReviews)
         dispatch(getReviewsbySpotId(spotReviews))
         return spotReviews
+    }
+}
+
+export const thunkCreateReviews = (spotId, payload) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+        method: "POST",
+        headers: {"Content-Type": 'application/json'},
+        body: JSON.stringify(payload)
+    })
+    if (response.ok) {
+        const newReview = await response.json();
+        console.log('thunkCreateReviews newReview: ', newReview)
+        dispatch(createReview(newReview))
     }
 }
 
@@ -57,6 +70,9 @@ export default function reviewsReducer(state = initialState, action) {
                 newState[review.id] = review
             })
             return newState
+        case CREATE_REVIEW:
+            console.log('review Reducer action.review --->', action.review)
+
         default:
             return state
     }

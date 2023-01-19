@@ -12,7 +12,7 @@ import { thunkDeleteSpot } from "../../store/spots";
 import OpenModalMenuItem from "../OpenModalButton"
 import { thunkGetReviewsBySpotId } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
-import CreateReviewModal from "../Reviews/CreateReview";
+import CreateReviewModal from "../Reviews/CreateReviewModal";
 
 
 
@@ -36,7 +36,7 @@ export default function IndividualSpotPage () {
 
     // Check if user logged in
     const sessionUser = useSelector(state => state.session.user)
-    console.log('sessionUser id: -------->', sessionUser.id)
+    // console.log('sessionUser id: -------->', sessionUser.id)
 
     // To have the update on the page without having to refresh
     useEffect(() => {
@@ -46,7 +46,7 @@ export default function IndividualSpotPage () {
     }, [dispatch, spotId])
 
     const spot = spotsObj[spotId]
-    console.log('SpotPage spot ownerId: ', spot.ownerId)
+    // console.log('SpotPage spot ownerId: ', spot.ownerId)
 
     // Delete Spot
     const onDeleteSpot = (e) => {
@@ -77,29 +77,24 @@ export default function IndividualSpotPage () {
 
                 </div>
                 <div className="edit-delete-button-div">
-                {/* <div className={(Number(sessionUser?.user) === Number(spot.OwnerId) ? "" : "hidden")}></div> */}
                     <div>
-                        {(sessionUser) ? (
+                    {Number(sessionUser.id) === Number(spot.ownerId) &&
                             <OpenModalMenuItem
-                                buttonText="Edit Spot"
-                                // disabled={sessionUser.id == spot.ownerId ? false : true}
-                                modalComponent={<EditSpotForm spot={spot} />}
-                            />
-                        ) : (
-                            <OpenModalMenuItem
-
-                                buttonText="Edit Spot"
-                                modalComponent={<LoginFormModal />}
-                            />
-                        )}
+                            buttonText="Edit Spot"
+                            // disabled={sessionUser.id == spot.ownerId ? false : true}
+                            modalComponent={<EditSpotForm spot={spot} />}
+                        />
+                        }
                     </div>
+
                     <div>
-                        <button
-                            className='delete-button'
-                            disabled={Number(sessionUser.id) === Number(spot.ownerId) ? false : true}
-                            onClick={onDeleteSpot}
-                        >
-                            Delete</button>
+                        {Number(sessionUser.id) === Number(spot.ownerId) &&
+                            <button
+                                className='delete-button'
+                                // disabled={Number(sessionUser.id) === Number(spot.ownerId) ? false : true}
+                                onClick={onDeleteSpot}
+                            >Delete</button>
+                        }
                     </div>
                 </div>
             </div>
@@ -132,10 +127,20 @@ export default function IndividualSpotPage () {
             </div>
             <div>
                 <span>Comments</span>
-                <OpenModalButton
-                    buttonText="Write Review"
-                    modalComponent={<CreateReviewModal spotId={spotId} />}
-                />
+                <div>
+                    {sessionUser ? (
+                        <OpenModalButton
+                            buttonText="Write Review"
+                            modalComponent={<CreateReviewModal spotId={spotId} />}
+                        />
+                    ) : (
+                        <OpenModalMenuItem
+                            buttonText="Write Review"
+                            modalComponent={<LoginFormModal />}
+                        />
+                    )}
+
+                </div>
 
                 {
                     reviewsBySpotId.map(review => {
