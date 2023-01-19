@@ -11,6 +11,8 @@ import CreateSpotModal from "./components/Spots/CreateSpotModal";
 import UsersSpots from "./components/Spots/UsersSpots";
 import IndividualSpotPage from "./components/Spots/IndividualSpotPage";
 
+import './App.css'
+
 
 
 

@@ -12,13 +12,16 @@ export default function Spot() {
     const spotsObj = useSelector(state => state.spots)
     const spots = Object.values(spotsObj)
 
+    // const reviewsObj = useSelector(state => state.reviews)
+    // console.log("Reviews in spot: ", reviewsObj)
+
     // console.log('spots from SpotsComponent: ', spots)
 
     useEffect(() => {
         dispatch(thunkGetSpots())
     }, [dispatch])
 
-    // console.log('spotsObj: ', spotsObj)
+
     return (
         <div>
             <div className="sportcard-container">

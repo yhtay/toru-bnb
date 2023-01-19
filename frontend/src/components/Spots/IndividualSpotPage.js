@@ -10,6 +10,7 @@ import { thunkDeleteSpot } from "../../store/spots";
 
 
 import OpenModalMenuItem from "../OpenModalButton"
+import { thunkGetReviewsBySpotId } from "../../store/reviews";
 
 
 
@@ -21,26 +22,37 @@ export default function IndividualSpotPage () {
     const spotsObj = useSelector(state => state.spots);
     // console.log('SpotPage spotsObj: ', spotsObj)
 
+    const reviewsObj = useSelector(state => state.reviews);
+    const reviews = Object.values(reviewsObj)
+    // console.log('SpotPage reviews: ', reviews)
+
+    const reviewsBySpotId = reviews.filter(review => {
+        return Number(review.spotId) === Number(spotId)
+    })
+
+    // console.log("reviewsBySpotId: ", reviewsBySpotId)
+
     // Check if user logged in
     const sessionUser = useSelector(state => state.session.user)
 
     // To have the update on the page without having to refresh
     useEffect(() => {
         dispatch(thunkGetSpots())
+        // Dispatching Reviews
+        dispatch(thunkGetReviewsBySpotId(spotId))
     }, [dispatch])
 
     const spot = spotsObj[spotId]
     // console.log('SpotPage spot: ', spot)
 
-    // Delete
+    // Delete Spot
     const onDeleteSpot = (e) => {
         e.preventDefault()
-
         dispatch(thunkDeleteSpot(spotId))
-
         history.push('/')
-
     }
+
+
 
     if (!spot) return null;
     return (
@@ -59,8 +71,9 @@ export default function IndividualSpotPage () {
 
                 </div>
                 <div className="edit-delete-button-div">
+                {/* <div className={(Number(sessionUser?.user) === Number(spot.OwnerId) ? "" : "hidden")}></div> */}
                     <div>
-                        {sessionUser ? (
+                        {(sessionUser) ? (
                             <OpenModalMenuItem
                                 buttonText="Edit Spot"
                                 modalComponent={<EditSpotForm spot={spot} />}
@@ -108,6 +121,23 @@ export default function IndividualSpotPage () {
                         src={noPreview}
                     />
                 </div>
+            </div>
+            <div>
+                <span>Comments</span>
+                {
+                    reviewsBySpotId.map(review => {
+                        return (
+                            <>
+                            <div>
+                                By {review. User.firstName}
+                            </div>
+                            <div>
+                                {review.review}
+                            </div>
+                        </>
+                        )
+                    })
+                }
             </div>
         </div>
     )

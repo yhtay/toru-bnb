@@ -22,13 +22,13 @@ module.exports = {
     options.tableName = 'Reviews';
     await queryInterface.bulkInsert(options, [
       {
-        spotId: 2,
+        spotId: 3,
         userId: 4,
         review: 'Amazing Friendly Service!',
         stars: 5
       },
       {
-        spotId: 3,
+        spotId: 5,
         userId: 5,
         review: 'Welcomed and Great Experience',
         stars: 5
@@ -37,6 +37,12 @@ module.exports = {
         spotId: 1,
         userId: 6,
         review: 'Just what we needed to relax, Thank you',
+        stars: 5
+      },
+      {
+        spotId: 1,
+        userId: 5,
+        review: 'Absolute a beautiful place',
         stars: 5
       }
     ], {})

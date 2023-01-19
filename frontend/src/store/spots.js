@@ -174,7 +174,7 @@ export const thunkDeleteSpot = (spotId) => async (dispatch) => {
 // Initial State
 const initialState = {};
 
-// Reducers
+// Reducer
 export default function spotsReducer(state = initialState, action) {
     let newState = { ...state }
     switch (action.type) {
