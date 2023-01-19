@@ -80,7 +80,6 @@ export const thunkGetUserSpots = () => async (dispatch) => {
     }
 }
 
-
 // export const thunkCreateSpots = (payload) => async (dispatch) => {
 //     const response = await csrfFetch('/api/spots', {
 //         method: "POST",

@@ -69,7 +69,6 @@ export default function CreateSpotModal () {
         const newSpot =  dispatch(thunkCreateSpots(payload, previewImage))
             .then((newSpot) => {history.push(`/spots/${newSpot.id}`)}, closeModal())
             .catch(async (res) => {
-
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })

@@ -23,7 +23,7 @@ export const createReview = (review) => {
     }
 }
 
-export const deleteReviews = (review) => {
+export const deleteReview = (review) => {
     return {
         type: DELETE_REVIEW,
         review
@@ -52,13 +52,21 @@ export const thunkCreateReview = (spotId, payload, user) => async (dispatch) => 
         const newReview = await response.json();
         newReview.User = user
         newReview.ReviewImages = []
-        console.log('thunkCreateReviews newReview: ====>', newReview)
+        // console.log('thunkCreateReviews newReview: ====>', newReview)
 
         dispatch(createReview(newReview))
     }
 }
 
-// export const thunkDeleteReview = (review)
+export const thunkDeleteReview = (reviewId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: "DELETE"
+    })
+    if (response.ok) {
+        let deletedReview = await response.json();
+        dispatch(deleteReview(deletedReview))
+    }
+}
 
 // Initial State
 const initialState = {}
@@ -76,8 +84,11 @@ export default function reviewsReducer(state = initialState, action) {
             })
             return newState
         case CREATE_REVIEW:
-            console.log('review Reducer action.review --->', action.review)
+            // console.log('review Reducer action.review --->', action.review)
             newState[action.review.id] = action.review
+            return newState;
+        case DELETE_REVIEW:
+            delete newState[action.review]
             return newState;
         default:
             return state

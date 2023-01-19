@@ -27,7 +27,7 @@ export default function IndividualSpotPage () {
     console.log('SpotPage spot: ', spot)
 
     const reviewsObj = useSelector(state => state.reviews);
-    console.log('spotpage reviewsobj ------>', reviewsObj)
+    // console.log('spotpage reviewsobj ------>', reviewsObj)
     const reviews = Object.values(reviewsObj)
     // console.log('SpotPage reviews: ', reviews)
 
@@ -155,8 +155,15 @@ export default function IndividualSpotPage () {
                                 <div>
                                     {review.review}
                                 </div>
-                                <div>
-                                    <button>Delete</button>
+                                 <div>
+                                {/* {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
+                                    <button
+                                        className='delete-button'
+                                        // disabled={Number(sessionUser.id) === Number(spot.ownerId) ? false : true}
+                                        onClick={onDeleteSpot}
+                                    >Delete</button>
+                                } */}
+                                <button>Delete</button>
                                 </div>
                             </div>
                         </>
