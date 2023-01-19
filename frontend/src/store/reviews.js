@@ -42,7 +42,7 @@ export const thunkGetReviewsBySpotId = (spotId) => async (dispatch) => {
     }
 }
 
-export const thunkCreateReviews = (spotId, payload) => async (dispatch) => {
+export const thunkCreateReview = (spotId, payload, user) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: "POST",
         headers: {"Content-Type": 'application/json'},
@@ -50,10 +50,15 @@ export const thunkCreateReviews = (spotId, payload) => async (dispatch) => {
     })
     if (response.ok) {
         const newReview = await response.json();
-        console.log('thunkCreateReviews newReview: ', newReview)
+        newReview.User = user
+        newReview.ReviewImages = []
+        console.log('thunkCreateReviews newReview: ====>', newReview)
+
         dispatch(createReview(newReview))
     }
 }
+
+// export const thunkDeleteReview = (review)
 
 // Initial State
 const initialState = {}

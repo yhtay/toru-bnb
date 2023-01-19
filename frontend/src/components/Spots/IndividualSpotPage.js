@@ -27,6 +27,7 @@ export default function IndividualSpotPage () {
     console.log('SpotPage spot: ', spot)
 
     const reviewsObj = useSelector(state => state.reviews);
+    console.log('spotpage reviewsobj ------>', reviewsObj)
     const reviews = Object.values(reviewsObj)
     // console.log('SpotPage reviews: ', reviews)
 
@@ -34,7 +35,7 @@ export default function IndividualSpotPage () {
         return Number(review.spotId) === Number(spotId)
     })
 
-    // console.log("reviewsBySpotId: ", reviewsBySpotId)
+    console.log("reviewsBySpotId: ", reviewsBySpotId)
 
     // Check if user logged in
     const sessionUser = useSelector(state => state.session.user)
@@ -57,6 +58,11 @@ export default function IndividualSpotPage () {
         history.push('/')
     }
 
+    // Delete Review
+    const onDeleteReview = (e) => {
+        e.preventDefault()
+    }
+
 
 
     if (!spot) return null;
@@ -69,10 +75,7 @@ export default function IndividualSpotPage () {
                         <i class="fa-solid fa-star"></i>
                     </div>
                     <div>
-                    {spot.avgRating === "No reviews for this spot" ? "--" : spot.avgRating}
-                    </div>
-                    <div className='reviews-div'>
-                        <span>Reviews</span>
+                    {spot.avgRating === "No reviews for this spot" ? "No Reviews" : spot.avgRating}
                     </div>
 
                     <div className={'city-state-country-div'}>{spot.city}, {spot.state}, {spot.country}</div>
@@ -80,7 +83,7 @@ export default function IndividualSpotPage () {
                 </div>
                 <div className="edit-delete-button-div">
                     <div>
-                    {Number(sessionUser.id) === Number(spot.ownerId) &&
+                    {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <OpenModalMenuItem
                             buttonText="Edit Spot"
                             // disabled={sessionUser.id == spot.ownerId ? false : true}
@@ -90,7 +93,7 @@ export default function IndividualSpotPage () {
                     </div>
 
                     <div>
-                        {Number(sessionUser.id) === Number(spot.ownerId) &&
+                        {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <button
                                 className='delete-button'
                                 // disabled={Number(sessionUser.id) === Number(spot.ownerId) ? false : true}
@@ -130,17 +133,14 @@ export default function IndividualSpotPage () {
             <div>
                 <span>Comments</span>
                 <div>
-                    {sessionUser ? (
-                        <OpenModalButton
+                    <div>
+                        {sessionUser && Number(sessionUser.id) !== Number(spot.ownerId) &&
+                            <OpenModalButton
                             buttonText="Write Review"
                             modalComponent={<CreateReviewModal spotId={spotId} />}
                         />
-                    ) : (
-                        <OpenModalMenuItem
-                            buttonText="Write Review"
-                            modalComponent={<LoginFormModal />}
-                        />
-                    )}
+                        }
+                    </div>
 
                 </div>
 
@@ -152,7 +152,12 @@ export default function IndividualSpotPage () {
                                 By {review.User.firstName}
                             </div>
                             <div key={review.id}>
-                                {review.review}
+                                <div>
+                                    {review.review}
+                                </div>
+                                <div>
+                                    <button>Delete</button>
+                                </div>
                             </div>
                         </>
                         )

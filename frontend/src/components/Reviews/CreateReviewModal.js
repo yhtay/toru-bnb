@@ -2,7 +2,7 @@ import { useParams, useHistory } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
 import { useModal } from "../../context/Modal"
-import { thunkCreateReviews, thunkGetReviewsBySpotId } from "../../store/reviews"
+import { thunkCreateReview } from "../../store/reviews"
 
 
 
@@ -47,7 +47,7 @@ export default function CreateReviewModal ({ spotId }) {
 
         // dispatch = (thunkCreateReview(spotId, payload))
 
-        const newReview = dispatch(thunkCreateReviews(spotId, payload))
+        const newReview = dispatch(thunkCreateReview(spotId, payload, sessionUser))
             .then( () => {history.push(`/spots/${spotId}`)},closeModal())
             .catch(async (res) => {
                 const data = await res.json();
@@ -73,6 +73,7 @@ export default function CreateReviewModal ({ spotId }) {
                         value={review}
                         onChange={e => setReview(e.target.value)}
                     />
+
 
             </div>
             <div>
