@@ -6,13 +6,14 @@ import { useModal } from "../../context/Modal";
 // import { thunkCreateSpotImage } from "../../store/spots";
 import { thunkGetSpots } from "../../store/spots";
 
-export default function CreateSpotModal() {
+export default function CreateSpotModal () {
 
     const dispatch = useDispatch();
     const history = useHistory();
     const spotsObj = useSelector(state => state.spots)
     const spots = Object.values(spotsObj)
     // console.log('spotsObj from form: ', spotsObj)
+    
 
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -79,10 +80,11 @@ export default function CreateSpotModal() {
         <form onSubmit={onSubmit}>
             <h2>Create A New Toru</h2>
             <ul>
-                {hasSubmitted && errors.map(error => (
-                    <li key={error}>
-                        {error}
-                    </li>
+                {hasSubmitted &&
+                    errors.map(error => (
+                        <li key={error}>
+                            {error}
+                        </li>
                 ))}
             </ul>
             <div>

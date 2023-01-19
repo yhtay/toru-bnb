@@ -11,6 +11,8 @@ import { thunkDeleteSpot } from "../../store/spots";
 
 import OpenModalMenuItem from "../OpenModalButton"
 import { thunkGetReviewsBySpotId } from "../../store/reviews";
+import OpenModalButton from "../OpenModalButton";
+import CreateReviewModal from "../Reviews/CreateReview";
 
 
 
@@ -34,6 +36,7 @@ export default function IndividualSpotPage () {
 
     // Check if user logged in
     const sessionUser = useSelector(state => state.session.user)
+    console.log('sessionUser id: -------->', sessionUser.id)
 
     // To have the update on the page without having to refresh
     useEffect(() => {
@@ -43,7 +46,7 @@ export default function IndividualSpotPage () {
     }, [dispatch])
 
     const spot = spotsObj[spotId]
-    // console.log('SpotPage spot: ', spot)
+    console.log('SpotPage spot ownerId: ', spot.ownerId)
 
     // Delete Spot
     const onDeleteSpot = (e) => {
@@ -76,6 +79,7 @@ export default function IndividualSpotPage () {
                         {(sessionUser) ? (
                             <OpenModalMenuItem
                                 buttonText="Edit Spot"
+                                // disabled={sessionUser.id == spot.ownerId ? false : true}
                                 modalComponent={<EditSpotForm spot={spot} />}
                             />
                         ) : (
@@ -89,6 +93,7 @@ export default function IndividualSpotPage () {
                     <div>
                         <button
                             className='delete-button'
+                            disabled={sessionUser.id == spot.ownerId ? false : true}
                             onClick={onDeleteSpot}
                         >
                             Delete</button>
@@ -124,6 +129,11 @@ export default function IndividualSpotPage () {
             </div>
             <div>
                 <span>Comments</span>
+                <OpenModalButton
+                    buttonText="Write Review"
+                    modalComponent={<CreateReviewModal spotId={spotId} />}
+                />
+
                 {
                     reviewsBySpotId.map(review => {
                         return (
