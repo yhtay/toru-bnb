@@ -1,9 +1,9 @@
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import './SpotDetails.css'
 
 
 export default function SpotDetails({ spot }) {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     // console.log('spot from SpotDetails', spot)
 
@@ -22,7 +22,7 @@ export default function SpotDetails({ spot }) {
                     <div className="city-state">{spot.city}, {spot.state}</div>
                     <div className="star-icon-avg-rating">
                         <div><i class="fa-solid fa-star"></i></div>
-                        <div>{spot.avgRating === "No reviews for this spot" ? 0 : spot.avgRating}</div>
+                        <div>{spot.avgRating === "No reviews for this spot" ? "--" : spot.avgRating}</div>
                     </div>
                 </div>
                 <div className="description-div">{spot.description}</div>
