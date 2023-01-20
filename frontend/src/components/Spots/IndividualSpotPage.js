@@ -32,7 +32,7 @@ export default function IndividualSpotPage () {
     const spot = useSelector(state => state.spots.Spot)
 
 
-    // console.log('spot in Individual page: ---->', spot)
+    console.log('spot in Individual page: ---->', spot)
 
     // To have the update on the page without having to refresh
     useEffect(() => {
@@ -56,9 +56,6 @@ export default function IndividualSpotPage () {
     const reviewCount = reviewsBySpotId.length
 
     // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
-
-
-
 
     const reviewToDeleteArr = reviewsBySpotId.filter(review => {
         return Number(sessionUser?.id) === Number(review.User?.id)
@@ -91,10 +88,10 @@ export default function IndividualSpotPage () {
             <div className="individual-page-header-div">
                 <div className='star-icon-and-reviews'>
                     <div className='start-icon-div'>
-                        <i class="fa-solid fa-star"></i>
+                        <i className="fa-solid fa-star"></i>
                     </div>
                     <div className="avgRating-div">
-                    {spot.avgRating === "No reviews for this spot" ? "No Reviews" : spot.avgRating}
+                    {spot.avgRating === null ? "No Reviews" : spot.avgRating}
                     </div>
 
                     <div className='city-state-country-div'>{spot.city}, {spot.state}, {spot.country}</div>
@@ -163,12 +160,12 @@ export default function IndividualSpotPage () {
                 </div>
                 <div className="comment-container-div">
                     <div className='icon-avgReviews-reviewCount-div'>
-                        <span><i class="fa-solid fa-star"></i></span>
+                        <span><i className="fa-solid fa-star"></i></span>
                         <div className="avgRating-div">
-                            {spot.avgRating === "No reviews for this spot" ? "No Reviews" : spot.avgRating}
+                            {spot.avgRating === null ? "No Reviews" : spot.avgRating}
                         </div>
                         <div>
-                            <i class="fa-solid fa-circle fa-2xs"> </i> {reviewCount ? `${reviewCount} Reviews` : "Be the first to leave a Review"}
+                            <i className="fa-solid fa-circle fa-2xs"> </i> {reviewCount ? `${reviewCount} Reviews` : "Be the first to leave a Review"}
                         </div>
                     </div>
 

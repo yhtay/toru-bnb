@@ -47,7 +47,7 @@ function Navigation({ isLoaded }){
 
       <div className="home-div">
         <NavLink exact to="/">
-          <i class="fa-brands fa-dribbble fa-3x icon-cog"></i>
+          <i className="fa-brands fa-dribbble fa-3x icon-cog"></i>
         </NavLink>
       </div>
       <div className='your-toru-profile-button'>
