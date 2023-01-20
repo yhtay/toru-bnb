@@ -24,6 +24,7 @@
     margin: 14px;
     height: 40vh;
     width: 15vw;
+    text-decoration: none;
 
 }
 
@@ -61,6 +62,7 @@
 .city-state-rating-div {
     display: flex;
     justify-content: space-between;
+    text-decoration: none;
 }
 
 .star-icon-avg-rating {

@@ -50,7 +50,7 @@ export default function IndividualSpotPage () {
     }, [dispatch, spotId])
 
     const reviewToDeleteArr = reviewsBySpotId.filter(review => {
-        return Number(sessionUser.id) === Number(review.User.id)
+        return Number(sessionUser?.id) === Number(review.User?.id)
     })
     // console.log(" Review to DELETEARRRRRR =======>", reviewToDeleteArr)
 
