@@ -10,9 +10,9 @@ import { thunkDeleteSpot } from "../../store/spots";
 
 
 import OpenModalMenuItem from "../OpenModalButton"
-import { thunkGetReviewsBySpotId } from "../../store/reviews";
+import { thunkDeleteReview, thunkGetReviewsBySpotId } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
-import CreateReviewModal from "../Reviews/CreateReview";
+import CreateReviewModal from "../Reviews/CreateReviewModal";
 
 
 
@@ -23,8 +23,11 @@ export default function IndividualSpotPage () {
     const history = useHistory();
     const spotsObj = useSelector(state => state.spots);
     // console.log('SpotPage spotsObj: ', spotsObj)
+    const spot = spotsObj[spotId]
+    // console.log('SpotPage spot: ', spot)
 
     const reviewsObj = useSelector(state => state.reviews);
+    // console.log('spotpage reviewsobj ------>', reviewsObj)
     const reviews = Object.values(reviewsObj)
     // console.log('SpotPage reviews: ', reviews)
 
@@ -32,27 +35,39 @@ export default function IndividualSpotPage () {
         return Number(review.spotId) === Number(spotId)
     })
 
-    // console.log("reviewsBySpotId: ", reviewsBySpotId)
+    // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
 
     // Check if user logged in
     const sessionUser = useSelector(state => state.session.user)
-    console.log('sessionUser id: -------->', sessionUser.id)
+    // console.log('sessionUser id: -------->', sessionUser.id)
 
     // To have the update on the page without having to refresh
     useEffect(() => {
         dispatch(thunkGetSpots())
         // Dispatching Reviews
         dispatch(thunkGetReviewsBySpotId(spotId))
+
     }, [dispatch, spotId])
 
-    const spot = spotsObj[spotId]
-    console.log('SpotPage spot ownerId: ', spot.ownerId)
+    const reviewToDeleteArr = reviewsBySpotId.filter(review => {
+        return Number(sessionUser?.id) === Number(review.User?.id)
+    })
+    // console.log(" Review to DELETEARRRRRR =======>", reviewToDeleteArr)
+
+    const [ reviewToDelete ] = reviewToDeleteArr
+    // console.log("Review to delete ------>", reviewToDelete)
 
     // Delete Spot
     const onDeleteSpot = (e) => {
         e.preventDefault()
         dispatch(thunkDeleteSpot(spotId))
         history.push('/')
+    }
+
+    // Delete Review
+    const onDeleteReview = (e) => {
+        e.preventDefault()
+        dispatch(thunkDeleteReview(reviewToDelete.id, sessionUser))
     }
 
 
@@ -67,39 +82,31 @@ export default function IndividualSpotPage () {
                         <i class="fa-solid fa-star"></i>
                     </div>
                     <div>
-                    {spot.avgRating === "No reviews for this spot" ? "--" : spot.avgRating}
-                    </div>
-                    <div className='reviews-div'>
-                        <span>Reviews</span>
+                    {spot.avgRating === "No reviews for this spot" ? "No Reviews" : spot.avgRating}
                     </div>
 
                     <div className={'city-state-country-div'}>{spot.city}, {spot.state}, {spot.country}</div>
 
                 </div>
                 <div className="edit-delete-button-div">
-                {/* <div className={(Number(sessionUser?.user) === Number(spot.OwnerId) ? "" : "hidden")}></div> */}
                     <div>
-                        {(sessionUser) ? (
+                    {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <OpenModalMenuItem
-                                buttonText="Edit Spot"
-                                // disabled={sessionUser.id == spot.ownerId ? false : true}
-                                modalComponent={<EditSpotForm spot={spot} />}
-                            />
-                        ) : (
-                            <OpenModalMenuItem
-
-                                buttonText="Edit Spot"
-                                modalComponent={<LoginFormModal />}
-                            />
-                        )}
+                            buttonText="Edit Spot"
+                            // disabled={sessionUser.id == spot.ownerId ? false : true}
+                            modalComponent={<EditSpotForm spot={spot} />}
+                        />
+                        }
                     </div>
+
                     <div>
-                        <button
-                            className='delete-button'
-                            disabled={Number(sessionUser.id) === Number(spot.ownerId) ? false : true}
-                            onClick={onDeleteSpot}
-                        >
-                            Delete</button>
+                        {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
+                            <button
+                                className='delete-button'
+                                // disabled={Number(sessionUser.id) === Number(spot.ownerId) ? false : true}
+                                onClick={onDeleteSpot}
+                            >Delete</button>
+                        }
                     </div>
                 </div>
             </div>
@@ -132,22 +139,39 @@ export default function IndividualSpotPage () {
             </div>
             <div>
                 <span>Comments</span>
-                <OpenModalButton
-                    buttonText="Write Review"
-                    modalComponent={<CreateReviewModal spotId={spotId} />}
-                />
+                <div>
+                    <div>
+                        {sessionUser && Number(sessionUser.id) !== Number(spot.ownerId) &&
+                            <OpenModalButton
+                            buttonText="Write Review"
+                            modalComponent={<CreateReviewModal spotId={spotId} />}
+                        />
+                        }
+                    </div>
+
+                </div>
 
                 {
                     reviewsBySpotId.map(review => {
                         return (
-                            <>
-                            <div>
-                                By {review. User.firstName}
-                            </div>
-                            <div>
-                                {review.review}
-                            </div>
-                        </>
+                            <div key={review.id}>
+                                <div>
+                                    By {review.User.firstName}
+                                </div>
+                                <div>
+                                    <div>
+                                        {review.review}
+                                    </div>
+                                    <div>
+
+                                    {sessionUser && Number(sessionUser.id) === Number(review.User.id) &&
+                                        <button
+                                        onClick={onDeleteReview}
+                                        >Delete</button>
+                                    }
+                                    </div>
+                                </div>
+                        </div>
                         )
                     })
                 }

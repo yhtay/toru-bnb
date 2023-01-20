@@ -80,37 +80,6 @@ export const thunkGetUserSpots = () => async (dispatch) => {
     }
 }
 
-
-// export const thunkCreateSpots = (payload) => async (dispatch) => {
-//     const response = await csrfFetch('/api/spots', {
-//         method: "POST",
-//         headers: {"Content-Type": 'application/json'},
-//         body: JSON.stringify(payload)
-//     });
-
-//     if (response.ok) {
-//         const newSpot = await response.json()
-//         console.log("thunkCreateNewSpot: ", newSpot)
-//         dispatch(createSpot(newSpot))
-//         return newSpot
-//     }
-// }
-
-// export const thunkCreateSpotImage = (newSpotId, imageURL, preview) => async(dispatch) => {
-//     const response = await csrfFetch(`/api/spots/${newSpotId}}/images`, {
-//         method: "POST",
-//         headers: {"Content-Type": 'application/json'},
-//         body: JSON.stringify(imageURL, preview)
-//     })
-//     if (response.ok) {
-
-//         const newSpotImage = await response.json();
-//         console.log('thunk CreateNewSpotImage: ', newSpotImage)
-//         dispatch(createSpotImage(newSpotImage))
-//         return newSpotImage
-//     }
-// }
-
 export const thunkCreateSpots = (payload, previewImage) => async (dispatch) => {
 
     const response = await csrfFetch('/api/spots', {

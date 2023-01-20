@@ -3,10 +3,10 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    padding-left: 15%;
-    padding-right: 15%;
+    padding-left: 12%;
+    padding-right: 16%;
     flex-wrap: wrap;
-    margin: 20px;
+
 
 }
 
@@ -17,11 +17,14 @@
     justify-content: space-evenly;
     flex-direction: column;
     padding: 4px;
-    font-family: inherit;
+
     border-radius: 5px;
     flex-wrap: wrap;
     position: relative;
-    margin: 10px;
+    margin: 14px;
+    height: 40vh;
+    width: 15vw;
+    text-decoration: none;
 
 }
 
@@ -31,8 +34,9 @@
     flex-direction: row;
     /* height: 20vh;
     width: 18vw; */
-    height: 200px;
-    width: 220px;
+    height: 30vh;
+    /* width: 220px; */
+    width: inherit;
     border-radius: 5px;
     object-fit: cover;
     margin-bottom: 3px;
@@ -58,6 +62,7 @@
 .city-state-rating-div {
     display: flex;
     justify-content: space-between;
+    text-decoration: none;
 }
 
 .star-icon-avg-rating {

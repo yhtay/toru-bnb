@@ -3,9 +3,9 @@ import { csrfFetch } from "./csrf";
 // Constants
 const GET_REVIEWS = 'reviews/GET_REVIEWS'
 
-const CREATE_REVIEWS = 'reviews/CREATE_REVIEWS'
+const CREATE_REVIEW = 'reviews/CREATE_REVIEWS'
 
-const DELETE_REVIEWS = 'reviews/DELETE'
+const DELETE_REVIEW = 'reviews/DELETE'
 
 
 // Action Reducers
@@ -16,16 +16,16 @@ export const getReviewsbySpotId = (reviews) => {
     }
 }
 
-export const CREATE_REVIEW = (review) => {
+export const createReview = (review) => {
     return {
-        type: CREATE_REVIEWS,
+        type: CREATE_REVIEW,
         review
     }
 }
 
-export const deleteReviews = (review) => {
+export const deleteReview = (review) => {
     return {
-        type: DELETE_REVIEWS,
+        type: DELETE_REVIEW,
         review
     }
 }
@@ -39,6 +39,36 @@ export const thunkGetReviewsBySpotId = (spotId) => async (dispatch) => {
         // console.log('spotReviews: ---> ', spotReviews)
         dispatch(getReviewsbySpotId(spotReviews))
         return spotReviews
+    }
+}
+
+export const thunkCreateReview = (spotId, payload, user) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+        method: "POST",
+        headers: {"Content-Type": 'application/json'},
+        body: JSON.stringify(payload)
+    })
+    if (response.ok) {
+        const newReview = await response.json();
+        newReview.User = user
+        newReview.ReviewImages = []
+        // console.log('thunkCreateReviews newReview: ====>', newReview)
+
+        dispatch(createReview(newReview))
+        return newReview
+    }
+}
+
+export const thunkDeleteReview = (reviewId, user) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: "DELETE"
+    })
+    if (response.ok) {
+        let deletedReview = await response.json();
+        console.log('DELETE REVIEW THUNK: ---> ', deletedReview)
+
+        dispatch(deleteReview(reviewId))
+        return deletedReview
     }
 }
 
@@ -57,6 +87,15 @@ export default function reviewsReducer(state = initialState, action) {
                 newState[review.id] = review
             })
             return newState
+        case CREATE_REVIEW:
+            // console.log('review Reducer action.review --->', action.review)
+            newState[action.review.id] = action.review
+            // newState[action.review.id].User = {id: action.review.userId}
+            return newState;
+        case DELETE_REVIEW:
+            console.log('Reducer for action DELETE: ', action.review)
+            delete newState[action.review]
+            return newState;
         default:
             return state
     }

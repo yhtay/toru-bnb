@@ -11,7 +11,7 @@ export default function SpotDetails({ spot }) {
 
 
     return (
-        <div>
+        <>
             {
             <div className="spotcard-div">
                 <img
@@ -22,14 +22,14 @@ export default function SpotDetails({ spot }) {
                     <div className="city-state">{spot.city}, {spot.state}</div>
                     <div className="star-icon-avg-rating">
                         <div><i class="fa-solid fa-star"></i></div>
-                        <div>{spot.avgRating === "No reviews for this spot" ? "--" : spot.avgRating}</div>
+                        <div>{spot.avgRating === "No reviews for this spot" ? "No reviews" : spot.avgRating}</div>
                     </div>
                 </div>
                 <div className="description-div">{spot.description}</div>
                 <div className="price-div">${spot.price} night</div>
             </div>
             }
-        </div>
+        </>
     )
 
 }

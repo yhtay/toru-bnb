@@ -167,7 +167,8 @@ export default function EditSpotForm({ spot }) {
                     />
                 </label>
             </div>
-            <button type="submit"
+            <button
+                type="submit"
                 disabled={errors.length > 0 ? true : false}
             >Edit Spot</button>
         </form>
