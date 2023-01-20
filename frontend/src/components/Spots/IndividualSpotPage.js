@@ -31,9 +31,14 @@ export default function IndividualSpotPage () {
     const reviews = Object.values(reviewsObj)
     // console.log('SpotPage reviews: ', reviews)
 
+
+
+
     const reviewsBySpotId = reviews.filter(review => {
         return Number(review.spotId) === Number(spotId)
     })
+
+    const reviewCount = reviewsBySpotId.length
 
     // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
 
@@ -81,11 +86,11 @@ export default function IndividualSpotPage () {
                     <div className='start-icon-div'>
                         <i class="fa-solid fa-star"></i>
                     </div>
-                    <div>
+                    <div className="avgRating-div">
                     {spot.avgRating === "No reviews for this spot" ? "No Reviews" : spot.avgRating}
                     </div>
 
-                    <div className={'city-state-country-div'}>{spot.city}, {spot.state}, {spot.country}</div>
+                    <div className='city-state-country-div'>{spot.city}, {spot.state}, {spot.country}</div>
 
                 </div>
                 <div className="edit-delete-button-div">
@@ -138,7 +143,6 @@ export default function IndividualSpotPage () {
                 </div>
             </div>
             <div>
-                <span>Comments</span>
                 <div>
                     <div>
                         {sessionUser && Number(sessionUser.id) !== Number(spot.ownerId) &&
@@ -148,33 +152,42 @@ export default function IndividualSpotPage () {
                         />
                         }
                     </div>
-
                 </div>
-
-                {
-                    reviewsBySpotId.map(review => {
-                        return (
-                            <div key={review.id}>
-                                <div>
-                                    By {review.User.firstName}
-                                </div>
-                                <div>
-                                    <div>
-                                        {review.review}
-                                    </div>
-                                    <div>
-
-                                    {sessionUser && Number(sessionUser.id) === Number(review.User.id) &&
-                                        <button
-                                        onClick={onDeleteReview}
-                                        >Delete</button>
-                                    }
-                                    </div>
-                                </div>
+                <div className="comment-container-div">
+                    <div className='icon-avgReviews-reviewCount-div'>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <div className="avgRating-div">
+                            {spot.avgRating === "No reviews for this spot" ? "No Reviews" : spot.avgRating}
                         </div>
-                        )
-                    })
-                }
+                        <div>
+                            <i class="fa-solid fa-circle fa-2xs"> </i> {reviewCount ? `${reviewCount} Reviews` : "Be the first to leave a Review"}
+                        </div>
+                    </div>
+
+                    {
+                        reviewsBySpotId.map(review => {
+                            return (
+                                <div key={review.id}>
+                                    <div>
+                                        By {review.User.firstName}
+                                    </div>
+                                    <div>
+                                        <div>
+                                            {review.review}
+                                        </div>
+                                        <div>
+                                        {sessionUser && Number(sessionUser.id) === Number(review.User.id) &&
+                                            <button
+                                            onClick={onDeleteReview}
+                                            >Delete</button>
+                                        }
+                                        </div>
+                                    </div>
+                            </div>
+                            )
+                        })
+                    }
+                </div>
             </div>
         </div>
     )
