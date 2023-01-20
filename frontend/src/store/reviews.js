@@ -65,7 +65,7 @@ export const thunkDeleteReview = (reviewId, user) => async (dispatch) => {
     })
     if (response.ok) {
         let deletedReview = await response.json();
-        console.log('DELETE REVIEW THUNK: ---> ', deletedReview)
+        // console.log('DELETE REVIEW THUNK: ---> ', deletedReview)
 
         dispatch(deleteReview(reviewId))
         return deletedReview
@@ -93,7 +93,7 @@ export default function reviewsReducer(state = initialState, action) {
             // newState[action.review.id].User = {id: action.review.userId}
             return newState;
         case DELETE_REVIEW:
-            console.log('Reducer for action DELETE: ', action.review)
+            // console.log('Reducer for action DELETE: ', action.review)
             delete newState[action.review]
             return newState;
         default:

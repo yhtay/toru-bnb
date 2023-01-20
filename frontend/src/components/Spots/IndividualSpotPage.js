@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import './IndividualSpotPage.css';
 import noPreview from './images/noPreview.jpeg'
 import EditSpotForm from "./EditSpot/EditSpotForm";
-import { thunkGetSpots } from "../../store/spots";
+import { thunkGetSingleSpot, thunkGetSpots } from "../../store/spots";
 import LoginFormModal from "../LoginFormModal";
 import { thunkDeleteSpot } from "../../store/spots";
 
@@ -21,17 +21,32 @@ export default function IndividualSpotPage () {
     const { spotId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
-    const spotsObj = useSelector(state => state.spots);
+    // const spotsObj = useSelector(state => state.spots);
     // console.log('SpotPage spotsObj: ', spotsObj)
-    const spot = spotsObj[spotId]
+    // const spot = spotsObj[spotId]
     // console.log('SpotPage spot: ', spot)
+
+    const sessionUser = useSelector(state => state.session.user)
+    // console.log('sessionUser id: -------->', sessionUser.id)
+
+    const spot = useSelector(state => state.spots.Spot)
+
+
+    // console.log('spot in Individual page: ---->', spot)
+
+    // To have the update on the page without having to refresh
+    useEffect(() => {
+        // dispatch(thunkGetSpots())
+        // // using thunkGetSingleSpot
+        dispatch(thunkGetSingleSpot(spotId))
+        // Dispatching Reviews
+        dispatch(thunkGetReviewsBySpotId(spotId))
+    }, [dispatch, spotId])
 
     const reviewsObj = useSelector(state => state.reviews);
     // console.log('spotpage reviewsobj ------>', reviewsObj)
     const reviews = Object.values(reviewsObj)
     // console.log('SpotPage reviews: ', reviews)
-
-
 
 
     const reviewsBySpotId = reviews.filter(review => {
@@ -42,17 +57,8 @@ export default function IndividualSpotPage () {
 
     // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
 
-    // Check if user logged in
-    const sessionUser = useSelector(state => state.session.user)
-    // console.log('sessionUser id: -------->', sessionUser.id)
 
-    // To have the update on the page without having to refresh
-    useEffect(() => {
-        dispatch(thunkGetSpots())
-        // Dispatching Reviews
-        dispatch(thunkGetReviewsBySpotId(spotId))
 
-    }, [dispatch, spotId])
 
     const reviewToDeleteArr = reviewsBySpotId.filter(review => {
         return Number(sessionUser?.id) === Number(review.User?.id)
@@ -73,6 +79,7 @@ export default function IndividualSpotPage () {
     const onDeleteReview = (e) => {
         e.preventDefault()
         dispatch(thunkDeleteReview(reviewToDelete.id, sessionUser))
+        dispatch(thunkGetSingleSpot(spotId))
     }
 
 
@@ -95,6 +102,7 @@ export default function IndividualSpotPage () {
                 </div>
                 <div className="edit-delete-button-div">
                     <div>
+                    {console.log(`This is edit conditional: `, Number(sessionUser.id) === Number(spot.ownerId), sessionUser.id, spot.ownerId)}
                     {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <OpenModalMenuItem
                             buttonText="Edit Spot"
@@ -120,7 +128,7 @@ export default function IndividualSpotPage () {
                 <div className="main-image-div">
                     <img
                         className="main-image"
-                        src={`${spot.previewImage}`}
+                        src={`${spot.SpotImages[0].url}`}
                     />
                 </div>
                 <div>

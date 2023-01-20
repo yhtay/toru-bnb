@@ -4,10 +4,11 @@ import { csrfFetch } from "./csrf";
 // Constants
 const GET_SPOTS = 'spots/GET_SPOTS';
 
+const GET_SINGLE_SPOT = 'spots/GET_SINGLE_SPOT'
 const GET_USER_SPOTS = 'spots/GET_USER_SPOTS'
 
 const CREATE = 'spots/CREATE';
-const CREATE_SPOT_IMAGE = 'spots/CREAT_SPOT_IMAGE'
+
 
 const EDIT_SPOT = 'spots/EDIT_SPOT';
 const DELETE = 'spots/DELETE';
@@ -19,6 +20,12 @@ export const getSpots = (spots) => {
     return {
         type: GET_SPOTS,
         spots
+    }
+}
+export const getSingleSpot = (spot) => {
+    return {
+        type: GET_SINGLE_SPOT,
+        spot
     }
 }
 
@@ -36,12 +43,7 @@ const createSpot = (spot) => {
     }
 }
 
-const createSpotImage = (image) => {
-    return {
-        type: CREATE_SPOT_IMAGE,
-        image
-    }
-}
+
 
 const editSpot = (spot) => {
     return {
@@ -66,6 +68,16 @@ export const thunkGetSpots = () => async (dispatch) => {
         // console.log('thunkGetSpots ---> ', spots)
         dispatch(getSpots(spots))
         return spots
+    }
+}
+
+export const thunkGetSingleSpot = (spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`)
+
+    if (response.ok) {
+        const spot = await response.json();
+        dispatch(getSingleSpot(spot))
+        return spot
     }
 }
 
@@ -153,6 +165,9 @@ export default function spotsReducer(state = initialState, action) {
                 newState[spot.id] = spot
             })
             return newState;
+        case GET_SINGLE_SPOT:
+            newState.Spot = action.spot
+            return newState;
         case GET_USER_SPOTS:
             // console.log('action.spot ---->', action.spots.Spots)
             action.spots.Spots.forEach(spot => {
@@ -161,7 +176,7 @@ export default function spotsReducer(state = initialState, action) {
             // console.log('Reducer newState: ', newState)
             return newState
         case CREATE:
-            console.log('CREATE in Reducer action.spot: ', action.spot)
+            // console.log('CREATE in Reducer action.spot: ', action.spot)
             newState[action.spot.id] = action.spot
             return newState;
         case EDIT_SPOT:
