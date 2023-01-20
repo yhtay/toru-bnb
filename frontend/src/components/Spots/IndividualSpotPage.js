@@ -10,7 +10,7 @@ import { thunkDeleteSpot } from "../../store/spots";
 
 
 import OpenModalMenuItem from "../OpenModalButton"
-import { thunkGetReviewsBySpotId } from "../../store/reviews";
+import { thunkDeleteReview, thunkGetReviewsBySpotId } from "../../store/reviews";
 import OpenModalButton from "../OpenModalButton";
 import CreateReviewModal from "../Reviews/CreateReviewModal";
 
@@ -24,7 +24,7 @@ export default function IndividualSpotPage () {
     const spotsObj = useSelector(state => state.spots);
     // console.log('SpotPage spotsObj: ', spotsObj)
     const spot = spotsObj[spotId]
-    console.log('SpotPage spot: ', spot)
+    // console.log('SpotPage spot: ', spot)
 
     const reviewsObj = useSelector(state => state.reviews);
     // console.log('spotpage reviewsobj ------>', reviewsObj)
@@ -35,7 +35,7 @@ export default function IndividualSpotPage () {
         return Number(review.spotId) === Number(spotId)
     })
 
-    console.log("reviewsBySpotId: ", reviewsBySpotId)
+    // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
 
     // Check if user logged in
     const sessionUser = useSelector(state => state.session.user)
@@ -49,7 +49,13 @@ export default function IndividualSpotPage () {
 
     }, [dispatch, spotId])
 
+    const reviewToDeleteArr = reviewsBySpotId.filter(review => {
+        return Number(sessionUser.id) === Number(review.User.id)
+    })
+    // console.log(" Review to DELETEARRRRRR =======>", reviewToDeleteArr)
 
+    const [ reviewToDelete ] = reviewToDeleteArr
+    // console.log("Review to delete ------>", reviewToDelete)
 
     // Delete Spot
     const onDeleteSpot = (e) => {
@@ -61,6 +67,7 @@ export default function IndividualSpotPage () {
     // Delete Review
     const onDeleteReview = (e) => {
         e.preventDefault()
+        dispatch(thunkDeleteReview(reviewToDelete.id, sessionUser))
     }
 
 
@@ -147,26 +154,24 @@ export default function IndividualSpotPage () {
                 {
                     reviewsBySpotId.map(review => {
                         return (
-                            <>
-                            <div key={review.id}>
-                                By {review.User.firstName}
-                            </div>
                             <div key={review.id}>
                                 <div>
-                                    {review.review}
+                                    By {review.User.firstName}
                                 </div>
-                                 <div>
-                                {/* {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
-                                    <button
-                                        className='delete-button'
-                                        // disabled={Number(sessionUser.id) === Number(spot.ownerId) ? false : true}
-                                        onClick={onDeleteSpot}
-                                    >Delete</button>
-                                } */}
-                                <button>Delete</button>
+                                <div>
+                                    <div>
+                                        {review.review}
+                                    </div>
+                                    <div>
+
+                                    {sessionUser && Number(sessionUser.id) === Number(review.User.id) &&
+                                        <button
+                                        onClick={onDeleteReview}
+                                        >Delete</button>
+                                    }
+                                    </div>
                                 </div>
-                            </div>
-                        </>
+                        </div>
                         )
                     })
                 }

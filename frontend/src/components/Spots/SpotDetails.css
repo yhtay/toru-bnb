@@ -3,8 +3,8 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    padding-left: 15%;
-    padding-right: 15%;
+    padding-left: 12%;
+    padding-right: 16%;
     flex-wrap: wrap;
 
 
@@ -21,7 +21,9 @@
     border-radius: 5px;
     flex-wrap: wrap;
     position: relative;
-    margin: 10px;
+    margin: 14px;
+    height: 40vh;
+    width: 15vw;
 
 }
 
@@ -31,8 +33,9 @@
     flex-direction: row;
     /* height: 20vh;
     width: 18vw; */
-    height: 200px;
-    width: 220px;
+    height: 30vh;
+    /* width: 220px; */
+    width: inherit;
     border-radius: 5px;
     object-fit: cover;
     margin-bottom: 3px;

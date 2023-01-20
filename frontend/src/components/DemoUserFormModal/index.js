@@ -7,8 +7,8 @@ import "./LoginForm.css";
 
 function DemoUserModal() {
   const dispatch = useDispatch();
-  const [credential, setCredential] = useState("");
-  const [password, setPassword] = useState("");
+  const [credential, setCredential] = useState('Demo-lition');
+  const [password, setPassword] = useState('password');
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
 
@@ -39,7 +39,7 @@ function DemoUserModal() {
           <input
             type="text"
             value={credential}
-            onChange={(e) => setCredential(e.target.value)}
+            // onChange={(e) => setCredential(e.target.value)}
             required
           />
         </label>
@@ -48,7 +48,7 @@ function DemoUserModal() {
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            // onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>

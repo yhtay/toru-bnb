@@ -3,8 +3,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 15%;
-    padding-right: 15%;
+    padding-left: 16%;
+    padding-right: 16%;
     position: sticky;
     top: 0px;
     z-index: 9999;
@@ -33,3 +33,4 @@
 .home div {
     background-color: aqua;
 }
+

@@ -11,7 +11,7 @@ export default function SpotDetails({ spot }) {
 
 
     return (
-        <div>
+        <>
             {
             <div className="spotcard-div">
                 <img
@@ -29,7 +29,7 @@ export default function SpotDetails({ spot }) {
                 <div className="price-div">${spot.price} night</div>
             </div>
             }
-        </div>
+        </>
     )
 
 }
