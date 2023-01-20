@@ -19,8 +19,8 @@
     list-style: none;
     position: absolute;
     display: flex;
-    justify-content: flex-start;
     flex-direction: column;
+    justify-content: flex-start;
     top: 45px;
     right: 16%;
     background-color: rgb(165,249,241);
@@ -30,4 +30,7 @@
     width: 180px;
     padding: 10px;
 
+}
+.drop-down-contents-div {
+    padding: 5px;
 }

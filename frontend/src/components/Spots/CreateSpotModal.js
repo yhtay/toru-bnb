@@ -5,6 +5,7 @@ import { thunkCreateSpots } from "../../store/spots";
 import { useModal } from "../../context/Modal";
 // import { thunkCreateSpotImage } from "../../store/spots";
 import { thunkGetSpots } from "../../store/spots";
+import noPreview from './images/noPreview.jpeg'
 
 export default function CreateSpotModal () {
 
@@ -47,7 +48,7 @@ export default function CreateSpotModal () {
     // To have the update on the page without having to refresh
 
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
 
         setHasSubmitted(true)
@@ -66,7 +67,7 @@ export default function CreateSpotModal () {
 
         setHasSubmitted(false)
 
-        const newSpot =  dispatch(thunkCreateSpots(payload, previewImage))
+        const newSpot = await dispatch(thunkCreateSpots(payload, previewImage))
             .then((newSpot) => {history.push(`/spots/${newSpot.id}`)}, closeModal())
             .catch(async (res) => {
                 const data = await res.json();

@@ -67,3 +67,19 @@
 .delete-button {
     margin-left: 5px;
 }
+
+.comment-container-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.icon-avgReviews-reviewCount-div {
+    display: flex;
+    flex-direction: row;
+    padding: 3px;
+}
+
+.avgRating-div {
+    padding-right: 5px;
+    padding-left: 3px;
+}

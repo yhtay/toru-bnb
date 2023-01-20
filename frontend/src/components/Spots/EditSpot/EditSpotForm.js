@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { useModal } from "../../../context/Modal"
 import { thunkEditSpot } from "../../../store/spots";
+import { thunkGetSingleSpot } from "../../../store/spots";
 
 
 
@@ -40,7 +41,7 @@ export default function EditSpotForm({ spot }) {
 
     const spotId = spot.id
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
 
         setHasSubmitted(true)
@@ -59,8 +60,9 @@ export default function EditSpotForm({ spot }) {
 
         setHasSubmitted(false);
 
-        return dispatch(thunkEditSpot(payload, spotId))
-            .then(closeModal)
+        const editedSpot = await dispatch(thunkEditSpot(payload, spotId))
+            .then(dispatch(thunkGetSingleSpot(spotId)))
+            .then(closeModal())
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);

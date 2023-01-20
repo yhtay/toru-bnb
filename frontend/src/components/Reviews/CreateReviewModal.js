@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useState, useEffect } from "react"
 import { useModal } from "../../context/Modal"
 import { thunkCreateReview } from "../../store/reviews"
+import { thunkGetSingleSpot, thunkGetSpots } from "../../store/spots"
 
 
 
@@ -30,11 +31,9 @@ export default function CreateReviewModal ({ spotId }) {
 
         setErrors(newErrors)
 
-
-
     }, [review, stars])
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
 
@@ -45,10 +44,11 @@ export default function CreateReviewModal ({ spotId }) {
         console.log('payload in Review Modal: ', payload)
         setHasSubmitted(false)
 
-        // dispatch = (thunkCreateReview(spotId, payload))
 
-        const newReview = dispatch(thunkCreateReview(spotId, payload, sessionUser))
-            .then( () => {history.push(`/spots/${spotId}`)},closeModal())
+
+        const newReview = await dispatch(thunkCreateReview(spotId, payload, sessionUser))
+            .then(dispatch(thunkGetSingleSpot(spotId)))
+            .then( () => {history.push(`/spots/${spotId}`)}, closeModal())
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);

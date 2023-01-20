@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import './IndividualSpotPage.css';
 import noPreview from './images/noPreview.jpeg'
 import EditSpotForm from "./EditSpot/EditSpotForm";
-import { thunkGetSpots } from "../../store/spots";
+import { thunkGetSingleSpot, thunkGetSpots } from "../../store/spots";
 import LoginFormModal from "../LoginFormModal";
 import { thunkDeleteSpot } from "../../store/spots";
 
@@ -21,33 +21,44 @@ export default function IndividualSpotPage () {
     const { spotId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
-    const spotsObj = useSelector(state => state.spots);
+    // const spotsObj = useSelector(state => state.spots);
     // console.log('SpotPage spotsObj: ', spotsObj)
-    const spot = spotsObj[spotId]
+    // const spot = spotsObj[spotId]
     // console.log('SpotPage spot: ', spot)
+
+    const sessionUser = useSelector(state => state.session.user)
+    // console.log('sessionUser id: -------->', sessionUser.id)
+
+    const spot = useSelector(state => state.spots.Spot)
+
+
+    // console.log('spot in Individual page: ---->', spot)
+
+    // To have the update on the page without having to refresh
+    useEffect(() => {
+        // dispatch(thunkGetSpots())
+        // // using thunkGetSingleSpot
+        dispatch(thunkGetSingleSpot(spotId))
+        // Dispatching Reviews
+        dispatch(thunkGetReviewsBySpotId(spotId))
+    }, [dispatch, spotId])
 
     const reviewsObj = useSelector(state => state.reviews);
     // console.log('spotpage reviewsobj ------>', reviewsObj)
     const reviews = Object.values(reviewsObj)
     // console.log('SpotPage reviews: ', reviews)
 
+
     const reviewsBySpotId = reviews.filter(review => {
         return Number(review.spotId) === Number(spotId)
     })
 
+    const reviewCount = reviewsBySpotId.length
+
     // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
 
-    // Check if user logged in
-    const sessionUser = useSelector(state => state.session.user)
-    // console.log('sessionUser id: -------->', sessionUser.id)
 
-    // To have the update on the page without having to refresh
-    useEffect(() => {
-        dispatch(thunkGetSpots())
-        // Dispatching Reviews
-        dispatch(thunkGetReviewsBySpotId(spotId))
 
-    }, [dispatch, spotId])
 
     const reviewToDeleteArr = reviewsBySpotId.filter(review => {
         return Number(sessionUser?.id) === Number(review.User?.id)
@@ -68,6 +79,7 @@ export default function IndividualSpotPage () {
     const onDeleteReview = (e) => {
         e.preventDefault()
         dispatch(thunkDeleteReview(reviewToDelete.id, sessionUser))
+        dispatch(thunkGetSingleSpot(spotId))
     }
 
 
@@ -81,15 +93,16 @@ export default function IndividualSpotPage () {
                     <div className='start-icon-div'>
                         <i class="fa-solid fa-star"></i>
                     </div>
-                    <div>
+                    <div className="avgRating-div">
                     {spot.avgRating === "No reviews for this spot" ? "No Reviews" : spot.avgRating}
                     </div>
 
-                    <div className={'city-state-country-div'}>{spot.city}, {spot.state}, {spot.country}</div>
+                    <div className='city-state-country-div'>{spot.city}, {spot.state}, {spot.country}</div>
 
                 </div>
                 <div className="edit-delete-button-div">
                     <div>
+                    {console.log(`This is edit conditional: `, Number(sessionUser.id) === Number(spot.ownerId), sessionUser.id, spot.ownerId)}
                     {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <OpenModalMenuItem
                             buttonText="Edit Spot"
@@ -115,7 +128,7 @@ export default function IndividualSpotPage () {
                 <div className="main-image-div">
                     <img
                         className="main-image"
-                        src={`${spot.previewImage}`}
+                        src={`${spot.SpotImages[0].url}`}
                     />
                 </div>
                 <div>
@@ -138,7 +151,6 @@ export default function IndividualSpotPage () {
                 </div>
             </div>
             <div>
-                <span>Comments</span>
                 <div>
                     <div>
                         {sessionUser && Number(sessionUser.id) !== Number(spot.ownerId) &&
@@ -148,33 +160,42 @@ export default function IndividualSpotPage () {
                         />
                         }
                     </div>
-
                 </div>
-
-                {
-                    reviewsBySpotId.map(review => {
-                        return (
-                            <div key={review.id}>
-                                <div>
-                                    By {review.User.firstName}
-                                </div>
-                                <div>
-                                    <div>
-                                        {review.review}
-                                    </div>
-                                    <div>
-
-                                    {sessionUser && Number(sessionUser.id) === Number(review.User.id) &&
-                                        <button
-                                        onClick={onDeleteReview}
-                                        >Delete</button>
-                                    }
-                                    </div>
-                                </div>
+                <div className="comment-container-div">
+                    <div className='icon-avgReviews-reviewCount-div'>
+                        <span><i class="fa-solid fa-star"></i></span>
+                        <div className="avgRating-div">
+                            {spot.avgRating === "No reviews for this spot" ? "No Reviews" : spot.avgRating}
                         </div>
-                        )
-                    })
-                }
+                        <div>
+                            <i class="fa-solid fa-circle fa-2xs"> </i> {reviewCount ? `${reviewCount} Reviews` : "Be the first to leave a Review"}
+                        </div>
+                    </div>
+
+                    {
+                        reviewsBySpotId.map(review => {
+                            return (
+                                <div key={review.id}>
+                                    <div>
+                                        By {review.User.firstName}
+                                    </div>
+                                    <div>
+                                        <div>
+                                            {review.review}
+                                        </div>
+                                        <div>
+                                        {sessionUser && Number(sessionUser.id) === Number(review.User.id) &&
+                                            <button
+                                            onClick={onDeleteReview}
+                                            >Delete</button>
+                                        }
+                                        </div>
+                                    </div>
+                            </div>
+                            )
+                        })
+                    }
+                </div>
             </div>
         </div>
     )
