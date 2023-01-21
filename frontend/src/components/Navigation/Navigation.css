@@ -3,8 +3,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 16%;
-    padding-right: 16%;
+    padding-left: 11%;
+    padding-right: 11%;
     position: sticky;
     top: 0px;
     z-index: 9999;
@@ -12,6 +12,8 @@
     background-color: white;
     height: 55px;
 }
+
+
 
 .hidden {
     display: none

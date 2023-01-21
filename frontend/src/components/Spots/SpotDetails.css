@@ -3,8 +3,8 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    padding-left: 6%;
-    padding-right: 6%;
+    padding-left: 8%;
+    padding-right: 8%;
     flex-wrap: wrap;
 
 
@@ -23,7 +23,7 @@
     position: relative;
     margin: 14px;
     height: 42vh;
-    width: 15vw;
+    width: 17vw;
     text-decoration: none;
 
 }
@@ -68,6 +68,7 @@
 .star-icon-avg-rating {
     display: flex;
 }
+
 
 /* .start-icon-div {
     margin-right: 0px;

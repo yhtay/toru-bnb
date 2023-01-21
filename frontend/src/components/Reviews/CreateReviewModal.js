@@ -22,16 +22,15 @@ export default function CreateReviewModal ({ spotId }) {
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal();
 
-    useEffect(() => {
-        const newErrors = [];
+    // useEffect(() => {
+    //     const newErrors = [];
 
-        if (review.length === 0) newErrors.push("Please leave a review!")
-        if (review.length >= 150) newErrors.push("Please keep reviews under 150 characters")
-        if (Number(stars) <= 0 || Number(stars) > 5) newErrors.push("Ratings must be between 1 & 5")
+    //     if (review.length > 200) newErrors.push("Please keep review under 20 characters")
+    //     if (Number(stars) <= 0 || Number(stars) > 5) newErrors.push("Ratings must be between 1 & 5")
 
-        setErrors(newErrors)
+    //     setErrors(newErrors)
 
-    }, [review, stars])
+    // }, [review, stars])
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -45,8 +44,8 @@ export default function CreateReviewModal ({ spotId }) {
         setHasSubmitted(false)
 
         await dispatch(thunkCreateReview(spotId, payload, sessionUser))
-            .then(() => {history.push(`/spots/${spotId}`)}, closeModal())
             .then(dispatch(thunkGetSingleSpot(spotId)))
+            .then(() => {history.push(`/spots/${spotId}`)}, closeModal())
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
@@ -70,6 +69,7 @@ export default function CreateReviewModal ({ spotId }) {
                         type='text'
                         value={review}
                         onChange={e => setReview(e.target.value)}
+                        required
                     />
 
             </div>
@@ -81,6 +81,7 @@ export default function CreateReviewModal ({ spotId }) {
                     min={1}
                     value={stars}
                     onChange={e => setStars(e.target.value)}
+                    required
                 />
             </div>
             <button

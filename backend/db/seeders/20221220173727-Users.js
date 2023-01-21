@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA; 
+  options.schema = process.env.SCHEMA;
 }
 
 /** @type {import('sequelize-cli').Migration} */
@@ -30,7 +30,7 @@ module.exports = {
         lastName: 'Messi'
       },
       {
-        email: 'ronaldo7@realmadrid.com',
+        email: 'ronaldo7@rmadrid.com',
         username: 'ronaldo7',
         hashedPassword: bcrypt.hashSync('password2'),
         firstName: 'Cristiano',
