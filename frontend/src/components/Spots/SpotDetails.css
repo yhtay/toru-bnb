@@ -3,8 +3,8 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    padding-left: 9%;
-    padding-right: 9%;
+    padding-left: 6%;
+    padding-right: 6%;
     flex-wrap: wrap;
 
 
@@ -22,7 +22,7 @@
     flex-wrap: wrap;
     position: relative;
     margin: 14px;
-    height: 40vh;
+    height: 42vh;
     width: 15vw;
     text-decoration: none;
 

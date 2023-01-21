@@ -7,13 +7,29 @@
     text-decoration: none;
 }
 
-.button {
-    background-color: rgb(250, 197, 207);
-    color: rgb(255, 94, 123);
-    margin: 3px;
-    border-radius: 10px;
-    border-style: inset;
-    border-width: 0.5px;
-    border-color:  rgb(250, 197, 207);
 
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    background: radial-gradient(rgb(255, 255, 255), rgb(255, 186, 198) );
+    color: rgb(255,56,92);
+
+}
+/* .form-input-divs {
+    padding: 10px;
+} */
+.form-button {
+    width: 148px;
+    background-color: rgb(250, 113, 138);
+    border-style: outset;
+    border: none;
+    border-radius: 3px;
+}
+
+.form-button:hover {
+    background-color: rgb(248, 92, 120);
 }

@@ -44,11 +44,9 @@ export default function CreateReviewModal ({ spotId }) {
         console.log('payload in Review Modal: ', payload)
         setHasSubmitted(false)
 
-
-
-        const newReview = await dispatch(thunkCreateReview(spotId, payload, sessionUser))
+        await dispatch(thunkCreateReview(spotId, payload, sessionUser))
+            .then(() => {history.push(`/spots/${spotId}`)}, closeModal())
             .then(dispatch(thunkGetSingleSpot(spotId)))
-            .then( () => {history.push(`/spots/${spotId}`)}, closeModal())
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
@@ -57,7 +55,7 @@ export default function CreateReviewModal ({ spotId }) {
 
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="form">
             <h2>Hit Leave A Review</h2>
             <ul>
                 {errors.map(error => {
@@ -67,13 +65,12 @@ export default function CreateReviewModal ({ spotId }) {
                 })}
             </ul>
             <div>
-                <span>Write Your Review: </span>
                     <input
+                        placeholder="Your Review"
                         type='text'
                         value={review}
                         onChange={e => setReview(e.target.value)}
                     />
-
 
             </div>
             <div>
@@ -87,6 +84,7 @@ export default function CreateReviewModal ({ spotId }) {
                 />
             </div>
             <button
+                className="form-button"
                 type="submit"
             >Submit Review</button>
         </form>

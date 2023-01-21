@@ -157,37 +157,43 @@ const initialState = {};
 
 // Reducer
 export default function spotsReducer(state = initialState, action) {
-    let newState = { ...state }
+
     switch (action.type) {
         case GET_SPOTS:
+            const allSpotsState = { ...state }
             // console.log('action.spot.Spots: ----->', action.spots.Spots)
             action.spots.Spots.forEach(spot => {
-                newState[spot.id] = spot
+                allSpotsState[spot.id] = spot
             })
-            return newState;
+            return allSpotsState;
         case GET_SINGLE_SPOT:
-            newState.Spot = action.spot
-            return newState;
+            const singleSpotState = { ...state }
+            singleSpotState.Spot = action.spot
+            return singleSpotState;
         case GET_USER_SPOTS:
+            const userSpotsState = { ...state }
             // console.log('action.spot ---->', action.spots.Spots)
             action.spots.Spots.forEach(spot => {
-                newState[spot.id] = spot
+                userSpotsState[spot.id] = spot
             })
             // console.log('Reducer newState: ', newState)
-            return newState
+            return userSpotsState
         case CREATE:
             // console.log('CREATE in Reducer action.spot: ', action.spot)
-            newState[action.spot.id] = action.spot
-            return newState;
+            const createSpotState = { ...state }
+            createSpotState[action.spot.id] = action.spot
+            return createSpotState;
         case EDIT_SPOT:
             // console.log("EDIT_SPOT action.spot reducer: ", action.spot)
+            const editSpotState = { ...state }
             const previewImage = state[action.spot.id].previewImage
             action.spot.previewImage = previewImage
-            newState[action.spot.id] = action.spot
-            return newState;
+            editSpotState[action.spot.id] = action.spot
+            return editSpotState;
         case DELETE:
-            delete newState[action.spot]
-            return newState;
+            const deleteSpotState = { ...state }
+            delete deleteSpotState[action.spot]
+            return deleteSpotState;
 
         default:
             return state;

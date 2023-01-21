@@ -31,7 +31,7 @@
     background-color: whitesmoke;
     border-radius: 15px;
     opacity: 100%;
-    height: 120px;
+    height: 130px;
     width: 180px;
     padding: 10px;
 
@@ -55,7 +55,15 @@
     display: flex;
     flex-direction: column;
     padding: 7px;
-
+}
+.logout-button {
+    background-color: rgb(250, 197, 207);
+    color: rgb(255, 94, 123);
+    margin: 3px;
+    border-radius: 15px;
+    border-style: none;
+    width: 178px;
+    height: 30px;
 }
 
 .openModal-components-div:hover {

@@ -70,7 +70,7 @@ export default function EditSpotForm({ spot }) {
     }
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="form">
             <h2>Edit Spot</h2>
             <ul>
                 {hasSubmitted && errors.map(error => (
@@ -79,97 +79,89 @@ export default function EditSpotForm({ spot }) {
                     </li>
                 ))}
             </ul>
-            <div>
-                <label>
-                    Address:
+            <div className="form-input-divs">
+
                     <input
                         type='text'
                         value={address}
                         onChange={e => setAddress(e.target.value)}
                     />
-                </label>
+
             </div>
-            <div>
-                <label>
-                    City:
+            <div className="form-input-divs">
+
                     <input
                         type='text'
                         value={city}
                         onChange={e => setCity(e.target.value)}
                     />
-                </label>
+
             </div>
-            <div>
-                <label>
-                    State:
+            <div className="form-input-divs">
+
                     <input
                         type='text'
                         value={state}
                         onChange={e => setState(e.target.value)}
                     />
-                </label>
+
             </div>
-            <div>
-                <label>
-                    Country:
+            <div className="form-input-divs">
+
                     <input
                         type='text'
                         value={country}
                         onChange={e => setCountry(e.target.value)}
                     />
-                </label>
+
             </div>
             <div>
-                <label>
-                    Lat:
+
                     <input
                         type='number'
                         value={lat}
                         onChange={e => setLat(e.target.value)}
                     />
-                </label>
+
             </div>
             <div>
-                <label>
-                    Lng:
+
                     <input
                         type='number'
                         value={lng}
                         onChange={e => setLng(e.target.value)}
                     />
-                </label>
+
             </div>
             <div>
-                <label>
-                    Name:
+
                     <input
                         type='text'
                         value={name}
                         onChange={e => setName(e.target.value)}
                     />
-                </label>
+
             </div>
             <div>
-                <label>
-                    Description:
+
                     <input
                         type='text'
                         value={description}
                         onChange={e => setDescription(e.target.value)}
                     />
-                </label>
+
             </div>
             <div>
-                <label>
-                    Price:
+                <div>Price: </div>
                     <input
                         type='number'
                         value={price}
                         onChange={e => setPrice(e.target.value)}
                     />
-                </label>
+
             </div>
             <button
+                className="form-button"
                 type="submit"
                 disabled={errors.length > 0 ? true : false}
             >Edit Spot</button>

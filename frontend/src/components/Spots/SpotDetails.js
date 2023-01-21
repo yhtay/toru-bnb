@@ -6,9 +6,7 @@ export default function SpotDetails({ spot }) {
     // const dispatch = useDispatch();
 
     // console.log('spot from SpotDetails', spot)
-
-    if (!spot.previewImage) return null
-
+    if (!spot.previewImage) return null;
 
     return (
         <>
