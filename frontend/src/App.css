@@ -7,4 +7,13 @@
     text-decoration: none;
 }
 
+.button {
+    background-color: rgb(250, 197, 207);
+    color: rgb(255, 94, 123);
+    margin: 3px;
+    border-radius: 10px;
+    border-style: inset;
+    border-width: 0.5px;
+    border-color:  rgb(250, 197, 207);
 
+}

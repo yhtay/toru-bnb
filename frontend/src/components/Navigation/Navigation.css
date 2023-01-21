@@ -24,15 +24,16 @@
     align-items: center;
 }
 
+
 .your-toru-bnb {
     list-style: none;
     padding-right: 50px;
-    color: rgb(104,179,170);
+    color: rgb(228,29,87);
     font-family: 'Indie Flower', cursive;
     font-size: large;
-
+    font-weight: bold;
 }
 .fa-brands {
-    color: rgb(121,198,198);
+    color: rgb(228,29,87);
     font-weight: bolder;
 }

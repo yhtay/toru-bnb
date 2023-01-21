@@ -99,10 +99,10 @@ export default function IndividualSpotPage () {
                 </div>
                 <div className="edit-delete-button-div">
                     <div>
-                    {console.log(`This is edit conditional: `, Number(sessionUser.id) === Number(spot.ownerId), sessionUser.id, spot.ownerId)}
                     {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <OpenModalMenuItem
-                            buttonText="Edit Spot"
+                                className="button"
+                                buttonText="Edit Spot"
                             // disabled={sessionUser.id == spot.ownerId ? false : true}
                             modalComponent={<EditSpotForm spot={spot} />}
                         />
@@ -112,7 +112,7 @@ export default function IndividualSpotPage () {
                     <div>
                         {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <button
-                                className='delete-button'
+                                className='button'
                                 // disabled={Number(sessionUser.id) === Number(spot.ownerId) ? false : true}
                                 onClick={onDeleteSpot}
                             >Delete</button>

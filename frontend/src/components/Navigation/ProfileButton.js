@@ -50,10 +50,10 @@ function ProfileButton({ user }) {
       <div>
         <button className="profile-button" onClick={openMenu}>
             <div >
-              <i className="fa-solid fa-bars"></i>
+              <i className="fa-solid fa-bars fa-1x"></i>
             </div>
             <div className="profile-icon-div">
-              <i className="fas fa-user-circle" />
+              <i className="fas fa-user-circle fa-2x" />
             </div>
         </button>
       </div>
@@ -61,29 +61,31 @@ function ProfileButton({ user }) {
         <div className={ulClassName} ref={ulRef}>
           {user ? (
             <>
-              <div>{user.username}</div>
-              <div>{user.firstName} {user.lastName}</div>
-              <div>{user.email}</div>
+              <div className="dropdown username-div">{user.username}</div>
+              <div className="dropdown firstName-div">{user.firstName} {user.lastName}</div>
+              <div className="dropdown email-div">{user.email}</div>
               <div>
-                <button onClick={logout}>Log Out</button>
+                <button
+                  onClick={logout}
+                  className="button"
+                  >
+                    Log Out</button>
               </div>
             </>
           ) : (
             <>
               <OpenModalMenuItem
-                className="drop-down-contents-div"
                 itemText="Log In"
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal />}
               />
               <OpenModalMenuItem
-                className="drop-down-contents-div"
                 itemText="Sign Up"
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />
               <OpenModalMenuItem
-                className="drop-down-contents-div"
+                className="demoUser-div"
                 itemText="Demo User"
                 onItemClick={closeMenu}
                 modalComponent={<DemoUserModal />}
