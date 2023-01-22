@@ -88,7 +88,7 @@ export default function IndividualSpotPage () {
                         <i className="fa-solid fa-star"></i>
                     </div>
                     <div className="avgRating-div">
-                    {spot.avgRating === null ? "No Reviews" : (spot.avgRating).toFixed(1)}
+                    {spot.avgRating === null ? "No Reviews" : spot.avgRating}
 
                     </div>
 
@@ -167,7 +167,7 @@ export default function IndividualSpotPage () {
                         <div className='icon-avgReviews-reviewCount-div'>
                             <span><i className="fa-solid fa-star"></i></span>
                             <div className="avgRating-div">
-                                {spot && spot.avgRating === null ? "No Reviews " : (spot.avgRating).toFixed(1)}
+                                {spot && spot.avgRating === null ? "No Reviews " : spot.avgRating}
                             </div>
                             <div>
                                 {reviewCount ? ` · ${reviewCount} Reviews` : " · Be the first to leave a Review"}
