@@ -3,8 +3,8 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    padding-left: 8%;
-    padding-right: 8%;
+    padding-left: 7%;
+    padding-right: 6%;
     flex-wrap: wrap;
 
 
@@ -17,7 +17,7 @@
     justify-content: space-evenly;
     flex-direction: column;
     padding: 4px;
-
+    text-decoration: none;
     border-radius: 5px;
     flex-wrap: wrap;
     position: relative;
@@ -63,10 +63,12 @@
     display: flex;
     justify-content: space-between;
     text-decoration: none;
+
 }
 
 .star-icon-avg-rating {
     display: flex;
+    text-decoration: none;
 }
 
 

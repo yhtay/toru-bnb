@@ -52,7 +52,6 @@ export default function CreateReviewModal ({ spotId }) {
             })
         }
 
-
     return (
         <form onSubmit={onSubmit} className="form">
             <h2>Hit Leave A Review</h2>

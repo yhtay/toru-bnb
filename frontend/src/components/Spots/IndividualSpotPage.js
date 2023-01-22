@@ -50,9 +50,11 @@ export default function IndividualSpotPage () {
     const reviewsBySpotId = reviews.filter(review => {
         return Number(review.spotId) === Number(spotId)
     })
+    console.log("reviewsBySpotId: ========>", reviewsBySpotId)
+
+    // const avgRating = reviewsBySpotId.reduce(review)
 
     const reviewCount = reviewsBySpotId.length
-    // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
 
     const reviewToDeleteArr = reviewsBySpotId.filter(review => {
         return Number(sessionUser?.id) === Number(review.User?.id)
@@ -110,7 +112,7 @@ export default function IndividualSpotPage () {
                     <div>
                         {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <button
-                                className='button'
+                                id='button'
                                 // disabled={Number(sessionUser.id) === Number(spot.ownerId) ? false : true}
                                 onClick={onDeleteSpot}
                             >Delete</button>
@@ -148,9 +150,9 @@ export default function IndividualSpotPage () {
 
             <div className='spot-information-container'>
                 <div>
-                    <div className='host-div'>Toru Hosted by {spot.Owner.firstName}</div>
+                    <h3 className='host-div'>Toru Hosted by {spot.Owner.firstName}</h3>
                         <div>
-                            <div>bedrooms · Beds · baths</div>
+                            <div className="bedroom-bed-bath">bedrooms · beds · baths</div>
                         </div>
                 </div>
                 <div>
@@ -195,9 +197,9 @@ export default function IndividualSpotPage () {
                                             <div>
                                                 {sessionUser && Number(sessionUser.id) === Number(review.User.id) &&
                                                     <button
-                                                    className="delete-review"
-                                                    onClick={onDeleteReview}
-                                                    ><i class="fa-solid fa-xmark fa-s"></i></button>
+                                                        className="delete-review"
+                                                        onClick={onDeleteReview}
+                                                    > <i class="fa-solid fa-xmark fa-s"></i></button>
                                                 }
                                             </div>
                                         </div>
