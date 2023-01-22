@@ -30,7 +30,7 @@ export default function IndividualSpotPage () {
     // console.log('sessionUser id: -------->', sessionUser.id)
 
     const spot = useSelector(state => state.spots.Spot)
-    console.log('spot in Individual page: ---->', spot)
+    // console.log('spot in Individual page: ---->', spot)
 
     const reviewsObj = useSelector(state => state.reviews);
     // console.log('spotpage reviewsobj ------>', reviewsObj)

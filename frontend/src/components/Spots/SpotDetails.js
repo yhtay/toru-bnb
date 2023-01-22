@@ -20,7 +20,7 @@ export default function SpotDetails({ spot }) {
                     <div className="city-state">{spot.city}, {spot.state}</div>
                     <div className="star-icon-avg-rating">
                         <div><i className="fa-solid fa-star"></i></div>
-                        <div>{spot.avgRating === "No reviews for this spot" ? "No reviews" : spot.avgRating.toFixed(1)}</div>
+                        <div>{spot.avgRating === "No reviews for this spot" ? "No reviews" : spot.avgRating}</div>
                     </div>
                 </div>
                 <div className="description-div">{spot.description}</div>
