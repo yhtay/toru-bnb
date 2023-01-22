@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useModal } from "../../context/Modal"
 import { thunkCreateReview } from "../../store/reviews"
 import { thunkGetSingleSpot, thunkGetSpots } from "../../store/spots"
+import { thunkGetReviewsBySpotId } from "../../store/reviews"
 
 
 
@@ -43,9 +44,10 @@ export default function CreateReviewModal ({ spotId }) {
         console.log('payload in Review Modal: ', payload)
         setHasSubmitted(false)
 
-        await dispatch(thunkCreateReview(spotId, payload, sessionUser))
-            .then(dispatch(thunkGetSingleSpot(spotId)))
-            .then(() => {history.push(`/spots/${spotId}`)}, closeModal())
+        await dispatch(thunkCreateReview(+spotId, payload, sessionUser))
+            .then(()=>dispatch(thunkGetSingleSpot(+spotId)))
+            // .then(dispatch(thunkGetReviewsBySpotId(spotId)))
+            .then(()=>closeModal())
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
