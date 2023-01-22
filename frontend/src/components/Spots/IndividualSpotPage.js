@@ -1,5 +1,5 @@
-import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams, useHistory } from "react-router-dom";
 import { useEffect } from "react";
 import './IndividualSpotPage.css';
 import noPreview from './images/noPreview.jpeg'
@@ -21,18 +21,22 @@ export default function IndividualSpotPage () {
     const { spotId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
-    // const spotsObj = useSelector(state => state.spots);
+    // const allSpotsObj = useSelector(state => state.spots);
     // console.log('SpotPage spotsObj: ', spotsObj)
-    // const spot = spotsObj[spotId]
-    // console.log('SpotPage spot: ', spot)
+    // const spotById = allSpotsObj[spotId]
+    // console.log('SpotPage spotById: ', spotById)
 
     const sessionUser = useSelector(state => state.session.user)
     // console.log('sessionUser id: -------->', sessionUser.id)
 
     const spot = useSelector(state => state.spots.Spot)
-
-
     console.log('spot in Individual page: ---->', spot)
+
+    const reviewsObj = useSelector(state => state.reviews);
+    // console.log('spotpage reviewsobj ------>', reviewsObj)
+    const reviews = Object.values(reviewsObj)
+    // console.log('SpotPage reviews: ', reviews)
+
 
     // To have the update on the page without having to refresh
     useEffect(() => {
@@ -43,18 +47,11 @@ export default function IndividualSpotPage () {
         dispatch(thunkGetReviewsBySpotId(spotId))
     }, [dispatch, spotId])
 
-    const reviewsObj = useSelector(state => state.reviews);
-    // console.log('spotpage reviewsobj ------>', reviewsObj)
-    const reviews = Object.values(reviewsObj)
-    // console.log('SpotPage reviews: ', reviews)
-
-
     const reviewsBySpotId = reviews.filter(review => {
         return Number(review.spotId) === Number(spotId)
     })
 
     const reviewCount = reviewsBySpotId.length
-
     // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
 
     const reviewToDeleteArr = reviewsBySpotId.filter(review => {
@@ -91,7 +88,8 @@ export default function IndividualSpotPage () {
                         <i className="fa-solid fa-star"></i>
                     </div>
                     <div className="avgRating-div">
-                    {spot.avgRating === null ? "No Reviews" : spot.avgRating}
+                    {spot.avgRating === null ? "No Reviews" : (spot.avgRating).toFixed(1)}
+
                     </div>
 
                     <div className='city-state-country-div'>{spot.city}, {spot.state}, {spot.country}</div>
@@ -128,7 +126,7 @@ export default function IndividualSpotPage () {
                         src={`${spot.SpotImages[0].url}`}
                     />
                 </div>
-                <div>
+                <div className="no-image-placeholder">
                     <img
                         className="secondary-image-div"
                         src={noPreview}
@@ -147,51 +145,73 @@ export default function IndividualSpotPage () {
                     />
                 </div>
             </div>
-            <div>
+
+            <div className='spot-information-container'>
                 <div>
-                    <div>
-                        {sessionUser && Number(sessionUser.id) !== Number(spot.ownerId) &&
-                            <OpenModalButton
-                            buttonText="Write Review"
-                            modalComponent={<CreateReviewModal spotId={spotId} />}
-                        />
-                        }
-                    </div>
+                    <div className='host-div'>Toru Hosted by {spot.Owner.firstName}</div>
+                        <div>
+                            <div>bedrooms · Beds · baths</div>
+                        </div>
                 </div>
+                <div>
+                    <div className="price-div">{`$${spot.price} per night`}</div>
+                </div>
+
+            </div>
+
+            <div className="reviews-container">
+
                 <div className="comment-container-div">
-                    <div className='icon-avgReviews-reviewCount-div'>
-                        <span><i className="fa-solid fa-star"></i></span>
-                        <div className="avgRating-div">
-                            {spot.avgRating === null ? "No Reviews" : spot.avgRating}
+                    <div className="avgRating-numReviews-write-review-div">
+                        <div className='icon-avgReviews-reviewCount-div'>
+                            <span><i className="fa-solid fa-star"></i></span>
+                            <div className="avgRating-div">
+                                {spot && spot.avgRating === null ? "No Reviews " : (spot.avgRating).toFixed(1)}
+                            </div>
+                            <div>
+                                {reviewCount ? ` · ${reviewCount} Reviews` : " · Be the first to leave a Review"}
+                            </div>
                         </div>
                         <div>
-                            <i className="fa-solid fa-circle fa-2xs"> </i> {reviewCount ? `${reviewCount} Reviews` : "Be the first to leave a Review"}
+                            <div className="write-review-div">
+                                {sessionUser && Number(sessionUser.id) !== Number(spot.ownerId) &&
+                                    <OpenModalMenuItem
+                                        buttonText="Write Review"
+                                        modalComponent={<CreateReviewModal spotId={spotId} />}
+                                    />
+                                }
+                            </div>
                         </div>
                     </div>
+                    <div className="review-box-container">
+                        {
+                            reviewsBySpotId.map(review => {
+                                return (
+                                    <div key={review.id} className="comment-box">
+                                        <div className="comment-user-delete-button">
+                                            <div className="comment-user-name">
+                                                By {review.User.firstName}
+                                            </div>
+                                            <div>
+                                                {sessionUser && Number(sessionUser.id) === Number(review.User.id) &&
+                                                    <button
+                                                    className="delete-review"
+                                                    onClick={onDeleteReview}
+                                                    ><i class="fa-solid fa-xmark fa-s"></i></button>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className="review-and-delete-button">
+                                            <div>
+                                                {review.review}
+                                            </div>
 
-                    {
-                        reviewsBySpotId.map(review => {
-                            return (
-                                <div key={review.id}>
-                                    <div>
-                                        By {review.User.firstName}
-                                    </div>
-                                    <div>
-                                        <div>
-                                            {review.review}
                                         </div>
-                                        <div>
-                                        {sessionUser && Number(sessionUser.id) === Number(review.User.id) &&
-                                            <button
-                                            onClick={onDeleteReview}
-                                            >Delete</button>
-                                        }
-                                        </div>
-                                    </div>
-                            </div>
-                            )
-                        })
-                    }
+                                </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         </div>
