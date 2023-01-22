@@ -11,7 +11,6 @@
     opacity: 100%;
     background-color: white;
     height: 55px;
-    cursor: pointer;
 }
 
 
@@ -25,6 +24,7 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    cursor: pointer;
 }
 
 
