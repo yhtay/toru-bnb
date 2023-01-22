@@ -6,6 +6,7 @@
     border-radius: 20px;
     background: rgb(255,255,255);
     border: 1px solid rgb(215, 215, 215);
+    cursor: pointer;
 }
 .profile-button:hover {
     box-shadow: 0px 2px rgba(132, 130, 130, 0.2);
@@ -65,6 +66,7 @@
     border-style: none;
     width: 178px;
     height: 30px;
+    cursor: pointer;
 }
 
 .openModal-components-div:hover {
