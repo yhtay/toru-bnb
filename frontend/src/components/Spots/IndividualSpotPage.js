@@ -50,7 +50,7 @@ export default function IndividualSpotPage () {
     const reviewsBySpotId = reviews.filter(review => {
         return Number(review.spotId) === Number(spotId)
     })
-    console.log("reviewsBySpotId: ========>", reviewsBySpotId)
+    // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
 
     // const avgRating = reviewsBySpotId.reduce(review)
 
@@ -78,12 +78,10 @@ export default function IndividualSpotPage () {
         dispatch(thunkGetSingleSpot(spotId))
     }
 
-
-
     if (!spot) return null;
     return (
         <div className="individual-spot-page-container">
-            <h3>{spot.description}</h3>
+            <h3>{spot.name}</h3>
             <div className="individual-page-header-div">
                 <div className='star-icon-and-reviews'>
                     <div className='start-icon-div'>
@@ -149,11 +147,12 @@ export default function IndividualSpotPage () {
             </div>
 
             <div className='spot-information-container'>
-                <div>
+                <div className="name-description-bed-div">
                     <h3 className='host-div'>Toru Hosted by {spot.Owner.firstName}</h3>
-                        <div>
-                            <div className="bedroom-bed-bath">bedrooms · beds · baths</div>
-                        </div>
+                    <div className="spotpage-description-div">{spot.description}</div>
+                    <div>
+                        <div className="bedroom-bed-bath">bedrooms · beds · baths</div>
+                    </div>
                 </div>
                 <div>
                     <div className="price-div">{`$${spot.price} per night`}</div>
