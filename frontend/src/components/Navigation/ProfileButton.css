@@ -2,9 +2,30 @@
     display: flex;
     padding: 5px;
     justify-content: center;
+    align-items: center;
     border-radius: 20px;
-    background: rgb(165,249,241);
-    border: 2px inset hwb(180 48% 22%) ;
+    background: rgb(255,255,255);
+    border: 1px solid rgb(215, 215, 215);
+}
+.profile-button:hover {
+    box-shadow: 0px 2px rgba(132, 130, 130, 0.2);
+}
+
+.profile-dropdown {
+    list-style: none;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    top: 53px;
+    right: 11%;
+    background-color: whitesmoke;
+    border-radius: 15px;
+    opacity: 100%;
+    height: 130px;
+    width: 180px;
+    padding: 10px;
+
 }
 
 .hamburger-icon-div {
@@ -15,22 +36,60 @@
     padding-left: 10px;
 }
 
-.profile-dropdown {
-    list-style: none;
-    position: absolute;
+
+/* .drop-down-contents-div {
+    padding: 5px;
+} */
+
+.fa-user-circle {
+    color: rgb(88, 85, 85);
+    padding-left: 2px;
+}
+
+.fa-bars {
+    color: rgb(97, 96, 96);
+    padding-left: 10px;
+}
+
+.openModal-components-div {
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    top: 45px;
-    right: 16%;
-    background-color: rgb(165,249,241);
+    padding: 7px;
+}
+.logout-button {
+    background-color: rgb(250, 197, 207);
+    color: rgb(255, 94, 123);
+    margin: 3px;
     border-radius: 15px;
-    opacity: 100%;
-    height: 100px;
-    width: 180px;
-    padding: 10px;
+    border-style: none;
+    width: 178px;
+    height: 30px;
+}
+
+.openModal-components-div:hover {
+    background-color: rgb(250, 197, 207);
+    color: rgb(255, 94, 123);
+}
+
+.username-div {
+    border-radius: 15px;
+    padding: 7px;
 
 }
-.drop-down-contents-div {
-    padding: 5px;
+.firstName-div {
+    border-radius: 15px;
+    padding: 7px;
+
+}
+.email-div {
+    border-radius: 15px;
+    padding: 7px;
+    object-fit: cover;
+
+}
+
+.dropdown:hover {
+    background-color: rgb(250, 197, 207);
+    color: rgb(255, 94, 123);
 }

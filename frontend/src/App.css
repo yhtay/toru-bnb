@@ -7,4 +7,49 @@
     text-decoration: none;
 }
 
+a:link {
+    text-decoration: none;
+}
 
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* width: 23vw;
+    height: 30vw; */
+    align-items: center;
+    padding: 50px;
+    background: radial-gradient(rgb(255, 255, 255), rgb(255, 186, 198) );
+    color: rgb(255,56,92);
+    border-radius: 20px;
+    background-color: none;
+}
+
+
+
+/* .form-input-divs {
+    padding: 10px;
+} */
+.form-button {
+    width: 148px;
+    background-color: rgb(250, 113, 138);
+    border-style: outset;
+    border: none;
+    border-radius: 3px;
+}
+
+.form-button:hover {
+    background-color: rgba(248, 92, 120);
+}
+
+#button {
+    background: rgb(250, 197, 207);
+    color: rgb(251, 102, 129);
+    padding: 3px;
+    margin: 3px;
+    border-radius: 7px;
+    border-style: none;
+}
+#button:hover {
+    box-shadow: 1px 1px 1px 1px rgb(128, 128, 128, .4);
+}

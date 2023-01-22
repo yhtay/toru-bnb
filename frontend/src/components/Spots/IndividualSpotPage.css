@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    padding-left: 15%;
     padding-right: 14%;
-    padding-left: 14%;
 }
 
 .image-container {
@@ -12,6 +12,7 @@
     align-items: center;
     align-content: center;
 }
+
 
 /* .small-image-div {
     display: flex;
@@ -27,6 +28,11 @@
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
 
+}
+.no-image-placeholder {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 2%;
 }
 
 .secondary-image-div {
@@ -60,7 +66,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-right: 4vw;
+    margin-right: 3vw;
 
 }
 
@@ -68,9 +74,10 @@
     margin-left: 5px;
 }
 
-.comment-container-div {
+.reviews-container {
     display: flex;
     flex-direction: column;
+    margin-top: 2%;
 }
 
 .icon-avgReviews-reviewCount-div {
@@ -82,4 +89,69 @@
 .avgRating-div {
     padding-right: 5px;
     padding-left: 3px;
+}
+
+.spot-information-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 2%;
+}
+.bedroom-bed-bath {
+    color: rgb(128, 128, 128)
+}
+
+.price-div {
+    padding: 10px;
+    width: 150px;
+    text-align: left;
+}
+
+.avgRating-numReviews-write-review-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+
+}
+.write-review-div {
+
+    width: 125px;
+    text-align: left;
+    margin-left: 1%
+}
+.review-box-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+}
+
+.comment-box {
+    padding: 7px;
+    width: 40%;
+    border-radius: 15px;
+}
+.comment-box:hover {
+    background: rgb(250, 197, 207);
+}
+
+.comment-user-delete-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* width: inherit; */
+}
+
+.comment-user-name {
+    color: rgb(128, 128, 128)
+}
+
+.delete-review {
+    border-style: none;
+    background: none;
+}
+
+.delete-review:hover {
+    color: rgb(228,29,87);
 }

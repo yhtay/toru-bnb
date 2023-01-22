@@ -5,7 +5,9 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 
+
 function LoginFormModal() {
+
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
@@ -23,36 +25,35 @@ function LoginFormModal() {
           if (data && data.errors) setErrors(data.errors);
         }
       );
+
   };
 
   return (
     <>
+      <form onSubmit={handleSubmit} className="form">
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
         </ul>
-        <label>
-          Username or Email
+
           <input
+            placeholder="Username or Email"
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Password
+
           <input
+            placeholder="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        <button type="submit">Log In</button>
+        <button type="submit" className="form-button">Log In</button>
       </form>
     </>
   );

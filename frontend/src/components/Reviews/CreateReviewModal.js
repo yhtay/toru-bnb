@@ -22,16 +22,15 @@ export default function CreateReviewModal ({ spotId }) {
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal();
 
-    useEffect(() => {
-        const newErrors = [];
+    // useEffect(() => {
+    //     const newErrors = [];
 
-        if (review.length === 0) newErrors.push("Please leave a review!")
-        if (review.length >= 150) newErrors.push("Please keep reviews under 150 characters")
-        if (Number(stars) <= 0 || Number(stars) > 5) newErrors.push("Ratings must be between 1 & 5")
+    //     if (review.length > 200) newErrors.push("Please keep review under 20 characters")
+    //     if (Number(stars) <= 0 || Number(stars) > 5) newErrors.push("Ratings must be between 1 & 5")
 
-        setErrors(newErrors)
+    //     setErrors(newErrors)
 
-    }, [review, stars])
+    // }, [review, stars])
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -44,20 +43,17 @@ export default function CreateReviewModal ({ spotId }) {
         console.log('payload in Review Modal: ', payload)
         setHasSubmitted(false)
 
-
-
-        const newReview = await dispatch(thunkCreateReview(spotId, payload, sessionUser))
+        await dispatch(thunkCreateReview(spotId, payload, sessionUser))
             .then(dispatch(thunkGetSingleSpot(spotId)))
-            .then( () => {history.push(`/spots/${spotId}`)}, closeModal())
+            .then(() => {history.push(`/spots/${spotId}`)}, closeModal())
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
         }
 
-
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="form">
             <h2>Hit Leave A Review</h2>
             <ul>
                 {errors.map(error => {
@@ -67,13 +63,13 @@ export default function CreateReviewModal ({ spotId }) {
                 })}
             </ul>
             <div>
-                <span>Write Your Review: </span>
                     <input
+                        placeholder="Your Review"
                         type='text'
                         value={review}
                         onChange={e => setReview(e.target.value)}
+                        required
                     />
-
 
             </div>
             <div>
@@ -84,9 +80,11 @@ export default function CreateReviewModal ({ spotId }) {
                     min={1}
                     value={stars}
                     onChange={e => setStars(e.target.value)}
+                    required
                 />
             </div>
             <button
+                className="form-button"
                 type="submit"
             >Submit Review</button>
         </form>

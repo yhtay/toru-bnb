@@ -37,7 +37,7 @@ export const thunkGetReviewsBySpotId = (spotId) => async (dispatch) => {
     if (response.ok) {
         const spotReviews = await response.json();
         // console.log('spotReviews: ---> ', spotReviews)
-        dispatch(getReviewsbySpotId(spotReviews))
+        await dispatch(getReviewsbySpotId(spotReviews))
         return spotReviews
     }
 }
@@ -67,7 +67,7 @@ export const thunkDeleteReview = (reviewId, user) => async (dispatch) => {
         let deletedReview = await response.json();
         // console.log('DELETE REVIEW THUNK: ---> ', deletedReview)
 
-        dispatch(deleteReview(reviewId))
+        await dispatch(deleteReview(reviewId))
         return deletedReview
     }
 }

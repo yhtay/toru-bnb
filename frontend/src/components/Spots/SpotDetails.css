@@ -3,8 +3,8 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
-    padding-left: 9%;
-    padding-right: 9%;
+    padding-left: 7%;
+    padding-right: 6%;
     flex-wrap: wrap;
 
 
@@ -17,13 +17,13 @@
     justify-content: space-evenly;
     flex-direction: column;
     padding: 4px;
-
+    text-decoration: none;
     border-radius: 5px;
     flex-wrap: wrap;
     position: relative;
     margin: 14px;
-    height: 40vh;
-    width: 15vw;
+    height: 42vh;
+    width: 17vw;
     text-decoration: none;
 
 }
@@ -55,7 +55,7 @@
     color: rgb(114, 111, 111);
 }
 
-.price-div {
+.card-price-div {
     padding-left: 3px;
 }
 
@@ -63,11 +63,14 @@
     display: flex;
     justify-content: space-between;
     text-decoration: none;
+
 }
 
 .star-icon-avg-rating {
     display: flex;
+    text-decoration: none;
 }
+
 
 /* .start-icon-div {
     margin-right: 0px;
