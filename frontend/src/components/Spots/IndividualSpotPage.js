@@ -65,14 +65,17 @@ export default function IndividualSpotPage () {
     // console.log("Review to delete ------>", reviewToDelete)
 
     // Delete Spot
-    const onDeleteSpot = (e) => {
+    const onDeleteSpot = async (e) => {
         e.preventDefault()
-        dispatch(thunkDeleteSpot(spotId))
+        const spotToDelete = await dispatch(thunkDeleteSpot(spotId))
+        .catch(async (res) => {
+            const data = await res.json();
+        })
         history.push('/')
     }
 
     // Delete Review
-    const onDeleteReview = (e) => {
+    const onDeleteReview = async (e) => {
         e.preventDefault()
         dispatch(thunkDeleteReview(reviewToDelete.id, sessionUser))
         dispatch(thunkGetSingleSpot(spotId))
