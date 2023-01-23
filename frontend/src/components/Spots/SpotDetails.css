@@ -7,7 +7,6 @@
     padding-right: 6%;
     flex-wrap: wrap;
 
-
 }
 
 .spotcard-div {
@@ -22,8 +21,8 @@
     flex-wrap: wrap;
     position: relative;
     margin: 14px;
-    height: 42vh;
-    width: 17vw;
+    height: content-fit;
+    width: 22vw;
     text-decoration: none;
 
 }
@@ -34,12 +33,13 @@
     flex-direction: row;
     /* height: 20vh;
     width: 18vw; */
-    height: 30vh;
+    height: 270px;
     /* width: 220px; */
     width: inherit;
     border-radius: 5px;
     object-fit: cover;
     margin-bottom: 3px;
+    object-fit: cover;
 }
 
 .city-state {
