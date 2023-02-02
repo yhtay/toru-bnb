@@ -95,7 +95,7 @@ export default function IndividualSpotPage () {
 
                     </div>
 
-                    <div className='city-state-country-div'>{spot.city}, {spot.state}, {spot.country}</div>
+                    <div className='city-state-country-div'>{spot.address}, {spot.city}, {spot.state}, {spot.country}</div>
 
                 </div>
                 <div className="edit-delete-button-div">
