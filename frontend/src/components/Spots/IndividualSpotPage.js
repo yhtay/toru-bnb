@@ -21,16 +21,13 @@ export default function IndividualSpotPage () {
     const { spotId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
-    // const allSpotsObj = useSelector(state => state.spots);
-    // console.log('SpotPage spotsObj: ', spotsObj)
-    // const spotById = allSpotsObj[spotId]
-    // console.log('SpotPage spotById: ', spotById)
 
     const sessionUser = useSelector(state => state.session.user)
     // console.log('sessionUser id: -------->', sessionUser.id)
 
-    const spot = useSelector(state => state.spots.Spot)
-    // console.log('spot in Individual page: ---->', spot)
+    const spot = useSelector(state => state.spots.singleSpot[spotId])
+    console.log('spot in Individual page: ---->', spot)
+
 
     const reviewsObj = useSelector(state => state.reviews);
     // console.log('spotpage reviewsobj ------>', reviewsObj)
@@ -46,6 +43,10 @@ export default function IndividualSpotPage () {
         // Dispatching Reviews
         dispatch(thunkGetReviewsBySpotId(spotId))
     }, [dispatch, spotId])
+
+    if (!spot) return null;
+    if (spot === {}) return null;
+
 
     const reviewsBySpotId = reviews.filter(review => {
         return Number(review.spotId) === Number(spotId)
@@ -81,7 +82,6 @@ export default function IndividualSpotPage () {
         dispatch(thunkGetSingleSpot(spotId))
     }
 
-    if (!spot) return null;
     return (
         <div className="individual-spot-page-container">
             <h3>{spot.name}</h3>

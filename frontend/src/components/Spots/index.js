@@ -9,7 +9,8 @@ import { Link } from "react-router-dom";
 export default function Spot() {
 
     const dispatch = useDispatch();
-    const spotsObj = useSelector(state => state.spots)
+    const spotsObj = useSelector(state => state.spots.allSpots)
+    // console.log("spotsObj: ", spotsObj)
     const spots = Object.values(spotsObj)
 
     // const reviewsObj = useSelector(state => state.reviews)
