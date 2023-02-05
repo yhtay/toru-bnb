@@ -29,12 +29,12 @@ export const getSingleSpot = (spot) => {
     }
 }
 
-export const getUserSpots = (spots) => {
-    return {
-        type: GET_USER_SPOTS,
-        spots
-    }
-}
+// export const getUserSpots = (spots) => {
+//     return {
+//         type: GET_USER_SPOTS,
+//         spots
+//     }
+// }
 
 const createSpot = (spot) => {
     return {
@@ -82,16 +82,16 @@ export const thunkGetSingleSpot = (spotId) => async (dispatch) => {
     }
 }
 
-export const thunkGetUserSpots = () => async (dispatch) => {
-    const response = await csrfFetch('/api/spots/current');
+// export const thunkGetUserSpots = () => async (dispatch) => {
+//     const response = await csrfFetch('/api/spots/current');
 
-    if (response.ok) {
-        const userSpots = await response.json();
-        // console.log('userSpots from thunkGetUserSpots: ', userSpots)
-        dispatch(getUserSpots(userSpots))
-        return userSpots;
-    }
-}
+//     if (response.ok) {
+//         const userSpots = await response.json();
+//         // console.log('userSpots from thunkGetUserSpots: ', userSpots)
+//         dispatch(getUserSpots(userSpots))
+//         return userSpots;
+//     }
+// }
 
 export const thunkCreateSpots = (payload, previewImage) => async (dispatch) => {
 
@@ -193,11 +193,18 @@ export default function spotsReducer(state = initialState, action) {
         //     })
         //     // console.log('Reducer newState: ', newState)
         //     return userSpotsState
-        case CREATE:
+        case CREATE: {
             // console.log('CREATE in Reducer action.spot: ', action.spot)
-            const createSpotState = { ...state }
-            createSpotState[action.spot.id] = action.spot
-            return createSpotState;
+            // const createSpotState = { ...state }
+            // createSpotState[action.spot.id] = action.spot
+            // return createSpotState;
+            const newState = { ...state }
+            newState.allSpots = { ...state.spots, [action.spot.id]: action.spot }
+            newState.singleSpot = { ...state.singleSpot, ...action.spot}
+            return newState;
+        }
+
+
         case EDIT_SPOT: {
             const newState = { ...state }
             // const previewImage = state[action.spot.id].previewImage
@@ -210,10 +217,15 @@ export default function spotsReducer(state = initialState, action) {
             return newState
         }
 
-        case DELETE:
-            const deleteSpotState = { ...state }
-            delete deleteSpotState[action.spot]
-            return deleteSpotState;
+        case DELETE: {
+            // const deleteSpotState = { ...state }
+            // delete deleteSpotState[action.spot]
+            // return deleteSpotState;
+            const newState = { ...state }
+            newState.allSpots = { ...state.spots, [action.spot.id]: action.spot }
+            newState.singleSpot = { ...state.singleSpot, ...action.spot}
+            return newState;
+        }
 
         default:
             return state;
