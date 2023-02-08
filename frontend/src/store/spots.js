@@ -222,8 +222,8 @@ export default function spotsReducer(state = initialState, action) {
             // delete deleteSpotState[action.spot]
             // return deleteSpotState;
             const newState = { ...state }
-            newState.allSpots = { ...state.spots, [action.spot.id]: action.spot }
-            newState.singleSpot = { ...state.singleSpot, ...action.spot}
+            delete newState.allSpots[action.spot]
+            delete newState.singleSpot[action.spot]
             return newState;
         }
 
