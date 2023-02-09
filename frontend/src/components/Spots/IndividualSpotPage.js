@@ -26,12 +26,12 @@ export default function IndividualSpotPage () {
     // console.log('sessionUser id: -------->', sessionUser.id)
 
     const spot = useSelector(state => state.spots.singleSpot[spotId])
-    console.log('spot in Individual page: ---->', spot)
+    // console.log('spot in Individual page: ---->', spot)
 
 
-    const reviewsObj = useSelector(state => state.reviews);
-    // console.log('spotpage reviewsobj ------>', reviewsObj)
-    const reviews = Object.values(reviewsObj)
+    const reviews = useSelector(state => state.reviews.spotReviews);
+
+    const reviewsArray = Object.values(reviews)
     // console.log('SpotPage reviews: ', reviews)
 
 
@@ -46,16 +46,19 @@ export default function IndividualSpotPage () {
 
     if (!spot) return null;
     if (spot === {}) return null;
+    if (!reviews) return null;
+    console.log('spotpage reviews ------>', reviews)
 
 
-    const reviewsBySpotId = reviews.filter(review => {
+
+    const reviewsBySpotId = reviewsArray.filter(review => {
         return Number(review.spotId) === Number(spotId)
     })
     // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
 
     // const avgRating = reviewsBySpotId.reduce(review)
 
-    const reviewCount = reviewsBySpotId.length
+    // const reviewCount = reviewsBySpotId.length
 
     const reviewToDeleteArr = reviewsBySpotId.filter(review => {
         return Number(sessionUser?.id) === Number(review.User?.id)
@@ -173,7 +176,7 @@ export default function IndividualSpotPage () {
                                 {spot && spot.avgRating === null ? "No Reviews " : spot.avgRating}
                             </div>
                             <div>
-                                {reviewCount ? ` · ${reviewCount} Reviews` : " · Be the first to leave a Review"}
+                                {spot.numReviews ? ` · ${spot.numReviews} Reviews` : " · Be the first to leave a Review"}
                             </div>
                         </div>
                         <div>

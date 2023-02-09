@@ -29,20 +29,20 @@ export default function CreateSpotModal () {
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal()
 
-    // useEffect(() => {
-    //     const newErrors = [];
-    //     if (address && address.length < 5) newErrors.push("Address should be more than 5 characters")
-    //     if (city && city.length < 3) newErrors.push("City should be at least 3 characters")
-    //     if (state && state.length < 2) newErrors.push("State should be at least 2 characters")
-    //     if (country && country.length < 3) newErrors.push("Country should be at least 3 characters")
-    //     // if (!lat) newErrors.push("Please enter valid lat")
-    //     // if (!lng) newErrors.push("Please enter valid lng")
-    //     if (name && name.length < 3) newErrors.push("Please enter your name, at least 3 characters")
-    //     if (description && description.length >= 20) newErrors.push("Please keep the discription under 20 characters")
-    //     if (price && price <= 0) newErrors.push("Price minimum $1!")
+    useEffect(() => {
+        const newErrors = [];
+        if (address.length === 0) newErrors.push("Street address is required")
+        if (city.length === 0) newErrors.push("City is required")
+        if (state.length < 2) newErrors.push("State should be at least 2 characters")
+        if (country.length === 0) newErrors.push("Country is required")
+        // if (!lat) newErrors.push("Please enter valid lat")
+        // if (!lng) newErrors.push("Please enter valid lng")
+        if (name.length === 0 || name.length > 50) newErrors.push("Valid Name must be less than 50 characters")
+        if (description && description.length > 20) newErrors.push("Please keep the discription under 20 characters")
+        if (price && price <= 0) newErrors.push("Price minimum $1!")
 
-    //     setErrors(newErrors)
-    // }, [address, city, state, country, name, description, price])
+        setErrors(newErrors)
+    }, [address, city, state, country, name, description, price])
 
     // To have the update on the page without having to refresh
 
@@ -67,8 +67,6 @@ export default function CreateSpotModal () {
         }
         console.log("payload in Form: ", payload)
 
-        setHasSubmitted(false)
-
         await dispatch(thunkCreateSpots(payload, previewImage))
             .then((newSpot) => {history.push(`/spots/${newSpot.id}`)})
             .then(closeModal)
@@ -76,6 +74,7 @@ export default function CreateSpotModal () {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
+        setHasSubmitted(false)
         // console.log('newSPOT in create SPOT MOdAL', newSpot)
     }
 
@@ -84,8 +83,9 @@ export default function CreateSpotModal () {
             <h2>Create A New Toru</h2>
             <div>
                 <ul>
-                    {errors.map((error, idx) => (
-                        <li key={idx}>{error}</li>
+                    {hasSubmitted && errors.length > 0 &&
+                        errors.map((error, idx) => (
+                            <li key={idx}>{error}</li>
                     ))}
                 </ul>
 
@@ -189,7 +189,7 @@ export default function CreateSpotModal () {
             </div>
             <button type="submit"
                 className="form-button"
-                // disabled={errors.length > 0 ? true : false}
+                disabled={errors.length > 0 ? true : false}
             >Create new Spot</button>
         </form>
     )

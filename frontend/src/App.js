@@ -39,7 +39,6 @@ function App() {
             <IndividualSpotPage />
           </Route>
 
-
         </Switch>
       )}
     </>
