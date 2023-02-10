@@ -54,6 +54,8 @@ export default function CreateSpotModal () {
         let lng;
 
         setHasSubmitted(true)
+        if (errors.length > 0) return
+
         const payload = {
             address,
             city,
@@ -88,7 +90,6 @@ export default function CreateSpotModal () {
                             <li key={idx}>{error}</li>
                     ))}
                 </ul>
-
             </div>
             <div className="form-input-divs">
                 <input
@@ -189,7 +190,7 @@ export default function CreateSpotModal () {
             </div>
             <button type="submit"
                 className="form-button"
-                disabled={errors.length > 0 ? true : false}
+                // disabled={errors.length > 0 ? true : false}
             >Create new Spot</button>
         </form>
     )

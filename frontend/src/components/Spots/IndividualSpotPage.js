@@ -204,7 +204,7 @@ export default function IndividualSpotPage () {
                                                     <button
                                                         className="delete-review"
                                                         onClick={onDeleteReview}
-                                                    > <i class="fa-solid fa-xmark fa-s"></i></button>
+                                                    > <i className="fa-solid fa-xmark fa-s"></i></button>
                                                 }
                                             </div>
                                         </div>

@@ -29,9 +29,9 @@ export default function EditSpotForm({ spot }) {
 
     useEffect(() => {
         const newErrors = [];
-        if (address && address.length < 5) newErrors.push("Please Provide a valid address")
+        if (address.length === 0) newErrors.push("Please Provide a valid address")
         if (!city) newErrors.push("Please enter a valid City")
-        if (!state) newErrors.push("Please enter a valid State")
+        if (state.length < 2) newErrors.push("Please enter a valid State")
         if (!country) newErrors.push("Please enter a valid Country")
         if (!lat) newErrors.push("Please enter valid lat")
         if (!lng) newErrors.push("Please enter valid lng")
@@ -40,14 +40,18 @@ export default function EditSpotForm({ spot }) {
         if (price === 0) newErrors.push("Please provide a price")
 
         setErrors(newErrors)
+
     }, [address, city, state, country, lat, lng, name, description, price])
 
 
 
     const onSubmit = async (e) => {
         e.preventDefault()
+        console.log('newErrors onSubmit', errors)
 
         setHasSubmitted(true)
+        if (errors.length > 0) return
+
         const payload = {
             address,
             city,
@@ -61,7 +65,7 @@ export default function EditSpotForm({ spot }) {
         }
         console.log('payload from EditForm: ', payload)
 
-        setHasSubmitted(false);
+
 
         const editedSpot = await dispatch(thunkEditSpot(payload, spot.id))
             .then(() => dispatch(thunkGetSingleSpot(spot.id)))
@@ -70,6 +74,8 @@ export default function EditSpotForm({ spot }) {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
+
+        setHasSubmitted(false);
         // history.push(`/spots/${spot.id}`)
     }
 
@@ -77,7 +83,7 @@ export default function EditSpotForm({ spot }) {
         <form onSubmit={onSubmit} className="form">
             <h2>Edit Spot</h2>
             <ul>
-                {errors.map(error => (
+                {hasSubmitted && errors.length > 0 && errors.map(error => (
                     <li key={error}>
                         {error}
                     </li>
@@ -149,6 +155,7 @@ export default function EditSpotForm({ spot }) {
                         type='text'
                         value={name}
                         onChange={e => setName(e.target.value)}
+                        required
                     />
 
             </div>
@@ -158,6 +165,7 @@ export default function EditSpotForm({ spot }) {
                         type='text'
                         value={description}
                         onChange={e => setDescription(e.target.value)}
+                        required
                     />
 
             </div>
@@ -167,13 +175,14 @@ export default function EditSpotForm({ spot }) {
                         type='number'
                         value={price}
                         onChange={e => setPrice(e.target.value)}
+                        required
                     />
 
             </div>
             <button
                 className="form-button"
                 type="submit"
-                disabled={errors.length > 0 ? true : false}
+                // disabled={errors.length > 0 ? true : false}
             >Edit Spot</button>
         </form>
     )
