@@ -37,6 +37,7 @@ function DemoUserModal() {
           <input
             type="text"
             value={credential}
+            readOnly
             // onChange={(e) => setCredential(e.target.value)}
             required
           />
@@ -44,6 +45,7 @@ function DemoUserModal() {
           <input
             type="password"
             value={password}
+            readOnly
             // onChange={(e) => setPassword(e.target.value)}
             required
           />

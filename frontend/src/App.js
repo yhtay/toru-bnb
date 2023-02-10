@@ -32,13 +32,12 @@ function App() {
           <Route exact path={'/'}>
             <Spots />
           </Route>
-          <Route path={'/users-spot'}>
+          {/* <Route path={'/users-spot'}>
             <UsersSpots />
-          </Route>
+          </Route> */}
           <Route path={'/spots/:spotId'}>
             <IndividualSpotPage />
           </Route>
-
 
         </Switch>
       )}

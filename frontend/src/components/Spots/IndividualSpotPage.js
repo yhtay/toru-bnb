@@ -21,20 +21,18 @@ export default function IndividualSpotPage () {
     const { spotId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
-    // const allSpotsObj = useSelector(state => state.spots);
-    // console.log('SpotPage spotsObj: ', spotsObj)
-    // const spotById = allSpotsObj[spotId]
-    // console.log('SpotPage spotById: ', spotById)
 
     const sessionUser = useSelector(state => state.session.user)
     // console.log('sessionUser id: -------->', sessionUser.id)
 
-    const spot = useSelector(state => state.spots.Spot)
+    const spot = useSelector(state => state.spots.singleSpot[spotId])
     // console.log('spot in Individual page: ---->', spot)
 
-    const reviewsObj = useSelector(state => state.reviews);
-    // console.log('spotpage reviewsobj ------>', reviewsObj)
-    const reviews = Object.values(reviewsObj)
+
+
+    const reviews = useSelector(state => state.reviews.spotReviews);
+
+    const reviewsArray = Object.values(reviews)
     // console.log('SpotPage reviews: ', reviews)
 
 
@@ -47,14 +45,22 @@ export default function IndividualSpotPage () {
         dispatch(thunkGetReviewsBySpotId(spotId))
     }, [dispatch, spotId])
 
-    const reviewsBySpotId = reviews.filter(review => {
+    if (!spot) return null;
+    if (spot === {}) return null;
+    if (!reviews) return null;
+    // console.log('spotpage reviews ------>', reviews)
+    // console.log('spot.numReviews: ', spot.numReviews)
+
+
+
+    const reviewsBySpotId = reviewsArray.filter(review => {
         return Number(review.spotId) === Number(spotId)
     })
     // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
 
     // const avgRating = reviewsBySpotId.reduce(review)
 
-    const reviewCount = reviewsBySpotId.length
+    // const reviewCount = reviewsBySpotId.length
 
     const reviewToDeleteArr = reviewsBySpotId.filter(review => {
         return Number(sessionUser?.id) === Number(review.User?.id)
@@ -81,7 +87,6 @@ export default function IndividualSpotPage () {
         dispatch(thunkGetSingleSpot(spotId))
     }
 
-    if (!spot) return null;
     return (
         <div className="individual-spot-page-container">
             <h3>{spot.name}</h3>
@@ -95,7 +100,7 @@ export default function IndividualSpotPage () {
 
                     </div>
 
-                    <div className='city-state-country-div'>{spot.city}, {spot.state}, {spot.country}</div>
+                    <div className='city-state-country-div'>{spot.address}, {spot.city}, {spot.state}, {spot.country}</div>
 
                 </div>
                 <div className="edit-delete-button-div">
@@ -173,7 +178,14 @@ export default function IndividualSpotPage () {
                                 {spot && spot.avgRating === null ? "No Reviews " : spot.avgRating}
                             </div>
                             <div>
-                                {reviewCount ? ` · ${reviewCount} Reviews` : " · Be the first to leave a Review"}
+                                {
+                                    spot.numReviews
+                                    ? (spot.numReviews === 1
+                                        ? ` · ${spot.numReviews} Review`
+                                        : ` · ${spot.numReviews} Reviews`)
+                                    :
+                                    " · Be the first to leave a Review"
+                                }
                             </div>
                         </div>
                         <div>
@@ -201,7 +213,7 @@ export default function IndividualSpotPage () {
                                                     <button
                                                         className="delete-review"
                                                         onClick={onDeleteReview}
-                                                    > <i class="fa-solid fa-xmark fa-s"></i></button>
+                                                    > <i className="fa-solid fa-xmark fa-s"></i></button>
                                                 }
                                             </div>
                                         </div>

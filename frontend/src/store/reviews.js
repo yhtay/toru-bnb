@@ -1,7 +1,7 @@
 import { csrfFetch } from "./csrf";
 
 // Constants
-const GET_REVIEWS = 'reviews/GET_REVIEWS'
+const GET_SPOT_REVIEWS = 'reviews/GET_SPOT_REVIEWS'
 
 const CREATE_REVIEW = 'reviews/CREATE_REVIEWS'
 
@@ -11,7 +11,7 @@ const DELETE_REVIEW = 'reviews/DELETE'
 // Action Reducers
 export const getReviewsbySpotId = (reviews) => {
     return {
-        type: GET_REVIEWS,
+        type: GET_SPOT_REVIEWS,
         reviews
     }
 }
@@ -38,6 +38,7 @@ export const thunkGetReviewsBySpotId = (spotId) => async (dispatch) => {
         const spotReviews = await response.json();
         // console.log('spotReviews: ---> ', spotReviews)
         await dispatch(getReviewsbySpotId(spotReviews))
+        // console.log('thunk spotReviews: ', spotReviews)
         return spotReviews
     }
 }
@@ -73,29 +74,42 @@ export const thunkDeleteReview = (reviewId, user) => async (dispatch) => {
 }
 
 // Initial State
-const initialState = {}
+const initialState = {
+    spotReviews: {}
+}
+
+const normailze = (reviews) => {
+    const data = {};
+    if (reviews) {
+        // console.log("reviews: ", reviews)
+        reviews.Reviews.forEach(review => data[review.id] = review)
+        return data
+    }
+}
 
 // Reducer
 export default function reviewsReducer(state = initialState, action) {
-    const newState = { ...state }
 
     switch (action.type) {
-        case GET_REVIEWS:
-            // console.log('reviewReducer NEWSTATE: -------->', newState)
-            // console.log('reviewsReducer action.reviews', action.reviews.Reviews)
-            action.reviews.Reviews.forEach(review => {
-                newState[review.id] = review
-            })
-            return newState
-        case CREATE_REVIEW:
+        case GET_SPOT_REVIEWS: {
+            const newState = { ...state }
+            newState.spotReviews = normailze(action.reviews)
+            // console.log("reviews newstate: ", newState)
+            return newState;
+        }
+        case CREATE_REVIEW: {
+            const newState = { ...state }
             // console.log('review Reducer action.review --->', action.review)
-            newState[action.review.id] = action.review
+            newState.spotReviews = { ...state.spotReviews, [action.review.id]: action.review}
             // newState[action.review.id].User = {id: action.review.userId}
             return newState;
-        case DELETE_REVIEW:
+        }
+        case DELETE_REVIEW: {
+            const newState = { ...state }
             // console.log('Reducer for action DELETE: ', action.review)
-            delete newState[action.review]
+            delete newState.spotReviews[action.review]
             return newState;
+        }
         default:
             return state
     }
