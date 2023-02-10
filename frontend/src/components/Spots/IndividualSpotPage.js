@@ -47,7 +47,7 @@ export default function IndividualSpotPage () {
     if (!spot) return null;
     if (spot === {}) return null;
     if (!reviews) return null;
-    console.log('spotpage reviews ------>', reviews)
+    // console.log('spotpage reviews ------>', reviews)
 
 
 
