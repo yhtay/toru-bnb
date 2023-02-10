@@ -38,7 +38,7 @@ export const thunkGetReviewsBySpotId = (spotId) => async (dispatch) => {
         const spotReviews = await response.json();
         // console.log('spotReviews: ---> ', spotReviews)
         await dispatch(getReviewsbySpotId(spotReviews))
-        console.log('thunk spotReviews: ', spotReviews)
+        // console.log('thunk spotReviews: ', spotReviews)
         return spotReviews
     }
 }

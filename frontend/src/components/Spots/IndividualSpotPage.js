@@ -29,6 +29,7 @@ export default function IndividualSpotPage () {
     // console.log('spot in Individual page: ---->', spot)
 
 
+
     const reviews = useSelector(state => state.reviews.spotReviews);
 
     const reviewsArray = Object.values(reviews)
@@ -48,6 +49,7 @@ export default function IndividualSpotPage () {
     if (spot === {}) return null;
     if (!reviews) return null;
     // console.log('spotpage reviews ------>', reviews)
+    // console.log('spot.numReviews: ', spot.numReviews)
 
 
 
@@ -176,7 +178,14 @@ export default function IndividualSpotPage () {
                                 {spot && spot.avgRating === null ? "No Reviews " : spot.avgRating}
                             </div>
                             <div>
-                                {spot.numReviews ? ` · ${spot.numReviews} Reviews` : " · Be the first to leave a Review"}
+                                {
+                                    spot.numReviews
+                                    ? (spot.numReviews === 1
+                                        ? ` · ${spot.numReviews} Review`
+                                        : ` · ${spot.numReviews} Reviews`)
+                                    :
+                                    " · Be the first to leave a Review"
+                                }
                             </div>
                         </div>
                         <div>
