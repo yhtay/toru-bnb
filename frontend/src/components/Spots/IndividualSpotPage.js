@@ -23,35 +23,26 @@ export default function IndividualSpotPage () {
     const history = useHistory();
 
     const sessionUser = useSelector(state => state.session.user)
-    // console.log('sessionUser id: -------->', sessionUser.id)
+
 
     const spot = useSelector(state => state.spots.singleSpot[spotId])
-    // console.log('spot in Individual page: ---->', spot)
-
 
 
     const reviews = useSelector(state => state.reviews.spotReviews);
 
     const reviewsArray = Object.values(reviews)
-    // console.log('SpotPage reviews: ', reviews)
+
 
 
     // To have the update on the page without having to refresh
     useEffect(() => {
-        // dispatch(thunkGetSpots())
-        // // using thunkGetSingleSpot
         dispatch(thunkGetSingleSpot(spotId))
-        // Dispatching Reviews
         dispatch(thunkGetReviewsBySpotId(spotId))
     }, [dispatch, spotId])
 
     if (!spot) return null;
     if (spot === {}) return null;
     if (!reviews) return null;
-    // console.log('spotpage reviews ------>', reviews)
-    console.log('spot.numReviews: ', spot.numReviews)
-    console.log('typeof spot.numReviews: ', typeof(spot.numReviews))
-    console.log('spot.numReview === 1 ? ', spot.numReviews === 1)
 
 
 
@@ -59,9 +50,7 @@ export default function IndividualSpotPage () {
         return Number(review.spotId) === Number(spotId)
     })
     // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
-
     // const avgRating = reviewsBySpotId.reduce(review)
-
     // const reviewCount = reviewsBySpotId.length
 
     const reviewToDeleteArr = reviewsBySpotId.filter(review => {

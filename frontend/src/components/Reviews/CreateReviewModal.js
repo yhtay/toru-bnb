@@ -23,26 +23,30 @@ export default function CreateReviewModal ({ spotId }) {
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal();
 
-    // useEffect(() => {
-    //     const newErrors = [];
+    useEffect(() => {
+        const newErrors = [];
 
-    //     if (review.length > 200) newErrors.push("Please keep review under 20 characters")
-    //     if (Number(stars) <= 0 || Number(stars) > 5) newErrors.push("Ratings must be between 1 & 5")
+        if (review.length > 100) newErrors.push("Please keep review under 100 characters")
+        if (Number(stars) <= 0 || Number(stars) > 5) newErrors.push("Ratings must be between 1 & 5")
 
-    //     setErrors(newErrors)
+        setErrors(newErrors)
 
-    // }, [review, stars])
+    }, [review, stars])
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        console.log('review Errors: ', errors)
+
         setHasSubmitted(true);
+
+        if (errors.length > 0) return
 
         const payload = {
             review,
             stars
         }
         console.log('payload in Review Modal: ', payload)
-        setHasSubmitted(false)
+
 
         await dispatch(thunkCreateReview(+spotId, payload, sessionUser))
             .then(()=>dispatch(thunkGetSingleSpot(+spotId)))
@@ -52,17 +56,20 @@ export default function CreateReviewModal ({ spotId }) {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
+
+        setHasSubmitted(false)
+
         }
 
     return (
         <form onSubmit={onSubmit} className="form">
-            <h2>Hit Leave A Review</h2>
+            <h2>Leave A Review</h2>
             <ul>
-                {errors.map(error => {
+                {hasSubmitted && errors.length > 0 && errors.map(error => (
                     <li key={error}>
                         {error}
                     </li>
-                })}
+                ))}
             </ul>
             <div>
                     <input

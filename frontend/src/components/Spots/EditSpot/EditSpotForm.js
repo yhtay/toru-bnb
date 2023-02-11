@@ -47,7 +47,7 @@ export default function EditSpotForm({ spot }) {
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        console.log('newErrors onSubmit', errors)
+        // console.log('newErrors onSubmit', errors)
 
         setHasSubmitted(true)
         if (errors.length > 0) return
