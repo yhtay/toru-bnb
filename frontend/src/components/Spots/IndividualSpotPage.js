@@ -181,8 +181,8 @@ export default function IndividualSpotPage () {
                             </div>
                             <div>
                                 {
-                                    spot.numReviews
-                                    ? (spot.numReviews === 1
+                                    +spot.numReviews
+                                    ? (+spot.numReviews === 1
                                         ? ` · ${spot.numReviews} Review`
                                         : ` · ${spot.numReviews} Reviews`)
                                     :
