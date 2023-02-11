@@ -273,8 +273,8 @@ router.get('/:spotId', async (req, res) => {
 
     for (let review of reviewList) {
         // console.log('numReviews ----->', review.numReviews)
-        spot.numReviews = review.numReviews
-        spot.avgRating = review.avgRating
+        spot.numReviews = +review.numReviews
+        spot.avgRating = +review.avgRating
     }
 
     return res.json(spot)
