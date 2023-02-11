@@ -9,9 +9,9 @@ import LoginFormModal from "../LoginFormModal";
 import { thunkDeleteSpot } from "../../store/spots";
 
 
-import OpenModalMenuItem from "../OpenModalButton"
+import OpenModalButton from "../OpenModalButton"
 import { thunkDeleteReview, thunkGetReviewsBySpotId } from "../../store/reviews";
-import OpenModalButton from "../OpenModalButton";
+
 import CreateReviewModal from "../Reviews/CreateReviewModal";
 
 
@@ -49,7 +49,9 @@ export default function IndividualSpotPage () {
     if (spot === {}) return null;
     if (!reviews) return null;
     // console.log('spotpage reviews ------>', reviews)
-    // console.log('spot.numReviews: ', spot.numReviews)
+    console.log('spot.numReviews: ', spot.numReviews)
+    console.log('typeof spot.numReviews: ', typeof(spot.numReviews))
+    console.log('spot.numReview === 1 ? ', spot.numReviews === 1)
 
 
 
@@ -106,7 +108,7 @@ export default function IndividualSpotPage () {
                 <div className="edit-delete-button-div">
                     <div>
                     {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
-                            <OpenModalMenuItem
+                            <OpenModalButton
                                 className="button"
                                 buttonText="Edit Spot"
                             // disabled={sessionUser.id == spot.ownerId ? false : true}
@@ -191,7 +193,7 @@ export default function IndividualSpotPage () {
                         <div>
                             <div className="write-review-div">
                                 {sessionUser && Number(sessionUser.id) !== Number(spot.ownerId) &&
-                                    <OpenModalMenuItem
+                                    <OpenModalButton
                                         buttonText="Write Review"
                                         modalComponent={<CreateReviewModal spotId={spotId} />}
                                     />
