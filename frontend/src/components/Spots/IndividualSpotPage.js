@@ -96,7 +96,7 @@ export default function IndividualSpotPage () {
 
                 </div>
                 <div className="edit-delete-button-div">
-                    {/* <div>
+                    <div>
                         {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <OpenModalButton
                                 className="button"
@@ -105,7 +105,7 @@ export default function IndividualSpotPage () {
                             modalComponent={<AddSpotImageModal spot={spot} />}
                         />
                         }
-                    </div> */}
+                    </div>
                     <div>
                         {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <OpenModalButton
