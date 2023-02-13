@@ -11,7 +11,7 @@ import { thunkDeleteSpot } from "../../store/spots";
 
 import OpenModalButton from "../OpenModalButton"
 import { thunkDeleteReview, thunkGetReviewsBySpotId } from "../../store/reviews";
-
+import AddSpotImageModal from "./AddSpotImage/AddSpotImage";
 import CreateReviewModal from "../Reviews/CreateReviewModal";
 
 
@@ -43,6 +43,7 @@ export default function IndividualSpotPage () {
     if (!spot) return null;
     if (spot === {}) return null;
     if (!reviews) return null;
+    console.log('spot.SpotImages: ', spot.SpotImages)
 
 
 
@@ -95,8 +96,18 @@ export default function IndividualSpotPage () {
 
                 </div>
                 <div className="edit-delete-button-div">
+                    {/* <div>
+                        {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
+                            <OpenModalButton
+                                className="button"
+                                buttonText="Add Image"
+                            // disabled={sessionUser.id == spot.ownerId ? false : true}
+                            modalComponent={<AddSpotImageModal spot={spot} />}
+                        />
+                        }
+                    </div> */}
                     <div>
-                    {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
+                        {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <OpenModalButton
                                 className="button"
                                 buttonText="Edit Spot"

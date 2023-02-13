@@ -18,8 +18,8 @@ export default function EditSpotForm({ spot }) {
     const [city, setCity] = useState(spot.city);
     const [state, setState] = useState(spot.state);
     const [country, setCountry] = useState(spot.country);
-    const [lat, setLat] = useState(spot.lat);
-    const [lng, setLng] = useState(spot.lng);
+    // const [lat, setLat] = useState(spot.lat);
+    // const [lng, setLng] = useState(spot.lng);
     const [name, setName] = useState(spot.name);
     const [description, setDescription] = useState(spot.description);
     const [price, setPrice] = useState(spot.price);
@@ -33,15 +33,15 @@ export default function EditSpotForm({ spot }) {
         if (!city) newErrors.push("Please enter a valid City")
         if (state.length < 2) newErrors.push("Please enter a valid State")
         if (!country) newErrors.push("Please enter a valid Country")
-        if (!lat) newErrors.push("Please enter valid lat")
-        if (!lng) newErrors.push("Please enter valid lng")
+        // if (!lat) newErrors.push("Please enter valid lat")
+        // if (!lng) newErrors.push("Please enter valid lng")
         if (!name) newErrors.push("Please enter your name")
         if (!description) newErrors.push("Please provie a description")
         if (price === 0) newErrors.push("Please provide a price")
 
         setErrors(newErrors)
 
-    }, [address, city, state, country, lat, lng, name, description, price])
+    }, [address, city, state, country, name, description, price])
 
 
 
@@ -52,20 +52,20 @@ export default function EditSpotForm({ spot }) {
         setHasSubmitted(true)
         if (errors.length > 0) return
 
+        let lat;
+        let lng;
+
         const payload = {
             address,
             city,
             state,
             country,
-            lat,
-            lng,
+            lat: 50,
+            lng: 50,
             name,
             description,
             price
         }
-        console.log('payload from EditForm: ', payload)
-
-
 
         const editedSpot = await dispatch(thunkEditSpot(payload, spot.id))
             .then(() => dispatch(thunkGetSingleSpot(spot.id)))
@@ -129,7 +129,7 @@ export default function EditSpotForm({ spot }) {
                     />
 
             </div>
-            <div>
+            {/* <div>
 
                     <input
                         type='number'
@@ -148,7 +148,7 @@ export default function EditSpotForm({ spot }) {
                         required
                     />
 
-            </div>
+            </div> */}
             <div>
 
                     <input
