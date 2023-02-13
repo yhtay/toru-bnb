@@ -50,7 +50,7 @@ router.post(
           statusCode: 403,
           message: 'User already exist',
           errors: [
-            "User with that email already exists"
+            "Email already exists"
           ]
         })
       }
@@ -63,7 +63,7 @@ router.post(
           statusCode: 403,
           message: 'User already exist',
           errors: [
-            "User with that username already exists"
+            "Username already exists"
           ]
         })
       }
