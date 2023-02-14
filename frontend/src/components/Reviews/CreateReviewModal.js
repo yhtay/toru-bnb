@@ -9,7 +9,7 @@ import { thunkGetReviewsBySpotId } from "../../store/reviews"
 
 
 
-export default function CreateReviewModal ({ spotId }) {
+export default function CreateReviewModal ({ spotId, reviewsArray, sessionUserId }) {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -23,11 +23,17 @@ export default function CreateReviewModal ({ spotId }) {
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal();
 
+    console.log('reviewsArray in ReviewModal: ', reviewsArray)
+    console.log('sessionUserId in ReviewModa: ', sessionUserId)
+
     useEffect(() => {
         const newErrors = [];
 
-        if (review.length > 100) newErrors.push("Please keep review under 100 characters")
-        if (Number(stars) <= 0 || Number(stars) > 5) newErrors.push("Ratings must be between 1 & 5")
+        if (review.length > 100) newErrors.push("Please keep review under 100 characters");
+        if (Number(stars) <= 0 || Number(stars) > 5) newErrors.push("Ratings must be between 1 & 5");
+        reviewsArray.forEach(review => {
+            if (review.userId === sessionUserId) newErrors.push("User already has a review for this spot")
+        })
 
         setErrors(newErrors)
 

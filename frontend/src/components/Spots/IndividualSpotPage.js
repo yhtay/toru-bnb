@@ -25,14 +25,13 @@ export default function IndividualSpotPage () {
     const sessionUser = useSelector(state => state.session.user)
 
 
-    const spot = useSelector(state => state.spots.singleSpot[spotId])
+    const spot = useSelector(state => state.spots.singleSpot)
+    const spotArr = Object.values(spot)
 
 
     const reviews = useSelector(state => state.reviews.spotReviews);
 
     const reviewsArray = Object.values(reviews)
-
-
 
     // To have the update on the page without having to refresh
     useEffect(() => {
@@ -40,10 +39,10 @@ export default function IndividualSpotPage () {
         dispatch(thunkGetReviewsBySpotId(spotId))
     }, [dispatch, spotId])
 
-    if (!spot) return null;
-    if (spot === {}) return null;
+    if (spotArr.length === 0) return null;
+    // if (spot === {}) return null;
     if (!reviews) return null;
-    console.log('spot.SpotImages: ', spot.SpotImages)
+    // console.log('spot.SpotImages: ', spot)
 
 
 
@@ -195,7 +194,7 @@ export default function IndividualSpotPage () {
                                 {sessionUser && Number(sessionUser.id) !== Number(spot.ownerId) &&
                                     <OpenModalButton
                                         buttonText="Write Review"
-                                        modalComponent={<CreateReviewModal spotId={spotId} />}
+                                        modalComponent={<CreateReviewModal spotId={spotId} reviewsArray={reviewsArray} sessionUserId={sessionUser.id} />}
                                     />
                                 }
                             </div>
