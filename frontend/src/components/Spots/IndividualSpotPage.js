@@ -43,6 +43,9 @@ export default function IndividualSpotPage () {
     // if (spot === {}) return null;
     if (!reviews) return null;
     // console.log('spot.SpotImages: ', spot)
+    // console.log('spot in individual spotpage: ', spot)
+
+    // console.log("spotArr: ", spotArr)
 
 
 

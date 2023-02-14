@@ -12,15 +12,13 @@ export default function AddSpotImageModal ({ spot }) {
     const [imageUrl, setImageUrl] = useState('');
     const [errors, setErrors] = useState([])
 
-    console.log("spotImage Modal spot: ", spot)
+    // console.log("spotImage Modal spot: ", spot)
 
     const onSubmit = async (e) => {
 
         e.preventDefault()
 
-
-
-        await dispatch(thunkAddSpotImage(+spot.id, imageUrl, true))
+        await dispatch(thunkAddSpotImage(+spot.id, imageUrl, false))
             // .then(() => dispatch(thunkGetSingleSpot(+spot.id)))
             .then(closeModal)
             .catch(async (res) => {
@@ -28,7 +26,6 @@ export default function AddSpotImageModal ({ spot }) {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
-
     }
 
     return (

@@ -236,12 +236,16 @@ router.get('/:spotId', async (req, res) => {
             },
             {
                 model: SpotImage,
-                attributes: ['id', 'url', 'preview']
+                attributes: ['id', 'url', 'preview', 'createdAt'],
+
             },
             {
                 model: User, as: 'Owner',
                 attributes: ['id', 'firstName', 'lastName']
             }
+        ],
+        order: [
+            [SpotImage, 'id', 'ASC']
         ]
     })
     // Error Handling
