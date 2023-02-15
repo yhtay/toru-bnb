@@ -23,8 +23,8 @@ export default function CreateReviewModal ({ spotId, reviewsArray, sessionUserId
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal();
 
-    console.log('reviewsArray in ReviewModal: ', reviewsArray)
-    console.log('sessionUserId in ReviewModa: ', sessionUserId)
+    // console.log('reviewsArray in ReviewModal: ', reviewsArray)
+    // console.log('sessionUserId in ReviewModa: ', sessionUserId)
 
     useEffect(() => {
         const newErrors = [];
