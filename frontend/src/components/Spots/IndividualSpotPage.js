@@ -11,7 +11,7 @@ import { thunkDeleteSpot } from "../../store/spots";
 
 import OpenModalButton from "../OpenModalButton"
 import { thunkDeleteReview, thunkGetReviewsBySpotId } from "../../store/reviews";
-
+import AddSpotImageModal from "./AddSpotImage/AddSpotImage";
 import CreateReviewModal from "../Reviews/CreateReviewModal";
 
 
@@ -23,45 +23,38 @@ export default function IndividualSpotPage () {
     const history = useHistory();
 
     const sessionUser = useSelector(state => state.session.user)
-    // console.log('sessionUser id: -------->', sessionUser.id)
 
-    const spot = useSelector(state => state.spots.singleSpot[spotId])
-    // console.log('spot in Individual page: ---->', spot)
 
+    const spot = useSelector(state => state.spots.singleSpot)
+    const spotArr = Object.values(spot)
 
 
     const reviews = useSelector(state => state.reviews.spotReviews);
 
     const reviewsArray = Object.values(reviews)
-    // console.log('SpotPage reviews: ', reviews)
-
 
     // To have the update on the page without having to refresh
     useEffect(() => {
-        // dispatch(thunkGetSpots())
-        // // using thunkGetSingleSpot
         dispatch(thunkGetSingleSpot(spotId))
-        // Dispatching Reviews
         dispatch(thunkGetReviewsBySpotId(spotId))
     }, [dispatch, spotId])
 
-    if (!spot) return null;
-    if (spot === {}) return null;
+    if (spotArr.length === 0) return null;
+    // if (spot === {}) return null;
     if (!reviews) return null;
-    // console.log('spotpage reviews ------>', reviews)
-    console.log('spot.numReviews: ', spot.numReviews)
-    console.log('typeof spot.numReviews: ', typeof(spot.numReviews))
-    console.log('spot.numReview === 1 ? ', spot.numReviews === 1)
+    // if (spot) {
+    //     console.log('spot.SpotImages: ', spot.SpotImages)
+    // }
 
+    // console.log('spot in individual spotpage: ', spot)
+    // console.log("spotArr: ", spotArr)
 
 
     const reviewsBySpotId = reviewsArray.filter(review => {
         return Number(review.spotId) === Number(spotId)
     })
     // console.log("reviewsBySpotId: ========>", reviewsBySpotId)
-
     // const avgRating = reviewsBySpotId.reduce(review)
-
     // const reviewCount = reviewsBySpotId.length
 
     const reviewToDeleteArr = reviewsBySpotId.filter(review => {
@@ -89,6 +82,8 @@ export default function IndividualSpotPage () {
         dispatch(thunkGetSingleSpot(spotId))
     }
 
+
+
     return (
         <div className="individual-spot-page-container">
             <h3>{spot.name}</h3>
@@ -107,7 +102,17 @@ export default function IndividualSpotPage () {
                 </div>
                 <div className="edit-delete-button-div">
                     <div>
-                    {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
+                        {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
+                            <OpenModalButton
+                                className="button"
+                                buttonText="Add Image"
+                            // disabled={sessionUser.id == spot.ownerId ? false : true}
+                            modalComponent={<AddSpotImageModal spotImages={spot.SpotImages} spot={spot} />}
+                        />
+                        }
+                    </div>
+                    <div>
+                        {sessionUser && Number(sessionUser.id) === Number(spot.ownerId) &&
                             <OpenModalButton
                                 className="button"
                                 buttonText="Edit Spot"
@@ -133,25 +138,25 @@ export default function IndividualSpotPage () {
                 <div className="main-image-div">
                     <img
                         className="main-image"
-                        src={`${spot.SpotImages[0].url}`}
+                        src={spot.SpotImages[0].url ? spot.SpotImages[0].url : noPreview }
                     />
                 </div>
                 <div className="no-image-placeholder">
                     <img
                         className="secondary-image-div"
-                        src={noPreview}
+                        src={spot.SpotImages[1]?.url ? spot.SpotImages[1].url : noPreview }
                     />
                     <img
                         className="secondary-image-div"
-                        src={noPreview}
+                        src={spot.SpotImages[2]?.url ? spot.SpotImages[2].url : noPreview }
                     />
                     <img
                         className="secondary-image-div"
-                        src={noPreview}
+                        src={spot.SpotImages[3]?.url ? spot.SpotImages[3].url : noPreview }
                     />
                     <img
                         className="secondary-image-div"
-                        src={noPreview}
+                        src={spot.SpotImages[4]?.url ? spot.SpotImages[4].url : noPreview }
                     />
                 </div>
             </div>
@@ -195,7 +200,7 @@ export default function IndividualSpotPage () {
                                 {sessionUser && Number(sessionUser.id) !== Number(spot.ownerId) &&
                                     <OpenModalButton
                                         buttonText="Write Review"
-                                        modalComponent={<CreateReviewModal spotId={spotId} />}
+                                        modalComponent={<CreateReviewModal spotId={spotId} reviewsArray={reviewsArray} sessionUserId={sessionUser.id} />}
                                     />
                                 }
                             </div>

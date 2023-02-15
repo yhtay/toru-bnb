@@ -236,12 +236,16 @@ router.get('/:spotId', async (req, res) => {
             },
             {
                 model: SpotImage,
-                attributes: ['id', 'url', 'preview']
+                attributes: ['id', 'url', 'preview', 'createdAt'],
+
             },
             {
                 model: User, as: 'Owner',
                 attributes: ['id', 'firstName', 'lastName']
             }
+        ],
+        order: [
+            [SpotImage, 'id', 'ASC']
         ]
     })
     // Error Handling
@@ -306,7 +310,7 @@ router.post('/', [requireAuth, validateSpots], async (req, res) => {
 
 // Add an Image to a Spot based on the Spot's id
 
-router.post('/:spotId/images', async (req, res) => {
+router.post('/:spotId/images', requireAuth, async (req, res) => {
 
     const spotId = req.params.spotId;
     const { url, preview } = req.body

@@ -11,13 +11,13 @@ const validateSignup = [
       .exists({ checkFalsy: true })
       .isEmail()
       .withMessage('Please provide a valid email.'),
+    // check('username')
+    //   .exists({ checkFalsy: true })
+    //   .withMessage("Username is required"),
     check('username')
       .exists({ checkFalsy: true })
-      .withMessage("Username is required"),
-    // check('username')
-      // .exists({ checkFalsy: true })
-      // .isLength({ min: 4 })
-      // .withMessage('Please provide a username with at least 4 characters.'),
+      .isLength({ min: 4 })
+      .withMessage('Please provide a username with at least 4 characters.'),
     check('username')
       .not()
       .isEmail()
@@ -45,24 +45,26 @@ router.post(
         where: { email: email }
       })
       if (checkEmail) {
+        res.status(403)
         return res.json({
           statusCode: 403,
           message: 'User already exist',
-          error: {
-            email: "User with that email already exists"
-          }
+          errors: [
+            "Email already exists"
+          ]
         })
       }
       const checkUsername = await User.findOne({
         where: { username: username }
       })
       if (checkUsername) {
+        res.status(403)
         return res.json({
           statusCode: 403,
           message: 'User already exist',
-          error: {
-            email: "User with that username already exists"
-          }
+          errors: [
+            "Username already exists"
+          ]
         })
       }
 

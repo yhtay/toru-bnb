@@ -9,7 +9,7 @@ import { thunkGetReviewsBySpotId } from "../../store/reviews"
 
 
 
-export default function CreateReviewModal ({ spotId }) {
+export default function CreateReviewModal ({ spotId, reviewsArray, sessionUserId }) {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -23,26 +23,36 @@ export default function CreateReviewModal ({ spotId }) {
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const { closeModal } = useModal();
 
-    // useEffect(() => {
-    //     const newErrors = [];
+    console.log('reviewsArray in ReviewModal: ', reviewsArray)
+    console.log('sessionUserId in ReviewModa: ', sessionUserId)
 
-    //     if (review.length > 200) newErrors.push("Please keep review under 20 characters")
-    //     if (Number(stars) <= 0 || Number(stars) > 5) newErrors.push("Ratings must be between 1 & 5")
+    useEffect(() => {
+        const newErrors = [];
 
-    //     setErrors(newErrors)
+        if (review.length > 100) newErrors.push("Please keep review under 100 characters");
+        if (Number(stars) <= 0 || Number(stars) > 5) newErrors.push("Ratings must be between 1 & 5");
+        reviewsArray.forEach(review => {
+            if (review.userId === sessionUserId) newErrors.push("User already has a review for this spot")
+        })
 
-    // }, [review, stars])
+        setErrors(newErrors)
+
+    }, [review, stars])
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        console.log('review Errors: ', errors)
+
         setHasSubmitted(true);
+
+        if (errors.length > 0) return
 
         const payload = {
             review,
             stars
         }
         console.log('payload in Review Modal: ', payload)
-        setHasSubmitted(false)
+
 
         await dispatch(thunkCreateReview(+spotId, payload, sessionUser))
             .then(()=>dispatch(thunkGetSingleSpot(+spotId)))
@@ -52,17 +62,20 @@ export default function CreateReviewModal ({ spotId }) {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
             })
+
+        setHasSubmitted(false)
+
         }
 
     return (
         <form onSubmit={onSubmit} className="form">
-            <h2>Hit Leave A Review</h2>
+            <h2>Leave A Review</h2>
             <ul>
-                {errors.map(error => {
+                {hasSubmitted && errors.length > 0 && errors.map(error => (
                     <li key={error}>
                         {error}
                     </li>
-                })}
+                ))}
             </ul>
             <div>
                     <input

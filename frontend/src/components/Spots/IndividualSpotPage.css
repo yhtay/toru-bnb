@@ -11,6 +11,7 @@
     justify-content: center;
     align-items: center;
     align-content: center;
+    box-sizing: border-box;
 }
 
 
@@ -39,6 +40,7 @@
     height: 21vh;
     width: 16vw;
     padding: 5px;
+    box-sizing: border-box;
 }
 
 .individual-page-header-div {
