@@ -46,6 +46,7 @@ export default function AddSpotImageModal ({ spotImages, spot }) {
         // if (validateImgUrl) newErrors.push('Invalid image URL')
         // // const validateImgUrl = newArray.every(el => el === 2 )
         // if (!validateImgUrl) newErrors.push('Invalid image URL')
+        // console.log("newErros: ", newErrors)
 
         setErrors(newErrors)
 
