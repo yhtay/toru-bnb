@@ -18,9 +18,7 @@ export default function AddSpotImageModal ({ spotImages, spot }) {
     // console.log('spotImages: ', spotImages)
     useEffect(() => {
         const newErrors = [];
-
         if (spotImages.length >= 5) newErrors.push("Max 5 images allowed")
-
         setErrors(newErrors)
 
     },[spotImages])
