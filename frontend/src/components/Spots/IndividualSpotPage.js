@@ -42,11 +42,12 @@ export default function IndividualSpotPage () {
     if (spotArr.length === 0) return null;
     // if (spot === {}) return null;
     if (!reviews) return null;
-    // console.log('spot.SpotImages: ', spot)
+    // if (spot) {
+    //     console.log('spot.SpotImages: ', spot.SpotImages)
+    // }
+
     // console.log('spot in individual spotpage: ', spot)
-
     // console.log("spotArr: ", spotArr)
-
 
 
     const reviewsBySpotId = reviewsArray.filter(review => {
@@ -81,6 +82,8 @@ export default function IndividualSpotPage () {
         dispatch(thunkGetSingleSpot(spotId))
     }
 
+
+
     return (
         <div className="individual-spot-page-container">
             <h3>{spot.name}</h3>
@@ -104,7 +107,7 @@ export default function IndividualSpotPage () {
                                 className="button"
                                 buttonText="Add Image"
                             // disabled={sessionUser.id == spot.ownerId ? false : true}
-                            modalComponent={<AddSpotImageModal spot={spot} />}
+                            modalComponent={<AddSpotImageModal spotImages={spot.SpotImages} spot={spot} />}
                         />
                         }
                     </div>
@@ -135,25 +138,25 @@ export default function IndividualSpotPage () {
                 <div className="main-image-div">
                     <img
                         className="main-image"
-                        src={`${spot.SpotImages[0].url}`}
+                        src={spot.SpotImages[0].url ? spot.SpotImages[0].url : noPreview }
                     />
                 </div>
                 <div className="no-image-placeholder">
                     <img
                         className="secondary-image-div"
-                        src={noPreview}
+                        src={spot.SpotImages[1]?.url ? spot.SpotImages[1].url : noPreview }
                     />
                     <img
                         className="secondary-image-div"
-                        src={noPreview}
+                        src={spot.SpotImages[2]?.url ? spot.SpotImages[2].url : noPreview }
                     />
                     <img
                         className="secondary-image-div"
-                        src={noPreview}
+                        src={spot.SpotImages[3]?.url ? spot.SpotImages[3].url : noPreview }
                     />
                     <img
                         className="secondary-image-div"
-                        src={noPreview}
+                        src={spot.SpotImages[4]?.url ? spot.SpotImages[4].url : noPreview }
                     />
                 </div>
             </div>
