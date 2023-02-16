@@ -19,15 +19,15 @@ export default function AddSpotImageModal ({ spotImages, spot }) {
     useEffect(() => {
         const newErrors = [];
 
-        const urlWithHttp = imageUrl.startsWith('http://')
-        const urlWithHttps = imageUrl.startsWith('https://')
+        // const urlWithHttp = imageUrl.startsWith('http://')
+        // const urlWithHttps = imageUrl.startsWith('https://')
 
-        const urlWithJpg = imageUrl.endsWith('.jpg')
-        const urlWithGif = imageUrl.endsWith('.gif')
-        const urlWithPng = imageUrl.endsWith('.png')
+        // const urlWithJpg = imageUrl.endsWith('.jpg')
+        // const urlWithGif = imageUrl.endsWith('.gif')
+        // const urlWithPng = imageUrl.endsWith('.png')
 
-        if (!urlWithHttp && !urlWithHttps) newErrors.push('Invalid image URL')
-        if (!urlWithJpg && !urlWithGif && !urlWithPng) newErrors.push('Invalid image URL')
+        // if (!urlWithHttp && !urlWithHttps) newErrors.push('Invalid image URL')
+        // if (!urlWithJpg && !urlWithGif && !urlWithPng) newErrors.push('Invalid image URL')
 
         if (spotImages.length >= 5) newErrors.push("Max 5 images allowed")
 
