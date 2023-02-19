@@ -33,7 +33,7 @@ a:link {
 .form-button {
     width: 148px;
     background-color: rgb(250, 113, 138);
-    border-style: outset;
+    /* border-style: outset; */
     border: none;
     border-radius: 3px;
     cursor: pointer;

@@ -10,6 +10,7 @@ import Spots from "./components/Spots";
 import CreateSpotModal from "./components/Spots/CreateSpotModal";
 import UsersSpots from "./components/Spots/UsersSpots";
 import IndividualSpotPage from "./components/Spots/IndividualSpotPage";
+import UserBookings from "./components/Bookings/UserBookings";
 
 import './App.css'
 
@@ -38,6 +39,10 @@ function App() {
           <Route path={'/spots/:spotId'}>
             <IndividualSpotPage />
           </Route>
+          <Route path={'/user/bookings'}>
+            <UserBookings />
+          </Route>
+
 
         </Switch>
       )}

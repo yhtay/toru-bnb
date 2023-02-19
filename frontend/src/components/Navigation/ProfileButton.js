@@ -6,7 +6,8 @@ import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import DemoUserModal from "../DemoUserFormModal";
 import "./ProfileButton.css"
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
 
 
 function ProfileButton({ user }) {
@@ -66,11 +67,19 @@ function ProfileButton({ user }) {
               <div className="dropdown email-div">{user.email}</div>
               <div>
                 <button
+                  onClick={() => history.push('/user/bookings')}
+                >
+                  My Bookings
+                </button>
+              </div>
+              <div>
+                <button
                   onClick={logout}
                   className="logout-button"
                   >
                     Log Out</button>
               </div>
+
             </>
           ) : (
             <>

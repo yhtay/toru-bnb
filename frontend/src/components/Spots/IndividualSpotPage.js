@@ -7,12 +7,12 @@ import EditSpotForm from "./EditSpot/EditSpotForm";
 import { thunkGetSingleSpot, thunkGetSpots } from "../../store/spots";
 import LoginFormModal from "../LoginFormModal";
 import { thunkDeleteSpot } from "../../store/spots";
-
-
+import BookingModalButton from "../OpenModalButton/CreateBookingModal";
 import OpenModalButton from "../OpenModalButton"
 import { thunkDeleteReview, thunkGetReviewsBySpotId } from "../../store/reviews";
 import AddSpotImageModal from "./AddSpotImage/AddSpotImage";
 import CreateReviewModal from "../Reviews/CreateReviewModal";
+import CreateBookingModal from "../Bookings/CreateBookingModal";
 
 
 
@@ -169,10 +169,39 @@ export default function IndividualSpotPage () {
                         <div className="bedroom-bed-bath">bedrooms · beds · baths</div>
                     </div>
                 </div>
-                <div>
-                    <div className="price-div">{`$${spot.price} per night`}</div>
+                <div className="bookings-div">
+                    <div className="price-night-reviews-container">
+                    <div className="price-night-div">
+                        <div>{`$${spot.price} `} </div>
+                        <div> night</div>
+                    </div>
+                    <div className='icon-avgReviews-reviewCount-div'>
+                            <span><i className="fa-solid fa-star"></i></span>
+                            <div className="avgRating-div">
+                                {spot && spot.avgRating === null ? "No Reviews " : spot.avgRating}
+                            </div>
+                            <div>
+                                {
+                                    spot.numReviews
+                                    ? (+spot.numReviews === 1
+                                        ? ` · ${spot.numReviews} Review`
+                                        : ` · ${spot.numReviews} Reviews`)
+                                    :
+                                    " · No Reviews"
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div className="reserve-button-div">
+                        {sessionUser && Number(sessionUser.id) !== Number(spot.ownerId) &&
+                            <BookingModalButton
+                                buttonText="Reserve"
+                                id="reserve-button"
+                                modalComponent={<CreateBookingModal spotId={spotId} />}
+                            />
+                        }
+                    </div>
                 </div>
-
             </div>
 
             <div className="reviews-container">
